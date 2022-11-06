@@ -18,14 +18,17 @@ class EquiHeightHistogram : public AbstractHistogram<T> {
  public:
   using AbstractHistogram<T>::AbstractHistogram;
 
-  EquiHeightHistogram(std::vector<T>&& bin_minima, std::vector<T>&& bin_maxima, HistogramCountType&& bin_height,
-                   HistogramCountType&& total_count, const HistogramDomain<T>& domain = {});
+  EquiHeightHistogram(std::vector<T>&& bin_minima, std::vector<T>&& bin_maxima,
+                      std::vector<HistogramCountType>&& bin_height, const HistogramCountType total_count,
+                      const HistogramDomain<T>& domain = {});
 
   static std::shared_ptr<EquiHeightHistogram<T>> from_column(const Table& table, const ColumnID column_id,
-                                                                     const BinID max_bin_count,
-                                                                     const HistogramDomain<T>& domain = {});
+                                                             const BinID max_bin_count,
+                                                             const HistogramDomain<T>& domain = {});
 
   std::string name() const override;
+  std::shared_ptr<AbstractHistogram<T>> clone() const override;
+  HistogramCountType total_distinct_count() const override;
   HistogramCountType total_count() const override;
 
   BinID bin_count() const override;
@@ -33,24 +36,14 @@ class EquiHeightHistogram : public AbstractHistogram<T> {
   const T& bin_minimum(BinID index) const override;
   const T& bin_maximum(BinID index) const override;
   HistogramCountType bin_height(const BinID index) const override;
+  HistogramCountType bin_distinct_count(const BinID index) const override;
 
   bool operator==(const EquiHeightHistogram<T>& rhs) const;
 
  protected:
-  using ValueDistributionMap =
-    tsl::robin_map<T, HistogramCountType, std::hash<T>, std::equal_to<T>,
-                   std::allocator<std::pair<T, HistogramCountType>>, std::is_same_v<std::decay_t<T>, pmr_string>>;
-
   BinID _bin_for_value(const T& value) const override;
 
   BinID _next_bin_for_value(const T& value) const override;
-
-  void _add_segment_to_value_distribution(const AbstractSegment& segment, ValueDistributionMap& value_distribution,
-                                       const HistogramDomain<T>& domain);
-
-  std::vector<std::pair<T, HistogramCountType>> _value_distribution_from_column(const Table& table,
-                                                                             const ColumnID column_id,
-                                                                             const HistogramDomain<T>& domain);
 
  private:
   /**
@@ -63,10 +56,11 @@ class EquiHeightHistogram : public AbstractHistogram<T> {
   std::vector<T> _bin_maxima;
 
   // Number of values on a per-bin basis.
-  HistogramCountType _bin_heights;
+  std::vector<HistogramCountType> _bin_heights;
 
   // Aggregated counts over all bins, to avoid redundant computation
   HistogramCountType _total_count;
+  HistogramCountType _total_distinct_count = 10;
 };
 
 // For gtest
@@ -76,6 +70,6 @@ std::ostream& operator<<(std::ostream& stream, const EquiHeightHistogram<T>& his
   return stream;
 }
 
-EXPLICITLY_DECLARE_DATA_TYPES(EquiHeightHistogram);
+// EXPLICITLY_DECLARE_DATA_TYPES(EquiHeightHistogram);
 
 }  // namespace hyrise
