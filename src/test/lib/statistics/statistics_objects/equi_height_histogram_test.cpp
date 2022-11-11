@@ -23,25 +23,17 @@ class EquiHeightHistogramTest : public BaseTest {
   std::shared_ptr<Table> _string2;
 };
 
-// TEST_F(EquiHeightHistogramTest, FromColumnString) {
-//   StringHistogramDomain default_domain;
-//   const auto default_domain_histogram =
-//       EquiHeightHistogram<pmr_string>::from_column(*_string2, ColumnID{0}, 4u, default_domain);
+TEST_F(EquiHeightHistogramTest, FromColumnString) {
+    //StringHistogramDomain default_domain;
+    const auto default_domain_histogram =
+          EquiHeightHistogram<pmr_string>::from_column(*_string2, ColumnID{0}, 4u);
 
-//   ASSERT_EQ(default_domain_histogram->bin_count(), 4u);
-//   EXPECT_EQ(default_domain_histogram->bin(BinID{0}), HistogramBin<pmr_string>("aa", "birne", 3, 3));
-//   EXPECT_EQ(default_domain_histogram->bin(BinID{1}), HistogramBin<pmr_string>("bla", "ttt", 4, 3));
-//   EXPECT_EQ(default_domain_histogram->bin(BinID{2}), HistogramBin<pmr_string>("uuu", "xxx", 4, 3));
-
-//   StringHistogramDomain reduced_histogram{'a', 'c', 9};
-//   const auto reduced_domain_histogram =
-//       EquiHeightHistogram<pmr_string>::from_column(*_string2, ColumnID{0}, 4u, default_domain);
-
-//   ASSERT_EQ(default_domain_histogram->bin_count(), 4u);
-//   EXPECT_EQ(default_domain_histogram->bin(BinID{0}), HistogramBin<pmr_string>("aa", "birne", 3, 3));
-//   EXPECT_EQ(default_domain_histogram->bin(BinID{1}), HistogramBin<pmr_string>("bla", "ttt", 4, 3));
-//   EXPECT_EQ(default_domain_histogram->bin(BinID{2}), HistogramBin<pmr_string>("uuu", "xxx", 4, 3));
-// }
+    ASSERT_EQ(default_domain_histogram->bin_count(), 4u);
+    EXPECT_EQ(default_domain_histogram->bin(BinID{0}), HistogramBin<pmr_string>("aa", "bla", 4, 4));
+    EXPECT_EQ(default_domain_histogram->bin(BinID{1}), HistogramBin<pmr_string>("bla", "uuu", 4, 4));
+    EXPECT_EQ(default_domain_histogram->bin(BinID{2}), HistogramBin<pmr_string>("uuu", "yyy", 4, 4));
+    EXPECT_EQ(default_domain_histogram->bin(BinID{2}), HistogramBin<pmr_string>("zzz", "zzz", 3, 3));
+}
 
 TEST_F(EquiHeightHistogramTest, FromColumnInt) {
     const auto hist = EquiHeightHistogram<int32_t>::from_column(*_int_float4, ColumnID{0}, 2u);
