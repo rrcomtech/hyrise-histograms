@@ -95,55 +95,61 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
                                                                             const HistogramDomain<T>& domain) {
   Assert(max_bin_count > 0, "max_bin_count must be greater than zero ");
 
+  // Compute the value distribution. Basically, counting how many times each value appears in
+  // the column.
   const auto value_distribution = value_distribution_from_column(table, column_id, domain);
 
   if (value_distribution.empty()) {
     return nullptr;
   }
 
-  // const auto adder = [](const auto &a, const auto &b) {
-  //     return a.second + b.second;
-  // };
-
-  // auto test = std::accumulate(value_distribution.begin(), value_distribution.end(), 0, adder);
-  // (void)test;
+  // Get the total number of values present in the Histogram.
   auto total_count = HistogramCountType{0};
   for (const auto& value_freq : value_distribution) {
     total_count += value_freq.second;
   }
 
-  // const auto total_count = static_cast<BinID>(std::accumulate(value_distribution.begin(), value_distribution.end(), 0, adder));
+  // Find the number of bins.
   auto bin_count = max_bin_count;
   if (static_cast<BinID>(total_count) < max_bin_count) {
     bin_count = static_cast<BinID>(total_count);
   }
 
-  const auto values_per_bin = std::ceil(total_count / static_cast<float>(bin_count));
+  // Compute the number of values each bin will hold.
+  const auto values_per_bin = std::floor(total_count / static_cast<float>(bin_count));
+  // The first total_count % bin_count bins have exactly one value more, than the last bins.
+  // This is to achieve a balancing in the number of values within the bins.
+  const auto larger_bins_count = ((long unsigned int) total_count) % bin_count;
 
+  // Initialize the resulting data structures.
   std::vector<T> bin_minima(bin_count);
   std::vector<T> bin_maxima(bin_count);
   std::vector<HistogramCountType> bin_heights(bin_count);
 
-  // const auto sorter = [](const std::pair<T, HistogramCountType> &a, const std::pair<T, HistogramCountType> &b) {
-  //     return a.first < b.first;
-  // };
-
-  // std::sort(value_distribution.begin(), value_distribution.end(), sorter);
-
-
-
+  // The index to loop over the different values.
   auto value_distribution_index = size_t{0};
+  // The counter to measure how often a value was put into a single bin and how many values
+  // have not been put in a bin [and still need to be assigned a bin].
+  auto values_left_for_value = value_distribution[value_distribution_index].second;
+  
   for (auto bin_id = BinID{0}; bin_id < bin_count; ++bin_id) {
     bin_minima[bin_id] = value_distribution[value_distribution_index].first;
-    auto space_left_in_bin = values_per_bin;
-    auto values_left_for_value = value_distribution[value_distribution_index].second;
 
-    // Do until every bucket is reached and
+    // The first bins will hold one more value than the last ones.
+    auto space_left_in_bin = values_per_bin;
+    if (bin_id < larger_bins_count) {
+      space_left_in_bin += 1;
+    }
+
+    // Go over the rest of the values and fill this bin.
     while (space_left_in_bin > 0 && value_distribution_index < value_distribution.size()) {
       if (space_left_in_bin == values_left_for_value) {
-        // The amount of values exactly fills the bucket.
+        // The amount that a value has left exactly fills the bucket.
         bin_maxima[bin_id] = value_distribution[value_distribution_index].first;
-        bin_heights[bin_id] = values_per_bin;
+        bin_heights[bin_id] = (bin_id < larger_bins_count) ? values_per_bin + 1 : values_per_bin;
+        
+        // Set space left in bin to 0. Jump to the next value. Set the number of left values to
+        // the amount of the next value.
         space_left_in_bin -= values_left_for_value;
         ++value_distribution_index;
         values_left_for_value = value_distribution[value_distribution_index].second;
@@ -152,22 +158,27 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
           // Fewer values than space in bin.
           space_left_in_bin -= values_left_for_value;
           if (value_distribution_index == value_distribution.size() - 1) {
-            // If value is last value and bin can't be fully filled, because no more values present.
-            bin_maxima[bin_id] = (T) value_distribution[value_distribution_index].first;
-            bin_heights[bin_id] = values_per_bin - space_left_in_bin;
+            // The last value is reached. Due to maths, also the last bin must be reached.
+            bin_maxima[bin_id] = value_distribution[value_distribution_index].first;
+            bin_heights[bin_id] = ((bin_id < larger_bins_count) ? values_per_bin + 1 : values_per_bin) - space_left_in_bin;
+          } else {
+            // It is not yet the last value reached. So take next value and set its frequency.
+            ++value_distribution_index;
+            values_left_for_value = value_distribution[value_distribution_index].second;
           }
-          ++value_distribution_index;
-          values_left_for_value = value_distribution[value_distribution_index].second;
+          
         } else {
-          // There are more values than space in bin.
+          // There are more values than space in bin. So only take a part of the frequency of 
+          // this value and leave the rest for the next bucket.
           values_left_for_value -= space_left_in_bin;
           space_left_in_bin = 0;
+
           bin_maxima[bin_id] = value_distribution[value_distribution_index].first;
-          bin_heights[bin_id] = values_per_bin;
+          bin_heights[bin_id] = (bin_id < larger_bins_count) ? values_per_bin + 1 : values_per_bin;
         }
       }
     }
-  }
+  }  
 
   return std::make_shared<EquiHeightHistogram<T>>(std::move(bin_minima), std::move(bin_maxima), std::move(bin_heights), total_count);
 }
