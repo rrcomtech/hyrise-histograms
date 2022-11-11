@@ -47,8 +47,8 @@ TEST_F(EquiHeightHistogramTest, FromColumnInt) {
     const auto hist = EquiHeightHistogram<int32_t>::from_column(*_int_float4, ColumnID{0}, 2u);
 
     ASSERT_EQ(hist->bin_count(), 2u);
-    // EXPECT_EQ(hist->bin(BinID{0}), HistogramBin<int32_t>(12, 123, 2, 2));
-    // EXPECT_EQ(hist->bin(BinID{1}), HistogramBin<int32_t>(12345, 123456, 5, 2));
+    EXPECT_EQ(hist->bin(BinID{0}), HistogramBin<int32_t>(12, 12345, 4, 4));
+    EXPECT_EQ(hist->bin(BinID{1}), HistogramBin<int32_t>(123456, 123456, 3, 3));
 }
 
 // TEST_F(EquiHeightHistogramTest, FromColumnFloat) {

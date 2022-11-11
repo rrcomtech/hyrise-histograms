@@ -130,6 +130,8 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
 
   // std::sort(value_distribution.begin(), value_distribution.end(), sorter);
 
+
+
   auto value_distribution_index = size_t{0};
   for (auto bin_id = BinID{0}; bin_id < bin_count; ++bin_id) {
     bin_minima[bin_id] = value_distribution[value_distribution_index].first;
@@ -144,16 +146,18 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
         bin_heights[bin_id] = values_per_bin;
         space_left_in_bin -= values_left_for_value;
         ++value_distribution_index;
+        values_left_for_value = value_distribution[value_distribution_index].second;
       } else {
         if (space_left_in_bin > values_left_for_value) {
           // Fewer values than space in bin.
           space_left_in_bin -= values_left_for_value;
-          ++value_distribution_index;
-          if (value_distribution.size() == 0) {
-            // If bin is last bin and can't be fully filled, because no more values present.
-            bin_maxima[bin_id] = value_distribution[value_distribution_index].first;
+          if (value_distribution_index == value_distribution.size() - 1) {
+            // If value is last value and bin can't be fully filled, because no more values present.
+            bin_maxima[bin_id] = (T) value_distribution[value_distribution_index].first;
             bin_heights[bin_id] = values_per_bin - space_left_in_bin;
           }
+          ++value_distribution_index;
+          values_left_for_value = value_distribution[value_distribution_index].second;
         } else {
           // There are more values than space in bin.
           values_left_for_value -= space_left_in_bin;
@@ -228,13 +232,13 @@ BinID EquiHeightHistogram<T>::_next_bin_for_value(const T& value) const {
 
 template <typename T>
 HistogramCountType EquiHeightHistogram<T>::total_distinct_count() const {
-  return _total_distinct_count;
+  return _total_count;
 }
 
 template <typename T>
 HistogramCountType EquiHeightHistogram<T>::bin_distinct_count(const BinID index) const {
   DebugAssert(index < bin_count(), "Index is not a valid bin.");
-  return 10;
+  return bin_height(index);
 }
 
 EXPLICITLY_INSTANTIATE_DATA_TYPES(EquiHeightHistogram);
