@@ -114,11 +114,11 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
 
   // const auto total_count = static_cast<BinID>(std::accumulate(value_distribution.begin(), value_distribution.end(), 0, adder));
   auto bin_count = max_bin_count;
-  if (total_count < max_bin_count) {
-    bin_count = total_count;
+  if (static_cast<BinID>(total_count) < max_bin_count) {
+    bin_count = static_cast<BinID>(total_count);
   }
 
-  const auto values_per_bin = std::ceil(total_count / bin_count);
+  const auto values_per_bin = std::ceil(total_count / static_cast<float>(bin_count));
 
   std::vector<T> bin_minima(bin_count);
   std::vector<T> bin_maxima(bin_count);
@@ -162,7 +162,6 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
           // There are more values than space in bin.
           values_left_for_value -= space_left_in_bin;
           space_left_in_bin = 0;
-          ++value_distribution_index;
           bin_maxima[bin_id] = value_distribution[value_distribution_index].first;
           bin_heights[bin_id] = values_per_bin;
         }
