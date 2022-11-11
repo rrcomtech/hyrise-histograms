@@ -47,17 +47,26 @@ TEST_F(EquiHeightHistogramTest, FromColumnInt) {
     const auto hist = EquiHeightHistogram<int32_t>::from_column(*_int_float4, ColumnID{0}, 2u);
 
     ASSERT_EQ(hist->bin_count(), 2u);
+
+    EXPECT_EQ(hist->bin_height(BinID{0}), HistogramCountType{4});
+    EXPECT_EQ(hist->bin_height(BinID{1}), HistogramCountType{3});
+
     EXPECT_EQ(hist->bin(BinID{0}), HistogramBin<int32_t>(12, 12345, 4, 4));
     EXPECT_EQ(hist->bin(BinID{1}), HistogramBin<int32_t>(123456, 123456, 3, 3));
 }
 
-// TEST_F(EquiHeightHistogramTest, FromColumnFloat) {
-//   auto hist = EquiHeightHistogram<float>::from_column(*_float2, ColumnID{0}, 3u);
+TEST_F(EquiHeightHistogramTest, FromColumnFloat) {
+    auto hist = EquiHeightHistogram<float>::from_column(*_int_float4, ColumnID{1}, 3u);
 
-//   ASSERT_EQ(hist->bin_count(), 3u);
-//   EXPECT_EQ(hist->bin(BinID{0}), HistogramBin<float>(0.5f, 2.2f, 4, 4));
-//   EXPECT_EQ(hist->bin(BinID{1}), HistogramBin<float>(2.5f, 3.3f, 6, 3));
-//   EXPECT_EQ(hist->bin(BinID{2}), HistogramBin<float>(3.6f, 6.1f, 4, 3));
-// }
+    ASSERT_EQ(hist->bin_count(), 3u);
+
+    EXPECT_EQ(hist->bin_height(BinID{0}), HistogramCountType{3});
+    EXPECT_EQ(hist->bin_height(BinID{1}), HistogramCountType{2});
+    EXPECT_EQ(hist->bin_height(BinID{2}), HistogramCountType{2});
+    
+    EXPECT_EQ(hist->bin(BinID{0}), HistogramBin<float>(350.7f, 457.7f, 3, 3));
+    EXPECT_EQ(hist->bin(BinID{1}), HistogramBin<float>(458.7f, 700.0f, 2, 2));
+    EXPECT_EQ(hist->bin(BinID{2}), HistogramBin<float>(800.0f, 900.0f, 2, 2));
+}
 
 }  // namespace hyrise
