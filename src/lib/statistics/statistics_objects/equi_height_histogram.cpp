@@ -50,6 +50,7 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column(con
                                                                              const HistogramDomain<T>& domain) {
   auto value_distribution_map = ValueDistributionMap<T>{};
   const auto chunk_count = table.chunk_count();
+
   for (auto chunk_id = ChunkID{0}; chunk_id < chunk_count; ++chunk_id) {
     const auto chunk = table.get_chunk(chunk_id);
     if (!chunk) {
@@ -110,8 +111,13 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
   for (const auto& value_freq : value_distribution) {
     total_count += value_freq.second;
   }
+
   // const auto total_count = static_cast<BinID>(std::accumulate(value_distribution.begin(), value_distribution.end(), 0, adder));
-  const auto bin_count = total_count ? total_count < max_bin_count : max_bin_count;
+  auto bin_count = max_bin_count;
+  if (total_count < max_bin_count) {
+    bin_count = total_count;
+  }
+
   const auto values_per_bin = std::ceil(total_count / bin_count);
 
   std::vector<T> bin_minima(bin_count);
