@@ -30,9 +30,9 @@ TEST_F(EquiHeightHistogramTest, FromColumnString) {
 
     ASSERT_EQ(default_domain_histogram->bin_count(), 4u);
     EXPECT_EQ(default_domain_histogram->bin(BinID{0}), HistogramBin<pmr_string>("aa", "bla", 4, 4));
-    EXPECT_EQ(default_domain_histogram->bin(BinID{1}), HistogramBin<pmr_string>("bums", "uuu", 4, 4));
+    EXPECT_EQ(default_domain_histogram->bin(BinID{1}), HistogramBin<pmr_string>("bums", "uuu", 4, 3));
     EXPECT_EQ(default_domain_histogram->bin(BinID{2}), HistogramBin<pmr_string>("uuu", "yyy", 4, 4));
-    EXPECT_EQ(default_domain_histogram->bin(BinID{3}), HistogramBin<pmr_string>("zzz", "zzz", 3, 3));
+    EXPECT_EQ(default_domain_histogram->bin(BinID{3}), HistogramBin<pmr_string>("zzz", "zzz", 3, 1));
 }
 
 TEST_F(EquiHeightHistogramTest, FromColumnInt) {
@@ -43,8 +43,8 @@ TEST_F(EquiHeightHistogramTest, FromColumnInt) {
     EXPECT_EQ(hist->bin_height(BinID{0}), HistogramCountType{4});
     EXPECT_EQ(hist->bin_height(BinID{1}), HistogramCountType{3});
 
-    EXPECT_EQ(hist->bin(BinID{0}), HistogramBin<int32_t>(12, 12345, 4, 4));
-    EXPECT_EQ(hist->bin(BinID{1}), HistogramBin<int32_t>(123456, 123456, 3, 3));
+    EXPECT_EQ(hist->bin(BinID{0}), HistogramBin<int32_t>(12, 12345, 4, 3));
+    EXPECT_EQ(hist->bin(BinID{1}), HistogramBin<int32_t>(123456, 123456, 3, 1));
 }
 
 TEST_F(EquiHeightHistogramTest, FromColumnFloat) {

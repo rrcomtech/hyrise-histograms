@@ -75,12 +75,13 @@ namespace hyrise {
 
 template <typename T>
 EquiHeightHistogram<T>::EquiHeightHistogram(std::vector<T>&& bin_minima, std::vector<T>&& bin_maxima,
-                                            std::vector<HistogramCountType>&& bin_height,
+                                            std::vector<HistogramCountType>&& bin_height, std::vector<HistogramCountType>&& bin_distinct_counts,
                                             const HistogramCountType total_count, const HistogramDomain<T>& domain)
     : AbstractHistogram<T>(domain),
     _bin_minima(std::move(bin_minima)),
       _bin_maxima(std::move(bin_maxima)),
       _bin_heights(std::move(bin_height)),
+      _bin_distinct_counts(std::move(bin_distinct_counts)),
       _total_count{total_count} {}
 
 template <typename T>
@@ -125,24 +126,32 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
   std::vector<T> bin_minima(bin_count);
   std::vector<T> bin_maxima(bin_count);
   std::vector<HistogramCountType> bin_heights(bin_count);
+  std::vector<HistogramCountType> bin_distinct_counts(bin_count, 0);
 
   // The index to loop over the different values.
   auto value_distribution_index = size_t{0};
   // The counter to measure how often a value was put into a single bin and how many values
   // have not been put in a bin [and still need to be assigned a bin].
-  auto values_left_for_value = value_distribution[value_distribution_index].second;
   
+  auto values_left_for_value = value_distribution[value_distribution_index].second;
+
   for (auto bin_id = BinID{0}; bin_id < bin_count; ++bin_id) {
     bin_minima[bin_id] = value_distribution[value_distribution_index].first;
+    ++bin_distinct_counts[bin_id];
 
     // The first bins will hold one more value than the last ones.
     auto space_left_in_bin = values_per_bin;
     if (bin_id < larger_bins_count) {
-      space_left_in_bin += 1;
+      ++space_left_in_bin;
     }
+      
+    // for (const auto& [first, sec] : value_distribution) {
+    //   std::cout << first << "+++" << sec << std::endl;
+    // }
 
     // Go over the rest of the values and fill this bin.
     while (space_left_in_bin > 0 && value_distribution_index < value_distribution.size()) {
+      
       if (space_left_in_bin == values_left_for_value) {
         // The amount that a value has left exactly fills the bucket.
         bin_maxima[bin_id] = value_distribution[value_distribution_index].first;
@@ -155,6 +164,7 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
         values_left_for_value = value_distribution[value_distribution_index].second;
       } else {
         if (space_left_in_bin > values_left_for_value) {
+          ++bin_distinct_counts[bin_id];
           // Fewer values than space in bin.
           space_left_in_bin -= values_left_for_value;
           if (value_distribution_index == value_distribution.size() - 1) {
@@ -180,7 +190,7 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
     }
   }  
 
-  return std::make_shared<EquiHeightHistogram<T>>(std::move(bin_minima), std::move(bin_maxima), std::move(bin_heights), total_count);
+  return std::make_shared<EquiHeightHistogram<T>>(std::move(bin_minima), std::move(bin_maxima), std::move(bin_heights), std::move(bin_distinct_counts), total_count);
 }
 
 template <typename T>
@@ -194,9 +204,10 @@ std::shared_ptr<AbstractHistogram<T>> EquiHeightHistogram<T>::clone() const {
   auto bin_minima_copy = _bin_minima;
   auto bin_maxima_copy = _bin_maxima;
   auto bin_heights_copy = _bin_heights;
+  auto bin_distinct_counts_copy = _bin_distinct_counts;
 
   return std::make_shared<EquiHeightHistogram<T>>(std::move(bin_minima_copy), std::move(bin_maxima_copy),
-                                                  std::move(bin_heights_copy), _total_count);
+                                                  std::move(bin_heights_copy), std::move(bin_distinct_counts_copy), _total_count);
 }
 
 template <typename T>
@@ -248,7 +259,7 @@ HistogramCountType EquiHeightHistogram<T>::total_distinct_count() const {
 template <typename T>
 HistogramCountType EquiHeightHistogram<T>::bin_distinct_count(const BinID index) const {
   DebugAssert(index < bin_count(), "Index is not a valid bin.");
-  return bin_height(index);
+  return _bin_distinct_counts[index];
 }
 
 EXPLICITLY_INSTANTIATE_DATA_TYPES(EquiHeightHistogram);

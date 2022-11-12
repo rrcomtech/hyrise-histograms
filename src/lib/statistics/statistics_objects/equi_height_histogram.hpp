@@ -19,7 +19,7 @@ class EquiHeightHistogram : public AbstractHistogram<T> {
   using AbstractHistogram<T>::AbstractHistogram;
 
   EquiHeightHistogram(std::vector<T>&& bin_minima, std::vector<T>&& bin_maxima,
-                      std::vector<HistogramCountType>&& bin_height, const HistogramCountType total_count,
+                      std::vector<HistogramCountType>&& bin_height, std::vector<HistogramCountType>&& bin_distinct_counts, const HistogramCountType total_count,
                       const HistogramDomain<T>& domain = {});
 
   static std::shared_ptr<EquiHeightHistogram<T>> from_column(const Table& table, const ColumnID column_id,
@@ -57,6 +57,9 @@ class EquiHeightHistogram : public AbstractHistogram<T> {
 
   // Number of values on a per-bin basis.
   std::vector<HistogramCountType> _bin_heights;
+
+  // Number of distinct values on a per-bin basis.
+  std::vector<HistogramCountType> _bin_distinct_counts;
 
   // Aggregated counts over all bins, to avoid redundant computation
   HistogramCountType _total_count;
