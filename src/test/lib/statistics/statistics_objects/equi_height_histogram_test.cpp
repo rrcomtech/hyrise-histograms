@@ -30,9 +30,9 @@ TEST_F(EquiHeightHistogramTest, FromColumnString) {
 
     ASSERT_EQ(default_domain_histogram->bin_count(), 4u);
     EXPECT_EQ(default_domain_histogram->bin(BinID{0}), HistogramBin<pmr_string>("aa", "bla", 4, 4));
-    EXPECT_EQ(default_domain_histogram->bin(BinID{1}), HistogramBin<pmr_string>("bums", "uuu", 4, 3));
-    EXPECT_EQ(default_domain_histogram->bin(BinID{2}), HistogramBin<pmr_string>("uuu", "yyy", 4, 4));
-    EXPECT_EQ(default_domain_histogram->bin(BinID{3}), HistogramBin<pmr_string>("zzz", "zzz", 3, 1));
+    EXPECT_EQ(default_domain_histogram->bin(BinID{1}), HistogramBin<pmr_string>("bums", "ttt", 3, 2));
+    EXPECT_EQ(default_domain_histogram->bin(BinID{2}), HistogramBin<pmr_string>("uuu", "xxx", 4, 3));
+    EXPECT_EQ(default_domain_histogram->bin(BinID{3}), HistogramBin<pmr_string>("yyy", "zzz", 4, 2));
 }
 
 TEST_F(EquiHeightHistogramTest, FromColumnInt) {

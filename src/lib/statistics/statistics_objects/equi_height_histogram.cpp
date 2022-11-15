@@ -125,71 +125,47 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
   // Initialize the resulting data structures.
   std::vector<T> bin_minima(bin_count);
   std::vector<T> bin_maxima(bin_count);
-  std::vector<HistogramCountType> bin_heights(bin_count);
+  std::vector<HistogramCountType> bin_heights(bin_count, 0);
   std::vector<HistogramCountType> bin_distinct_counts(bin_count, 0);
 
   // The index to loop over the different values.
   auto value_distribution_index = size_t{0};
-  // The counter to measure how often a value was put into a single bin and how many values
-  // have not been put in a bin [and still need to be assigned a bin].
-  
-  auto values_left_for_value = value_distribution[value_distribution_index].second;
 
-  for (auto bin_id = BinID{0}; bin_id < bin_count; ++bin_id) {
+  for (auto bin_id = BinID{0}; bin_id < bin_count; ++bin_id) { 
+    auto val_count = value_distribution[value_distribution_index].second;
+    auto val = value_distribution[value_distribution_index].first;
+
     bin_minima[bin_id] = value_distribution[value_distribution_index].first;
-    ++bin_distinct_counts[bin_id];
 
     // The first bins will hold one more value than the last ones.
     auto space_left_in_bin = values_per_bin;
     if (bin_id < larger_bins_count) {
       ++space_left_in_bin;
     }
-      
-    // for (const auto& [first, sec] : value_distribution) {
-    //   std::cout << first << "+++" << sec << std::endl;
-    // }
 
     // Go over the rest of the values and fill this bin.
-    while (space_left_in_bin > 0 && value_distribution_index < value_distribution.size()) {
-      
-      if (space_left_in_bin == values_left_for_value) {
-        // The amount that a value has left exactly fills the bucket.
-        bin_maxima[bin_id] = value_distribution[value_distribution_index].first;
-        bin_heights[bin_id] = (bin_id < larger_bins_count) ? values_per_bin + 1 : values_per_bin;
-        
-        // Set space left in bin to 0. Jump to the next value. Set the number of left values to
-        // the amount of the next value.
-        space_left_in_bin -= values_left_for_value;
-        ++value_distribution_index;
-        values_left_for_value = value_distribution[value_distribution_index].second;
-      } else {
-        if (space_left_in_bin > values_left_for_value) {
-          ++bin_distinct_counts[bin_id];
-          // Fewer values than space in bin.
-          space_left_in_bin -= values_left_for_value;
-          if (value_distribution_index == value_distribution.size() - 1) {
-            // The last value is reached. Due to maths, also the last bin must be reached.
-            bin_maxima[bin_id] = value_distribution[value_distribution_index].first;
-            bin_heights[bin_id] = ((bin_id < larger_bins_count) ? values_per_bin + 1 : values_per_bin) - space_left_in_bin;
-          } else {
-            // It is not yet the last value reached. So take next value and set its frequency.
-            ++value_distribution_index;
-            values_left_for_value = value_distribution[value_distribution_index].second;
-          }
-          
-        } else {
-          // There are more values than space in bin. So only take a part of the frequency of 
-          // this value and leave the rest for the next bucket.
-          values_left_for_value -= space_left_in_bin;
-          space_left_in_bin = 0;
+    while ((space_left_in_bin > 0 || bin_id == bin_count - 1) && value_distribution_index < value_distribution.size()) {
+      val_count = value_distribution[value_distribution_index].second;
+      val = value_distribution[value_distribution_index].first;
 
-          bin_maxima[bin_id] = value_distribution[value_distribution_index].first;
-          bin_heights[bin_id] = (bin_id < larger_bins_count) ? values_per_bin + 1 : values_per_bin;
-        }
+      // If the value does not fit into Bin, but the Bin holds already values, the next Bin will hold the value.
+      // Only the last Bin will have to take in all the left values.
+      if ((val_count > space_left_in_bin && bin_heights[bin_id] != 0) && bin_id != bin_count - 1 ) {
+        // Skip to next bin.
+        space_left_in_bin = 0;
+      } else {        
+        // Add value to current bin.
+        space_left_in_bin -= val_count;
+
+        bin_maxima[bin_id] = val;
+        bin_heights[bin_id] += val_count;
+        ++bin_distinct_counts[bin_id];
+
+        ++value_distribution_index;
       }
     }
-  }  
 
+  }  
   return std::make_shared<EquiHeightHistogram<T>>(std::move(bin_minima), std::move(bin_maxima), std::move(bin_heights), std::move(bin_distinct_counts), total_count);
 }
 
