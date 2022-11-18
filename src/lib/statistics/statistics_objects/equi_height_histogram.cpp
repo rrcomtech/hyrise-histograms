@@ -118,9 +118,6 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
 
   // Compute the number of values each bin will hold.
   const auto values_per_bin = std::floor(total_count / static_cast<float>(bin_count));
-  // The first total_count % bin_count bins have exactly one value more, than the last bins.
-  // This is to achieve a balancing in the number of values within the bins.
-  const auto larger_bins_count = ((long unsigned int) total_count) % bin_count;
 
   // Initialize the resulting data structures.
   std::vector<T> bin_minima(bin_count);
@@ -132,37 +129,42 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
   auto value_distribution_index = size_t{0};
 
   for (auto bin_id = BinID{0}; bin_id < bin_count; ++bin_id) { 
+    auto space_left_in_bin = values_per_bin;
+
     auto val_count = value_distribution[value_distribution_index].second;
     auto val = value_distribution[value_distribution_index].first;
 
     bin_minima[bin_id] = value_distribution[value_distribution_index].first;
-
-    // The first bins will hold one more value than the last ones.
-    auto space_left_in_bin = values_per_bin;
-    if (bin_id < larger_bins_count) {
-      ++space_left_in_bin;
-    }
 
     // Go over the rest of the values and fill this bin.
     while ((space_left_in_bin > 0 || bin_id == bin_count - 1) && value_distribution_index < value_distribution.size()) {
       val_count = value_distribution[value_distribution_index].second;
       val = value_distribution[value_distribution_index].first;
 
-      // If the value does not fit into Bin, but the Bin holds already values, the next Bin will hold the value.
-      // Only the last Bin will have to take in all the left values.
-      if ((val_count > space_left_in_bin && bin_heights[bin_id] != 0) && bin_id != bin_count - 1 ) {
-        // Skip to next bin.
+      auto values_left = value_distribution.size() - (value_distribution_index + 1);
+      auto bins_left = bin_count - (bin_id + 1);
+
+      if (values_left < bins_left) {
         space_left_in_bin = 0;
-      } else {        
-        // Add value to current bin.
-        space_left_in_bin -= val_count;
-
-        bin_maxima[bin_id] = val;
-        bin_heights[bin_id] += val_count;
-        ++bin_distinct_counts[bin_id];
-
         ++value_distribution_index;
+      } else {
+        // If the value does not fit into Bin, but the Bin holds already values, the next Bin will hold the value.
+        // Only the last Bin will have to take in all the left values.
+        if (val_count > space_left_in_bin && bin_heights[bin_id] != 0 && bin_id != bin_count - 1) {
+          // Skip to next bin.
+          space_left_in_bin = 0;
+        } else {
+          // Add value to current bin.
+          space_left_in_bin -= val_count;
+
+          bin_maxima[bin_id] = val;
+          bin_heights[bin_id] += val_count;
+          ++bin_distinct_counts[bin_id];
+
+          ++value_distribution_index;
+        }
       }
+
     }
 
   }  
