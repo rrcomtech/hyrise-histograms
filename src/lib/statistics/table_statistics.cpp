@@ -9,6 +9,7 @@
 #include "resolve_type.hpp"
 #include "scheduler/job_task.hpp"
 #include "statistics/statistics_objects/abstract_histogram.hpp"
+#include "statistics/statistics_objects/equi_height_histogram.hpp"
 #include "storage/table.hpp"
 #include "utils/assert.hpp"
 
@@ -40,7 +41,7 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
         const auto output_column_statistics = std::make_shared<AttributeStatistics<ColumnDataType>>();
 
         const auto histogram =
-            EqualDistinctCountHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
+            EquiHeightHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
 
         if (histogram) {
           output_column_statistics->set_statistics_object(histogram);

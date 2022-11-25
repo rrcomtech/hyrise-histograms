@@ -112,8 +112,8 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
 
   // Find the number of bins.
   auto bin_count = max_bin_count;
-  if (static_cast<BinID>(total_count) < max_bin_count) {
-    bin_count = static_cast<BinID>(total_count);
+  if (static_cast<BinID>(value_distribution.size()) < max_bin_count) {
+    bin_count = static_cast<BinID>(value_distribution.size());
   }
 
   // Compute the number of values each bin will hold.
