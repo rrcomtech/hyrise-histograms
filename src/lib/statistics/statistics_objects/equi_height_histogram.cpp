@@ -117,7 +117,7 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
   }
 
   // Compute the number of values each bin will hold.
-  const auto values_per_bin = std::floor(total_count / static_cast<float>(bin_count));
+  const auto values_per_bin = std::ceil(total_count / static_cast<float>(bin_count));
 
   // Initialize the resulting data structures.
   std::vector<T> bin_minima(bin_count);
@@ -127,6 +127,13 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
 
   // The index to loop over the different values.
   auto value_distribution_index = size_t{0};
+
+  /*
+  // Print the value distribution.
+  for (const auto v : value_distribution) {
+    std::cout << v.first << ": " << v.second << "x" << std::endl;
+  }
+  */
 
   for (auto bin_id = BinID{0}; bin_id < bin_count; ++bin_id) { 
     auto space_left_in_bin = values_per_bin;
@@ -164,10 +171,20 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
           ++value_distribution_index;
         }
       }
-
     }
-
   }  
+
+  /*
+  // Print the calculated bins.
+  for (unsigned int i = 0; i < bin_count; ++i) {
+    std::cout << "### Bin " << (i+1) << " ###" << std::endl;
+    std::cout << "Minimum: " << bin_minima[i] << std::endl;
+    std::cout << "Maximum: " << bin_maxima[i] << std::endl;
+    std::cout << bin_heights[i] << " Values." << std::endl;
+    std::cout << bin_distinct_counts[i] << " Distinct Values." << std::endl;
+  }
+  */
+
   return std::make_shared<EquiHeightHistogram<T>>(std::move(bin_minima), std::move(bin_maxima), std::move(bin_heights), std::move(bin_distinct_counts), total_count);
 }
 
