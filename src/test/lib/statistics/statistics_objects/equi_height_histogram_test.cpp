@@ -15,13 +15,27 @@ class EquiHeightHistogramTest : public BaseTest {
     _int_float4 = load_table("resources/test_data/tbl/int_float4.tbl");
     _float2 = load_table("resources/test_data/tbl/float2.tbl");
     _string2 = load_table("resources/test_data/tbl/string2.tbl");
+    _int_highly_frequent = load_table("resources/test_data/tbl/int_highly_frequent.tbl");
   }
 
  protected:
   std::shared_ptr<Table> _int_float4;
   std::shared_ptr<Table> _float2;
   std::shared_ptr<Table> _string2;
+  std::shared_ptr<Table> _int_highly_frequent;
 };
+
+TEST_F(EquiHeightHistogramTest, FromHighlyFrequentInt) {
+    //StringHistogramDomain default_domain;
+    const auto default_domain_histogram =
+          EquiHeightHistogram<int32_t>::from_column(*_int_highly_frequent, ColumnID{0}, 3u);
+      
+    ASSERT_EQ(default_domain_histogram->bin_count(), 3u);
+    EXPECT_EQ(default_domain_histogram->bin(BinID{0}), HistogramBin<int32_t>(1, 1, 1, 1));
+    EXPECT_EQ(default_domain_histogram->bin(BinID{1}), HistogramBin<int32_t>(2, 2, 1, 1));
+    EXPECT_EQ(default_domain_histogram->bin(BinID{2}), HistogramBin<int32_t>(3, 3, 16, 1));
+
+}
 
 TEST_F(EquiHeightHistogramTest, FromColumnString) {
     //StringHistogramDomain default_domain;

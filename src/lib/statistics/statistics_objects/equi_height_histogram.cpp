@@ -134,6 +134,7 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
     std::cout << v.first << ": " << v.second << "x" << std::endl;
   }
   */
+  
 
   for (auto bin_id = BinID{0}; bin_id < bin_count; ++bin_id) { 
     auto space_left_in_bin = values_per_bin;
@@ -141,7 +142,9 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
     auto val_count = value_distribution[value_distribution_index].second;
     auto val = value_distribution[value_distribution_index].first;
 
+    // Set minimum & maximum. Minimum will stay. Maximum might be overwritten in the future.
     bin_minima[bin_id] = value_distribution[value_distribution_index].first;
+    bin_maxima[bin_id] = value_distribution[value_distribution_index].first;
 
     // Go over the rest of the values and fill this bin.
     while ((space_left_in_bin > 0 || bin_id == bin_count - 1) && value_distribution_index < value_distribution.size()) {
@@ -153,7 +156,6 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
 
       if (values_left < bins_left) {
         space_left_in_bin = 0;
-        ++value_distribution_index;
       } else {
         // If the value does not fit into Bin, but the Bin holds already values, the next Bin will hold the value.
         // Only the last Bin will have to take in all the left values.
@@ -184,6 +186,7 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
     std::cout << bin_distinct_counts[i] << " Distinct Values." << std::endl;
   }
   */
+  
 
   return std::make_shared<EquiHeightHistogram<T>>(std::move(bin_minima), std::move(bin_maxima), std::move(bin_heights), std::move(bin_distinct_counts), total_count);
 }
