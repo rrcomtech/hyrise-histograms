@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <numeric>
 #include <thread>
+#include <cstdlib>
 
 #include "attribute_statistics.hpp"
 #include "hyrise.hpp"
@@ -39,9 +40,19 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
         using ColumnDataType = typename decltype(type)::type;
 
         const auto output_column_statistics = std::make_shared<AttributeStatistics<ColumnDataType>>();
+        std::shared_ptr<AbstractHistogram<ColumnDataType>> histogram;
 
-        const auto histogram =
-            EquiHeightHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
+        // The type of Histogram, that should be used. Set it in the Environment Variable by:
+        // export HISTOGRAM=<type>
+        const auto HISTORAM_TYPE = std::getenv("HISTOGRAM");
+
+
+        std::cout << HISTORAM_TYPE << std::endl;
+
+        if (strcmp(HISTORAM_TYPE, "EquiHeightHistogram")) {
+          histogram = EquiHeightHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
+        }
+        histogram = EqualDistinctCountHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
 
         if (histogram) {
           output_column_statistics->set_statistics_object(histogram);
