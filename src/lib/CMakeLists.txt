@@ -406,6 +406,8 @@ set(
     statistics/statistics_objects/equal_distinct_count_histogram.hpp
     statistics/statistics_objects/equi_height_histogram.cpp
     statistics/statistics_objects/equi_height_histogram.hpp
+    statistics/statistics_objects/equi_width_histogram.cpp
+    statistics/statistics_objects/equi_width_histogram.hpp
     statistics/statistics_objects/generic_histogram.cpp
     statistics/statistics_objects/generic_histogram.hpp
     statistics/statistics_objects/generic_histogram_builder.cpp

@@ -11,6 +11,7 @@
 #include "scheduler/job_task.hpp"
 #include "statistics/statistics_objects/abstract_histogram.hpp"
 #include "statistics/statistics_objects/equi_height_histogram.hpp"
+#include "statistics/statistics_objects/equi_width_histogram.hpp"
 #include "storage/table.hpp"
 #include "utils/assert.hpp"
 
@@ -47,8 +48,12 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
         const auto HISTORAM_TYPE = std::getenv("HISTOGRAM");
 
         if (HISTORAM_TYPE) {
-            if (strcmp(HISTORAM_TYPE, "EquiHeightHistogram")) {
+            // clang-tidy wants the != 0 part.
+            if (strcmp(HISTORAM_TYPE, "EquiHeightHistogram") != 0) {
                 histogram = EquiHeightHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
+            }
+            if (strcmp(HISTORAM_TYPE, "EquiWidthHistogram") != 0) {
+                histogram = EquiWidthHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
             }
         } else {
             histogram = EqualDistinctCountHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
