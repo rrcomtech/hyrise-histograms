@@ -46,13 +46,13 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
         // export HISTOGRAM=<type>
         const auto HISTORAM_TYPE = std::getenv("HISTOGRAM");
 
-
-        std::cout << HISTORAM_TYPE << std::endl;
-
-        if (strcmp(HISTORAM_TYPE, "EquiHeightHistogram")) {
-          histogram = EquiHeightHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
+        if (HISTORAM_TYPE) {
+            if (strcmp(HISTORAM_TYPE, "EquiHeightHistogram")) {
+                histogram = EquiHeightHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
+            }
+        } else {
+            histogram = EqualDistinctCountHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
         }
-        histogram = EqualDistinctCountHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
 
         if (histogram) {
           output_column_statistics->set_statistics_object(histogram);
