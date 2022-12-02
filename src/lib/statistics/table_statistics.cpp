@@ -52,9 +52,6 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
             if (strcmp(HISTORAM_TYPE, "EquiHeightHistogram") != 0) {
                 histogram = EquiHeightHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
             }
-            if (strcmp(HISTORAM_TYPE, "EquiWidthHistogram") != 0) {
-                histogram = EquiWidthHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
-            }
         } else {
             histogram = EqualDistinctCountHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
         }

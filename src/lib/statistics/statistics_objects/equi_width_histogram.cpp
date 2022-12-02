@@ -130,7 +130,9 @@ std::shared_ptr<EquiWidthHistogram<T>> EquiWidthHistogram<T>::from_column(const 
   // For each bin, the lower and upper barrier is computed.
   std::vector<std::pair<T, T>> bin_barriers(bin_count);
 
-  const float bin_range = (float) (value_distribution[value_distribution.size() - 1] - value_distribution[0].first) / (float) bin_count;
+  float maxValue = value_distribution[value_distribution.size() - 1].first;
+  float minValue = value_distribution[0].first;
+  float bin_range = (maxValue - minValue) / bin_count;
 
   for (auto bin_id = u_int32_t{0}; bin_id < bin_count; ++bin_id) {
       bin_barriers[bin_id].first = bin_id * bin_range;
@@ -222,6 +224,11 @@ HistogramCountType EquiWidthHistogram<T>::bin_distinct_count(const BinID index) 
   return _bin_distinct_counts[index];
 }
 
-EXPLICITLY_INSTANTIATE_DATA_TYPES(EquiWidthHistogram);
+//EXPLICITLY_INSTANTIATE_DATA_TYPES(EquiWidthHistogram);
+template class EquiWidthHistogram<float>;
+template class EquiWidthHistogram<int32_t>;
+template class EquiWidthHistogram<long>;
+template class EquiWidthHistogram<double>;
+
 
 }  // namespace hyrise
