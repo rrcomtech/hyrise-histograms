@@ -1,5 +1,7 @@
 #include "benchmark_sql_executor.hpp"
 
+#include "benchmark_runner.hpp"
+#include "hyrise.hpp"
 #include "operators/table_scan.hpp"
 #include "operators/aggregate_hash.hpp"
 #include "operators/join_hash.hpp"
@@ -54,6 +56,7 @@ std::pair<SQLPipelineStatus, std::shared_ptr<const Table>> BenchmarkSQLExecutor:
   // }
 
   const auto& pqp_plans = pipeline.get_physical_plans();
+  Assert(pqp_plans.size() == lqp_plans.size(), "NOTTHESAME");
   for (const auto& plan_root : pqp_plans) {
     if (plan_root->type() == OperatorType::CreateView || plan_root->type() == OperatorType::DropView) {
       // Skip some case. You might find more cases that need to be discarded.
@@ -64,54 +67,98 @@ std::pair<SQLPipelineStatus, std::shared_ptr<const Table>> BenchmarkSQLExecutor:
     auto visitor = [&](const auto& node) {
       if (node->type () == OperatorType::TableScan) {
         if (node->left_input()->type() == OperatorType::GetTable || node->left_input()->type() == OperatorType::Validate) {
-          std::cout << "Information for " << *node->lqp_node << std::endl;
           const auto table_scan_op = std::dynamic_pointer_cast<const TableScan>(node);
           const auto& table_scan_performance_data = table_scan_op->performance_data;
           const auto& get_table_performance_data = node->left_input()->performance_data;
-          std::cout << "Input size to table scan: " << get_table_performance_data->output_row_count << std::endl;
-          std::cout << "Result size after table scan: " << table_scan_performance_data->output_row_count << std::endl;
-          // std::cout << "Actual selectivity of table scan: " << static_cast<float>(get_table_performance_data->output_row_count) / static_cast<float>(table_scan_performance_data->output_row_count) << std::endl;
 
-          std::cout << "Input size to table scan: " << cardinality_estimator.estimate_cardinality(node->left_input()->lqp_node) << std::endl;
-          std::cout << "Result size after table scan: " << cardinality_estimator.estimate_cardinality(table_scan_op->lqp_node) << std::endl;
+          Hyrise::get().cardinality_statistics += Hyrise::get().current_benchmark;
+          Hyrise::get().cardinality_statistics += ",TableScan,";
+          Hyrise::get().cardinality_statistics += std::to_string(get_table_performance_data->output_row_count) + ",";
+          Hyrise::get().cardinality_statistics += std::to_string(table_scan_performance_data->output_row_count) + ",";
+          Hyrise::get().cardinality_statistics += std::to_string(cardinality_estimator.estimate_cardinality(node->left_input()->lqp_node)) + ",";
+          Hyrise::get().cardinality_statistics += std::to_string(cardinality_estimator.estimate_cardinality(table_scan_op->lqp_node)) + "\n";
+
+          // std::cout << "Information for " << *node->lqp_node << std::endl;
+          // const auto table_scan_op = std::dynamic_pointer_cast<const TableScan>(node);
+          // const auto& table_scan_performance_data = table_scan_op->performance_data;
+          // const auto& get_table_performance_data = node->left_input()->performance_data;
+          // std::cout << "Input size to table scan: " << get_table_performance_data->output_row_count << std::endl;
+          // std::cout << "Result size after table scan: " << table_scan_performance_data->output_row_count << std::endl;
+          // // std::cout << "Actual selectivity of table scan: " << static_cast<float>(get_table_performance_data->output_row_count) / static_cast<float>(table_scan_performance_data->output_row_count) << std::endl;
+
+          // std::cout << "Input size to table scan: " << cardinality_estimator.estimate_cardinality(node->left_input()->lqp_node) << std::endl;
+          // std::cout << "Result size after table scan: " << cardinality_estimator.estimate_cardinality(node->left_input()->lqp_node) << std::endl;
         }
       } else if (node->type () == OperatorType::Aggregate) {
         if (node->left_input()->type() == OperatorType::GetTable || node->left_input()->type() == OperatorType::Validate) {
-          std::cout << "Information for " << *node->lqp_node << std::endl;
           const auto aggregate_op = std::dynamic_pointer_cast<const AggregateHash>(node);
           const auto& aggregate_performance_data = aggregate_op->performance_data;
           const auto& get_table_performance_data = node->left_input()->performance_data;
-          std::cout << "Input size to aggregate: " << get_table_performance_data->output_row_count << std::endl;
-          std::cout << "Result size after aggregate: " << aggregate_performance_data->output_row_count << std::endl;
-          // std::cout << "Actual selectivity of aggregate: " << static_cast<float>(get_table_performance_data->output_row_count) / static_cast<float>(aggregate_performance_data->output_row_count) << std::endl;
 
-          std::cout << "Input size to aggregate: " << cardinality_estimator.estimate_cardinality(node->left_input()->lqp_node) << std::endl;
-          std::cout << "Result size after aggregate: " << cardinality_estimator.estimate_cardinality(aggregate_op->lqp_node) << std::endl;
+          Hyrise::get().cardinality_statistics += Hyrise::get().current_benchmark;
+          Hyrise::get().cardinality_statistics += ",Aggregate,";
+          Hyrise::get().cardinality_statistics += std::to_string(get_table_performance_data->output_row_count) + ",";
+          Hyrise::get().cardinality_statistics += std::to_string(aggregate_performance_data->output_row_count) + ",";
+          Hyrise::get().cardinality_statistics += std::to_string(cardinality_estimator.estimate_cardinality(node->left_input()->lqp_node)) + ",";
+          Hyrise::get().cardinality_statistics += std::to_string(cardinality_estimator.estimate_cardinality(aggregate_op->lqp_node)) + "\n";
+
+          // std::cout << "Information for " << *node->lqp_node << std::endl;
+          // const auto aggregate_op = std::dynamic_pointer_cast<const AggregateHash>(node);
+          // const auto& aggregate_performance_data = aggregate_op->performance_data;
+          // const auto& get_table_performance_data = node->left_input()->performance_data;
+          // std::cout << "Input size to aggregate: " << get_table_performance_data->output_row_count << std::endl;
+          // std::cout << "Result size after aggregate: " << aggregate_performance_data->output_row_count << std::endl;
+          // // std::cout << "Actual selectivity of aggregate: " << static_cast<float>(get_table_performance_data->output_row_count) / static_cast<float>(aggregate_performance_data->output_row_count) << std::endl;
+
+          // std::cout << "Input size to aggregate: " << cardinality_estimator.estimate_cardinality(node->left_input()->lqp_node) << std::endl;
+          // std::cout << "Result size after aggregate: " << cardinality_estimator.estimate_cardinality(aggregate_op->lqp_node) << std::endl;
         }
       } else if (node->type () == OperatorType::JoinHash) {
         if (node->left_input()->type() == OperatorType::GetTable || node->left_input()->type() == OperatorType::Validate) {
-          std::cout << "Information for " << *node->lqp_node << std::endl;
           const auto aggregate_op = std::dynamic_pointer_cast<const JoinHash>(node);
           const auto& aggregate_performance_data = aggregate_op->performance_data;
           const auto& get_table_performance_data = node->left_input()->performance_data;
-          std::cout << "Left Input size to join: " << get_table_performance_data->output_row_count << std::endl;
-          std::cout << "Result size after join: " << aggregate_performance_data->output_row_count << std::endl;
-          // std::cout << "Actual selectivity of join: " << static_cast<float>(get_table_performance_data->output_row_count) / static_cast<float>(aggregate_performance_data->output_row_count) << std::endl;
 
-          std::cout << "Left Input size to join: " << cardinality_estimator.estimate_cardinality(node->left_input()->lqp_node) << std::endl;
-          std::cout << "Result size after join: " << cardinality_estimator.estimate_cardinality(aggregate_op->lqp_node) << std::endl;
+          Hyrise::get().cardinality_statistics += Hyrise::get().current_benchmark;
+          Hyrise::get().cardinality_statistics += ",JoinHashLeft,";
+          Hyrise::get().cardinality_statistics += std::to_string(get_table_performance_data->output_row_count) + ",";
+          Hyrise::get().cardinality_statistics += std::to_string(aggregate_performance_data->output_row_count) + ",";
+          Hyrise::get().cardinality_statistics += std::to_string(cardinality_estimator.estimate_cardinality(node->left_input()->lqp_node)) + ",";
+          Hyrise::get().cardinality_statistics += std::to_string(cardinality_estimator.estimate_cardinality(aggregate_op->lqp_node)) + "\n";
+
+          // std::cout << "Information for " << *node->lqp_node << std::endl;
+          // const auto aggregate_op = std::dynamic_pointer_cast<const JoinHash>(node);
+          // const auto& aggregate_performance_data = aggregate_op->performance_data;
+          // const auto& get_table_performance_data = node->left_input()->performance_data;
+          // std::cout << "Left Input size to join: " << get_table_performance_data->output_row_count << std::endl;
+          // std::cout << "Result size after join: " << aggregate_performance_data->output_row_count << std::endl;
+          // // std::cout << "Actual selectivity of join: " << static_cast<float>(get_table_performance_data->output_row_count) / static_cast<float>(aggregate_performance_data->output_row_count) << std::endl;
+
+          // std::cout << "Left Input size to join: " << cardinality_estimator.estimate_cardinality(node->left_input()->lqp_node) << std::endl;
+          // std::cout << "Result size after join: " << cardinality_estimator.estimate_cardinality(aggregate_op->lqp_node) << std::endl;
         }
         if (node->right_input()->type() == OperatorType::GetTable || node->right_input()->type() == OperatorType::Validate) {
-          std::cout << "Information for " << *node->lqp_node << std::endl;
           const auto aggregate_op = std::dynamic_pointer_cast<const JoinHash>(node);
           const auto& aggregate_performance_data = aggregate_op->performance_data;
           const auto& get_table_performance_data = node->right_input()->performance_data;
-          std::cout << "Right Input size to join: " << get_table_performance_data->output_row_count << std::endl;
-          std::cout << "Result size after join: " << aggregate_performance_data->output_row_count << std::endl;
-          // std::cout << "Actual selectivity of join: " << static_cast<float>(get_table_performance_data->output_row_count) / static_cast<float>(aggregate_performance_data->output_row_count) << std::endl;
 
-          std::cout << "Right Input size to join: " << cardinality_estimator.estimate_cardinality(node->right_input()->lqp_node) << std::endl;
-          std::cout << "Result size after join: " << cardinality_estimator.estimate_cardinality(aggregate_op->lqp_node) << std::endl;
+          Hyrise::get().cardinality_statistics += Hyrise::get().current_benchmark;
+          Hyrise::get().cardinality_statistics += ",JoinHashRight,";
+          Hyrise::get().cardinality_statistics += std::to_string(get_table_performance_data->output_row_count) + ",";
+          Hyrise::get().cardinality_statistics += std::to_string(aggregate_performance_data->output_row_count) + ",";
+          Hyrise::get().cardinality_statistics += std::to_string(cardinality_estimator.estimate_cardinality(node->right_input()->lqp_node)) + ",";
+          Hyrise::get().cardinality_statistics += std::to_string(cardinality_estimator.estimate_cardinality(aggregate_op->lqp_node)) + "\n";
+
+          // std::cout << "Information for " << *node->lqp_node << std::endl;
+          // const auto aggregate_op = std::dynamic_pointer_cast<const JoinHash>(node);
+          // const auto& aggregate_performance_data = aggregate_op->performance_data;
+          // const auto& get_table_performance_data = node->right_input()->performance_data;
+          // std::cout << "Right Input size to join: " << get_table_performance_data->output_row_count << std::endl;
+          // std::cout << "Result size after join: " << aggregate_performance_data->output_row_count << std::endl;
+          // // std::cout << "Actual selectivity of join: " << static_cast<float>(get_table_performance_data->output_row_count) / static_cast<float>(aggregate_performance_data->output_row_count) << std::endl;
+
+          // std::cout << "Right Input size to join: " << cardinality_estimator.estimate_cardinality(node->right_input()->lqp_node) << std::endl;
+          // std::cout << "Result size after join: " << cardinality_estimator.estimate_cardinality(aggregate_op->lqp_node) << std::endl;
         }
       }
 

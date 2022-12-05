@@ -133,6 +133,11 @@ void BenchmarkRunner::run() {
     }
   }
 
+  std::ofstream out("cardinalities.csv");
+  out << Hyrise::get().cardinality_statistics;
+  out.close();
+
+
   // Create report
   if (_config.output_file_path) {
     if (!_config.verify && !_config.enable_visualization) {
@@ -243,6 +248,7 @@ void BenchmarkRunner::_benchmark_ordered() {
 
     const auto& name = _benchmark_item_runner->item_name(item_id);
     std::cout << "- Benchmarking " << name << std::endl;
+    Hyrise::get().current_benchmark = name;
 
     auto& result = _results[item_id];
 
