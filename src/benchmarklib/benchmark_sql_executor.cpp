@@ -43,11 +43,11 @@ std::pair<SQLPipelineStatus, std::shared_ptr<const Table>> BenchmarkSQLExecutor:
   cardinality_estimator.guarantee_bottom_up_construction();
 
   const auto& lqp_plans = pipeline.get_optimized_logical_plans();
-  if (lqp_plans.size() != 1) {
-    std::cerr << "!!!!!!\n!!!!!!\n!!!!!!\n";
-    std::cerr << "!!!!!! Caution: analyzing a pipeline with more than one statement.\n";
-    std::cerr << "!!!!!!\n!!!!!!\n!!!!!!\n" << std::endl;
-  }
+  // if (lqp_plans.size() != 1) {
+  //   std::cerr << "!!!!!!\n!!!!!!\n!!!!!!\n";
+  //   std::cerr << "!!!!!! Caution: analyzing a pipeline with more than one statement.\n";
+  //   std::cerr << "!!!!!!\n!!!!!!\n!!!!!!\n" << std::endl;
+  // }
 
   // Prints the logical query plans. Helps for understanding what's actually happening in the query.
   // We also store visualizations of these plans here: https://hyrise-ci.epic-hpi.de/job/hyrise/job/hyrise/job/master/lastStableBuild/artifact/query_plans/tpch/

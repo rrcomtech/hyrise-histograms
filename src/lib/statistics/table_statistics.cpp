@@ -49,13 +49,18 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
 
         if (HISTORAM_TYPE) {
             // clang-tidy wants the != 0 part.
-            if (strcmp(HISTORAM_TYPE, "EquiHeightHistogram") != 0) {
+            if (strcmp(HISTORAM_TYPE, "EquiHeightHistogram") == 0) {
+                PerformanceWarning("EquiHeightHistogram is used!");
                 histogram = EquiHeightHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
-            } else if (strcmp(HISTORAM_TYPE, "EquiWidthHistogram") != 0) {
-                histogram = EquiWidthHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
+            } else if (strcmp(HISTORAM_TYPE, "EquiWidthHistogram") == 0) {
+              PerformanceWarning("EquiWidthHistogram is used!");
+              histogram = EquiWidthHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
+            } else {
+              Fail("Unknown Histogram specified!");
             }
         } else {
-            histogram = EqualDistinctCountHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
+          PerformanceWarning("EqualDistinctCountHistogram is used!");
+          histogram = EqualDistinctCountHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
         }
 
         if (histogram) {

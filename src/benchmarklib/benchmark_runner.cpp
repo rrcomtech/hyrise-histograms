@@ -133,10 +133,14 @@ void BenchmarkRunner::run() {
     }
   }
 
-  std::ofstream out("cardinalities.csv");
-  out << Hyrise::get().cardinality_statistics;
-  out.close();
+  // Specify the cardinalities output name by "export CARDINALITIES=<name>""
+  const auto CARDINALITIES_FILENAME = std::getenv("CARDINALITIES");
 
+  if (CARDINALITIES_FILENAME) {
+    std::ofstream out(CARDINALITIES_FILENAME);
+    out << Hyrise::get().cardinality_statistics;
+    out.close();
+  }
 
   // Create report
   if (_config.output_file_path) {

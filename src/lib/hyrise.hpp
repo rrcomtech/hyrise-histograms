@@ -57,7 +57,7 @@ class Hyrise : public Singleton<Hyrise> {
   // result JSON.
   std::weak_ptr<BenchmarkRunner> benchmark_runner;
 
-  std::string cardinality_statistics;
+  std::string cardinality_statistics = "name,operator_type,real_input,real_output,estimated_input,estimated_output\n";
   std::string current_benchmark;
 
 
