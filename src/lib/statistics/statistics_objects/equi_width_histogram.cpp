@@ -127,40 +127,37 @@ std::shared_ptr<EquiWidthHistogram<T>> EquiWidthHistogram<T>::from_column(const 
   std::vector<HistogramCountType> bin_heights(bin_count, 0);
   std::vector<HistogramCountType> bin_distinct_counts(bin_count, 0);
 
-  // For each bin, the lower and upper barrier is computed.
-  std::vector<std::pair<T, T>> bin_barriers(bin_count);
-
   float maxValue;
   float minValue;
 
   if constexpr (std::is_same_v<T, pmr_string>) {
     maxValue = static_cast<float>(domain.string_to_number(value_distribution[value_distribution.size() - 1].first));
     minValue = static_cast<float>(domain.string_to_number(value_distribution[0].first));
-  }
-  else {
+  } else {
     maxValue = value_distribution[value_distribution.size() - 1].first;
     minValue = value_distribution[0].first;
   }
-  
 
-  float bin_range = (maxValue - minValue) / bin_count;
+  float bin_range = (maxValue - minValue + 1) / bin_count;
 
+  // The offset is always the minimal value in the distribution.
+  // "The starting point"
   for (auto bin_id = u_int32_t{0}; bin_id < bin_count; ++bin_id) {
-      bin_barriers[bin_id].first = bin_id * bin_range;
-      bin_barriers[bin_id].second = bin_id * bin_range + bin_range;
+    // First: Lower Boundary of Bin
+    bin_minima[bin_id] = (bin_id * bin_range) + minValue;
+    // Second: Upper Boundary of Bin
+    bin_maxima[bin_id] = (bin_id * bin_range + bin_range) + minValue;
   }
 
   auto last_seen_bin = 0;
   for (auto value_index = uint32_t{0}; value_index < value_distribution.size(); ++value_index) {
       const auto value = value_distribution[value_index];
+      if (value.first >= bin_maxima[last_seen_bin]) ++last_seen_bin;
 
-      // If the value is larger than the given bin barrier, then put it into the next bin.
-      if (value.first > bin_barriers[last_seen_bin].first) {
-          ++last_seen_bin;
-          bin_minima[last_seen_bin] = value.first;
+      if (value.first >= bin_minima[last_seen_bin] && value.first < bin_maxima[last_seen_bin]) {
+          bin_heights[last_seen_bin] += value.second;
+          bin_distinct_counts[last_seen_bin] += 1;
       }
-      bin_maxima[last_seen_bin] = value.first;
-      bin_heights[last_seen_bin] += value.second;
   }
 
   return std::make_shared<EquiWidthHistogram<T>>(std::move(bin_minima), std::move(bin_maxima), std::move(bin_heights), std::move(bin_distinct_counts), total_count);
