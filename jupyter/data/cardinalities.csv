@@ -1,3 +1,4 @@
+name,operator_type,real_input,real_output,estimated_input,estimated_output
 TPC-H 01,TableScan,60175,59775,60175.000000,60165.917969
 TPC-H 02,JoinHashRight,9,8,4.180000,16.719999
 TPC-H 02,Aggregate,8,7,16.719999,16.719999
