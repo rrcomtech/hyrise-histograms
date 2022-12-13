@@ -1,1 +1,11 @@
+name: CMake GH Actions
 
+on: push
+
+jobs:
+  cmake:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Some Magic
+        run: echo "Some Magic"
