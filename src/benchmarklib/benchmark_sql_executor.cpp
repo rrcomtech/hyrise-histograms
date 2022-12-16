@@ -72,6 +72,7 @@ std::pair<SQLPipelineStatus, std::shared_ptr<const Table>> BenchmarkSQLExecutor:
           const auto& get_table_performance_data = node->left_input()->performance_data;
 
           Hyrise::get().cardinality_statistics += Hyrise::get().current_benchmark;
+          Hyrise::get().cardinality_statistics += std::to_string(Hyrise::get().current_operator);
           Hyrise::get().cardinality_statistics += ",TableScan,";
           Hyrise::get().cardinality_statistics += std::to_string(get_table_performance_data->output_row_count) + ",";
           Hyrise::get().cardinality_statistics += std::to_string(table_scan_performance_data->output_row_count) + ",";
@@ -96,6 +97,7 @@ std::pair<SQLPipelineStatus, std::shared_ptr<const Table>> BenchmarkSQLExecutor:
           const auto& get_table_performance_data = node->left_input()->performance_data;
 
           Hyrise::get().cardinality_statistics += Hyrise::get().current_benchmark;
+          Hyrise::get().cardinality_statistics += std::to_string(Hyrise::get().current_operator);
           Hyrise::get().cardinality_statistics += ",Aggregate,";
           Hyrise::get().cardinality_statistics += std::to_string(get_table_performance_data->output_row_count) + ",";
           Hyrise::get().cardinality_statistics += std::to_string(aggregate_performance_data->output_row_count) + ",";
@@ -120,6 +122,7 @@ std::pair<SQLPipelineStatus, std::shared_ptr<const Table>> BenchmarkSQLExecutor:
           const auto& get_table_performance_data = node->left_input()->performance_data;
 
           Hyrise::get().cardinality_statistics += Hyrise::get().current_benchmark;
+          Hyrise::get().cardinality_statistics += std::to_string(Hyrise::get().current_operator);
           Hyrise::get().cardinality_statistics += ",JoinHashLeft,";
           Hyrise::get().cardinality_statistics += std::to_string(get_table_performance_data->output_row_count) + ",";
           Hyrise::get().cardinality_statistics += std::to_string(aggregate_performance_data->output_row_count) + ",";
@@ -143,6 +146,7 @@ std::pair<SQLPipelineStatus, std::shared_ptr<const Table>> BenchmarkSQLExecutor:
           const auto& get_table_performance_data = node->right_input()->performance_data;
 
           Hyrise::get().cardinality_statistics += Hyrise::get().current_benchmark;
+          Hyrise::get().cardinality_statistics += std::to_string(Hyrise::get().current_operator);
           Hyrise::get().cardinality_statistics += ",JoinHashRight,";
           Hyrise::get().cardinality_statistics += std::to_string(get_table_performance_data->output_row_count) + ",";
           Hyrise::get().cardinality_statistics += std::to_string(aggregate_performance_data->output_row_count) + ",";
@@ -161,7 +165,8 @@ std::pair<SQLPipelineStatus, std::shared_ptr<const Table>> BenchmarkSQLExecutor:
           // std::cout << "Result size after join: " << cardinality_estimator.estimate_cardinality(aggregate_op->lqp_node) << std::endl;
         }
       }
-
+      
+      ++Hyrise::get().current_operator;
       return PQPVisitation::VisitInputs;
     };
 

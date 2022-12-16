@@ -95,7 +95,6 @@ std::shared_ptr<EquiWidthHistogram<T>> EquiWidthHistogram<T>::from_column(const 
                                                                             const ColumnID column_id,
                                                                             const BinID max_bin_count,
                                                                             const HistogramDomain<T>& domain) {
-  Assert(std::is_arithmetic<T>::value, "EquiWidthHistogram is only applicable to numeric data types.");
   Assert(max_bin_count > 0, "max_bin_count must be greater than zero ");
 
   // Compute the value distribution. Basically, counting how many times each value appears in
@@ -168,9 +167,9 @@ std::shared_ptr<EquiWidthHistogram<T>> EquiWidthHistogram<T>::from_column(const 
   auto last_seen_bin = 0;
   for (auto value_index = uint32_t{0}; value_index < value_distribution.size(); ++value_index) {
       const auto value = value_distribution[value_index];
-      if (value.first >= bin_maxima[last_seen_bin]) ++last_seen_bin;
+      if (value.first >= bin_maxima.at(last_seen_bin)) ++last_seen_bin;
 
-      if (value.first >= bin_minima[last_seen_bin] && value.first < bin_maxima[last_seen_bin]) {
+      if (value.first >= bin_minima.at(last_seen_bin) && value.first < bin_maxima.at(last_seen_bin)) {
           bin_heights[last_seen_bin] += value.second;
           bin_distinct_counts[last_seen_bin] += 1;
       }

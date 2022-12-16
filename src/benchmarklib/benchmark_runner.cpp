@@ -252,6 +252,11 @@ void BenchmarkRunner::_benchmark_ordered() {
 
     const auto& name = _benchmark_item_runner->item_name(item_id);
     std::cout << "- Benchmarking " << name << std::endl;
+
+    std::cout << Hyrise::get().current_benchmark << "---" << name << std::endl;
+
+    Hyrise::get().current_operator = 0;
+
     Hyrise::get().current_benchmark = name;
 
     auto& result = _results[item_id];
