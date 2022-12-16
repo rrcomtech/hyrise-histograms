@@ -164,10 +164,10 @@ std::shared_ptr<EquiWidthHistogram<T>> EquiWidthHistogram<T>::from_column(const 
     }
   }
 
-  auto last_seen_bin = 0;
+  auto last_seen_bin = BinID{0};
   for (auto value_index = uint32_t{0}; value_index < value_distribution.size(); ++value_index) {
       const auto value = value_distribution[value_index];
-      if (value.first >= bin_maxima.at(last_seen_bin)) ++last_seen_bin;
+      if (value.first >= bin_maxima.at(last_seen_bin) && last_seen_bin < (bin_count-1)) ++last_seen_bin;
 
       if (value.first >= bin_minima.at(last_seen_bin) && value.first < bin_maxima.at(last_seen_bin)) {
           bin_heights[last_seen_bin] += value.second;
