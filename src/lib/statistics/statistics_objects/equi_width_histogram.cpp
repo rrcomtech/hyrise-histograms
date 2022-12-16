@@ -134,19 +134,35 @@ std::shared_ptr<EquiWidthHistogram<T>> EquiWidthHistogram<T>::from_column(const 
     maxValue = static_cast<float>(domain.string_to_number(value_distribution[value_distribution.size() - 1].first));
     minValue = static_cast<float>(domain.string_to_number(value_distribution[0].first));
   } else {
-    maxValue = value_distribution[value_distribution.size() - 1].first;
-    minValue = value_distribution[0].first;
+    if constexpr (std::is_same_v<T, float>) {
+        maxValue = value_distribution[value_distribution.size() - 1].first;
+        minValue = value_distribution[0].first;
+    } else {
+        maxValue = (float) value_distribution[value_distribution.size() - 1].first;
+        minValue = (float) value_distribution[0].first;
+    }
   }
 
-  float bin_range = (maxValue - minValue + 1) / bin_count;
+  const auto bin_range = (maxValue - minValue + 1) / (float) bin_count;
 
   // The offset is always the minimal value in the distribution.
   // "The starting point"
-  for (auto bin_id = u_int32_t{0}; bin_id < bin_count; ++bin_id) {
-    // First: Lower Boundary of Bin
-    bin_minima[bin_id] = (bin_id * bin_range) + minValue;
-    // Second: Upper Boundary of Bin
-    bin_maxima[bin_id] = (bin_id * bin_range + bin_range) + minValue;
+  for (auto bin_id = BinID{0}; bin_id < bin_count; ++bin_id) {
+    const auto lower_barrier = ((float) bin_id * bin_range) + minValue;
+    const auto higher_barrier = ((float) bin_id * bin_range + bin_range) + minValue;
+
+    if constexpr (std::is_same_v<T, pmr_string>) {
+        bin_minima[bin_id] = (char) ((uint32_t) std::floor(lower_barrier));
+        bin_maxima[bin_id] = (char) ((uint32_t) std::floor(higher_barrier));
+    } else {
+        if constexpr (std::is_same_v<T, float>) {
+            bin_minima[bin_id] = lower_barrier;
+            bin_maxima[bin_id] = higher_barrier;
+        } else {
+            bin_minima[bin_id] = (uint32_t) std::floor(lower_barrier);
+            bin_maxima[bin_id] = (uint32_t) std::floor(higher_barrier);
+        }
+    }
   }
 
   auto last_seen_bin = 0;
