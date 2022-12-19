@@ -55,6 +55,9 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
             } else if (strcmp(HISTORAM_TYPE, "EquiWidthHistogram") == 0) {
               PerformanceWarning("EquiWidthHistogram is used!");
               histogram = EquiWidthHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
+            } else if (strcmp(HISTORAM_TYPE, "EqualDistinctCountHistogram") == 0) {
+              PerformanceWarning("EqualDistinctCountHistogram is used!");
+              histogram = EqualDistinctCountHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
             } else {
               Fail("Unknown Histogram specified!");
             }

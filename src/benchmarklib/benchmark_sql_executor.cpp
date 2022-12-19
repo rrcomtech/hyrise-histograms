@@ -66,7 +66,7 @@ std::pair<SQLPipelineStatus, std::shared_ptr<const Table>> BenchmarkSQLExecutor:
 
     auto visitor = [&](const auto& node) {
       if (node->type () == OperatorType::TableScan) {
-        if (node->left_input()->type() == OperatorType::GetTable || node->left_input()->type() == OperatorType::Validate) {
+        if (node->left_input()->type() == OperatorType::GetTable) {
           const auto table_scan_op = std::dynamic_pointer_cast<const TableScan>(node);
           const auto& table_scan_performance_data = table_scan_op->performance_data;
           const auto& get_table_performance_data = node->left_input()->performance_data;
@@ -89,9 +89,23 @@ std::pair<SQLPipelineStatus, std::shared_ptr<const Table>> BenchmarkSQLExecutor:
 
           // std::cout << "Input size to table scan: " << cardinality_estimator.estimate_cardinality(node->left_input()->lqp_node) << std::endl;
           // std::cout << "Result size after table scan: " << cardinality_estimator.estimate_cardinality(node->left_input()->lqp_node) << std::endl;
+        } else if (node->left_input()->type() == OperatorType::Validate) {
+            if (node->left_input()->left_input()->type() == OperatorType::GetTable) {
+            const auto table_scan_op = std::dynamic_pointer_cast<const TableScan>(node);
+            const auto& table_scan_performance_data = table_scan_op->performance_data;
+            const auto& get_table_performance_data = node->left_input()->performance_data;
+
+            Hyrise::get().cardinality_statistics += Hyrise::get().current_benchmark;
+            Hyrise::get().cardinality_statistics += std::to_string(Hyrise::get().current_operator);
+            Hyrise::get().cardinality_statistics += ",TableScan,";
+            Hyrise::get().cardinality_statistics += std::to_string(get_table_performance_data->output_row_count) + ",";
+            Hyrise::get().cardinality_statistics += std::to_string(table_scan_performance_data->output_row_count) + ",";
+            Hyrise::get().cardinality_statistics += std::to_string(cardinality_estimator.estimate_cardinality(node->left_input()->lqp_node)) + ",";
+            Hyrise::get().cardinality_statistics += std::to_string(cardinality_estimator.estimate_cardinality(table_scan_op->lqp_node)) + "\n";
+          }
         }
       } else if (node->type () == OperatorType::Aggregate) {
-        if (node->left_input()->type() == OperatorType::GetTable || node->left_input()->type() == OperatorType::Validate) {
+        if (node->left_input()->type() == OperatorType::GetTable) {
           const auto aggregate_op = std::dynamic_pointer_cast<const AggregateHash>(node);
           const auto& aggregate_performance_data = aggregate_op->performance_data;
           const auto& get_table_performance_data = node->left_input()->performance_data;
@@ -114,9 +128,23 @@ std::pair<SQLPipelineStatus, std::shared_ptr<const Table>> BenchmarkSQLExecutor:
 
           // std::cout << "Input size to aggregate: " << cardinality_estimator.estimate_cardinality(node->left_input()->lqp_node) << std::endl;
           // std::cout << "Result size after aggregate: " << cardinality_estimator.estimate_cardinality(aggregate_op->lqp_node) << std::endl;
+        } else if (node->left_input()->type() == OperatorType::Validate) {
+          if (node->left_input()->left_input()->type() == OperatorType::GetTable) {
+            const auto aggregate_op = std::dynamic_pointer_cast<const AggregateHash>(node);
+            const auto& aggregate_performance_data = aggregate_op->performance_data;
+            const auto& get_table_performance_data = node->left_input()->performance_data;
+
+            Hyrise::get().cardinality_statistics += Hyrise::get().current_benchmark;
+            Hyrise::get().cardinality_statistics += std::to_string(Hyrise::get().current_operator);
+            Hyrise::get().cardinality_statistics += ",Aggregate,";
+            Hyrise::get().cardinality_statistics += std::to_string(get_table_performance_data->output_row_count) + ",";
+            Hyrise::get().cardinality_statistics += std::to_string(aggregate_performance_data->output_row_count) + ",";
+            Hyrise::get().cardinality_statistics += std::to_string(cardinality_estimator.estimate_cardinality(node->left_input()->lqp_node)) + ",";
+            Hyrise::get().cardinality_statistics += std::to_string(cardinality_estimator.estimate_cardinality(aggregate_op->lqp_node)) + "\n";
+          }
         }
       } else if (node->type () == OperatorType::JoinHash) {
-        if (node->left_input()->type() == OperatorType::GetTable || node->left_input()->type() == OperatorType::Validate) {
+        if (node->left_input()->type() == OperatorType::GetTable) {
           const auto aggregate_op = std::dynamic_pointer_cast<const JoinHash>(node);
           const auto& aggregate_performance_data = aggregate_op->performance_data;
           const auto& get_table_performance_data = node->left_input()->performance_data;
@@ -139,8 +167,22 @@ std::pair<SQLPipelineStatus, std::shared_ptr<const Table>> BenchmarkSQLExecutor:
 
           // std::cout << "Left Input size to join: " << cardinality_estimator.estimate_cardinality(node->left_input()->lqp_node) << std::endl;
           // std::cout << "Result size after join: " << cardinality_estimator.estimate_cardinality(aggregate_op->lqp_node) << std::endl;
+        } else if (node->left_input()->type() == OperatorType::Validate) {
+          if (node->left_input()->left_input()->type() == OperatorType::GetTable) {
+            const auto aggregate_op = std::dynamic_pointer_cast<const JoinHash>(node);
+          const auto& aggregate_performance_data = aggregate_op->performance_data;
+          const auto& get_table_performance_data = node->left_input()->performance_data;
+
+          Hyrise::get().cardinality_statistics += Hyrise::get().current_benchmark;
+          Hyrise::get().cardinality_statistics += std::to_string(Hyrise::get().current_operator);
+          Hyrise::get().cardinality_statistics += ",JoinHashLeft,";
+          Hyrise::get().cardinality_statistics += std::to_string(get_table_performance_data->output_row_count) + ",";
+          Hyrise::get().cardinality_statistics += std::to_string(aggregate_performance_data->output_row_count) + ",";
+          Hyrise::get().cardinality_statistics += std::to_string(cardinality_estimator.estimate_cardinality(node->left_input()->lqp_node)) + ",";
+          Hyrise::get().cardinality_statistics += std::to_string(cardinality_estimator.estimate_cardinality(aggregate_op->lqp_node)) + "\n";
+          }
         }
-        if (node->right_input()->type() == OperatorType::GetTable || node->right_input()->type() == OperatorType::Validate) {
+        if (node->right_input()->type() == OperatorType::GetTable) {
           const auto aggregate_op = std::dynamic_pointer_cast<const JoinHash>(node);
           const auto& aggregate_performance_data = aggregate_op->performance_data;
           const auto& get_table_performance_data = node->right_input()->performance_data;
@@ -163,6 +205,20 @@ std::pair<SQLPipelineStatus, std::shared_ptr<const Table>> BenchmarkSQLExecutor:
 
           // std::cout << "Right Input size to join: " << cardinality_estimator.estimate_cardinality(node->right_input()->lqp_node) << std::endl;
           // std::cout << "Result size after join: " << cardinality_estimator.estimate_cardinality(aggregate_op->lqp_node) << std::endl;
+        } else if (node->right_input()->type() == OperatorType::Validate) {
+          if (node->left_input()->left_input()->type() == OperatorType::GetTable) {
+            const auto aggregate_op = std::dynamic_pointer_cast<const JoinHash>(node);
+          const auto& aggregate_performance_data = aggregate_op->performance_data;
+          const auto& get_table_performance_data = node->right_input()->performance_data;
+
+          Hyrise::get().cardinality_statistics += Hyrise::get().current_benchmark;
+          Hyrise::get().cardinality_statistics += std::to_string(Hyrise::get().current_operator);
+          Hyrise::get().cardinality_statistics += ",JoinHashRight,";
+          Hyrise::get().cardinality_statistics += std::to_string(get_table_performance_data->output_row_count) + ",";
+          Hyrise::get().cardinality_statistics += std::to_string(aggregate_performance_data->output_row_count) + ",";
+          Hyrise::get().cardinality_statistics += std::to_string(cardinality_estimator.estimate_cardinality(node->right_input()->lqp_node)) + ",";
+          Hyrise::get().cardinality_statistics += std::to_string(cardinality_estimator.estimate_cardinality(aggregate_op->lqp_node)) + "\n";
+          }
         }
       }
       
