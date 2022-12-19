@@ -91,6 +91,12 @@ std::string EquiWidthHistogram<T>::name() const {
 }
 
 template <typename T>
+struct ValueCarrier {
+    T value;
+    float mapping;
+};
+
+template <typename T>
 std::shared_ptr<EquiWidthHistogram<T>> EquiWidthHistogram<T>::from_column(const Table& table,
                                                                             const ColumnID column_id,
                                                                             const BinID max_bin_count,
@@ -121,61 +127,73 @@ std::shared_ptr<EquiWidthHistogram<T>> EquiWidthHistogram<T>::from_column(const 
   //const auto values_per_bin = std::ceil((float) value_distribution.size() / (float) bin_count);
 
   // Initialize the resulting data structures.
-  std::vector<T> bin_minima(bin_count);
-  std::vector<T> bin_maxima(bin_count);
+  std::vector<float> bin_minima(bin_count);
+  std::vector<float> bin_maxima(bin_count);
   std::vector<HistogramCountType> bin_heights(bin_count, 0);
   std::vector<HistogramCountType> bin_distinct_counts(bin_count, 0);
 
-  float maxValue;
-  float minValue;
+  ValueCarrier<T> maxValue;
+  maxValue.value = value_distribution[value_distribution.size() - 1].first;
+  ValueCarrier<T> minValue;
+  minValue.value = value_distribution[0].first;
 
   if constexpr (std::is_same_v<T, pmr_string>) {
-    maxValue = static_cast<float>(domain.string_to_number(value_distribution[value_distribution.size() - 1].first));
-    minValue = static_cast<float>(domain.string_to_number(value_distribution[0].first));
+    maxValue.mapping = static_cast<float>(domain.string_to_number(value_distribution[value_distribution.size() - 1].first));
+    minValue.mapping = static_cast<float>(domain.string_to_number(value_distribution[0].first));
   } else {
     if constexpr (std::is_same_v<T, float>) {
-        maxValue = value_distribution[value_distribution.size() - 1].first;
-        minValue = value_distribution[0].first;
+        maxValue.mapping = value_distribution[value_distribution.size() - 1].first;
+        minValue.mapping = value_distribution[0].first;
     } else {
-        maxValue = (float) value_distribution[value_distribution.size() - 1].first;
-        minValue = (float) value_distribution[0].first;
+        maxValue.mapping = (float) value_distribution[value_distribution.size() - 1].first;
+        minValue.mapping = (float) value_distribution[0].first;
     }
   }
 
-  const auto bin_range = (maxValue - minValue + 1) / (float) bin_count;
+  const auto bin_range = (maxValue.mapping - minValue.mapping + 1) / (float) bin_count;
 
   // The offset is always the minimal value in the distribution.
   // "The starting point"
   for (auto bin_id = BinID{0}; bin_id < bin_count; ++bin_id) {
-    const auto lower_barrier = ((float) bin_id * bin_range) + minValue;
-    const auto higher_barrier = ((float) bin_id * bin_range + bin_range) + minValue;
+    const auto lower_barrier = ((float) bin_id * bin_range) + minValue.mapping;
+    const auto higher_barrier = ((float) bin_id * bin_range + bin_range) + minValue.mapping;
 
-    if constexpr (std::is_same_v<T, pmr_string>) {
-        bin_minima[bin_id] = (char) ((uint32_t) std::floor(lower_barrier));
-        bin_maxima[bin_id] = (char) ((uint32_t) std::floor(higher_barrier));
-    } else {
-        if constexpr (std::is_same_v<T, float>) {
-            bin_minima[bin_id] = lower_barrier;
-            bin_maxima[bin_id] = higher_barrier;
-        } else {
-            bin_minima[bin_id] = (uint32_t) std::floor(lower_barrier);
-            bin_maxima[bin_id] = (uint32_t) std::floor(higher_barrier);
-        }
-    }
+    bin_minima[bin_id] = lower_barrier;
+    bin_maxima[bin_id] = higher_barrier;
   }
 
+  std::vector<T> realMaxima(bin_count);
+  std::vector<T> realMinima(bin_count);
+
   auto last_seen_bin = BinID{0};
+  realMinima[last_seen_bin] = value_distribution[0].first;
   for (auto value_index = uint32_t{0}; value_index < value_distribution.size(); ++value_index) {
       const auto value = value_distribution[value_index];
-      if (value.first >= bin_maxima.at(last_seen_bin) && last_seen_bin < (bin_count-1)) ++last_seen_bin;
+      realMaxima[last_seen_bin] = value.first;
 
-      if (value.first >= bin_minima.at(last_seen_bin) && value.first < bin_maxima.at(last_seen_bin)) {
+      float valueMapping;
+      if constexpr (std::is_same_v<T, pmr_string>) {
+          valueMapping = (static_cast<float>(domain.string_to_number(value.first)));
+      } else {
+          if constexpr (std::is_same_v<T, float>) {
+              valueMapping = value.first;
+          } else {
+              valueMapping = (float) value.first;
+          }
+      }
+
+      if (valueMapping >= bin_maxima.at(last_seen_bin) && last_seen_bin < (bin_count-1)) {
+          ++last_seen_bin;
+          realMinima[last_seen_bin] = value.first;
+      }
+
+      if (valueMapping >= bin_minima.at(last_seen_bin) && valueMapping < bin_maxima.at(last_seen_bin)) {
           bin_heights[last_seen_bin] += value.second;
           bin_distinct_counts[last_seen_bin] += 1;
       }
   }
 
-  return std::make_shared<EquiWidthHistogram<T>>(std::move(bin_minima), std::move(bin_maxima), std::move(bin_heights), std::move(bin_distinct_counts), total_count);
+  return std::make_shared<EquiWidthHistogram<T>>(std::move(realMaxima), std::move(realMinima), std::move(bin_heights), std::move(bin_distinct_counts), total_count);
 }
 
 template <typename T>
