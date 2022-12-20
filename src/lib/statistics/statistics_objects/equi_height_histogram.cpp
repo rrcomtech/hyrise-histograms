@@ -82,7 +82,9 @@ EquiHeightHistogram<T>::EquiHeightHistogram(std::vector<T>&& bin_minima, std::ve
       _bin_maxima(std::move(bin_maxima)),
       _bin_heights(std::move(bin_height)),
       _bin_distinct_counts(std::move(bin_distinct_counts)),
-      _total_count{total_count} {}
+      _total_count{total_count} {
+        _total_distinct_count = std::accumulate(_bin_distinct_counts.cbegin(), _bin_distinct_counts.cend(), HistogramCountType{0});
+      }
 
 template <typename T>
 std::string EquiHeightHistogram<T>::name() const {
@@ -251,7 +253,7 @@ BinID EquiHeightHistogram<T>::_next_bin_for_value(const T& value) const {
 
 template <typename T>
 HistogramCountType EquiHeightHistogram<T>::total_distinct_count() const {
-  return _total_count;
+  return _total_distinct_count;
 }
 
 template <typename T>

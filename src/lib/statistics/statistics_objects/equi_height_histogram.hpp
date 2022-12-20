@@ -63,6 +63,7 @@ class EquiHeightHistogram : public AbstractHistogram<T> {
 
   // Aggregated counts over all bins, to avoid redundant computation
   HistogramCountType _total_count;
+  HistogramCountType _total_distinct_count;
 };
 
 // For gtest
