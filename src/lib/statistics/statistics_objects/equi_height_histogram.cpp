@@ -86,7 +86,7 @@ EquiHeightHistogram<T>::EquiHeightHistogram(std::vector<T>&& bin_minima, std::ve
 
 template <typename T>
 std::string EquiHeightHistogram<T>::name() const {
-  return "Equi Height";
+  return "EquiHeight";
 }
 
 template <typename T>
