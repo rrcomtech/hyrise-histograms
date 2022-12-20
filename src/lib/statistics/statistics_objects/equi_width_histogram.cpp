@@ -122,11 +122,9 @@ std::shared_ptr<EquiWidthHistogram<T>> EquiWidthHistogram<T>::from_column(const 
   auto bin_width = (static_cast<double>(max_value) - static_cast<double>(min_value)) / static_cast<double>(bin_count);
 
   if (bin_width == 0) {
-    std::cout << "HAMMERTIME";
     ++bin_width;
   }
 
-  std::cout << "VALUUUU:" << max_value << "++" << min_value << "++" << bin_count << "---" << bin_width << std::endl;
   Assert(bin_width > 0, "bin_width must be greater than zero.");
 
   BinID bin_index;
@@ -134,13 +132,13 @@ std::shared_ptr<EquiWidthHistogram<T>> EquiWidthHistogram<T>::from_column(const 
   for (auto value_index = size_t{0}; value_index < value_distribution_size; ++value_index) {
     auto value = value_distribution[value_index].first;
 
-    bin_index = std::floor((value - min_value) / bin_width);
+    bin_index = (u_int32_t) std::floor((float) (value - min_value) / bin_width);
     if (bin_index >= bin_minima.size()) {
       --bin_index;
     }
 
-    bin_heights[value_index] += value_distribution[value_index].second;
-    ++bin_distinct_counts[value_index];
+    bin_heights[bin_index] += value_distribution[value_index].second;
+    ++bin_distinct_counts[bin_index];
 
     if (bin_minima.at(bin_index) > value) {
       bin_minima[bin_index] = value;
