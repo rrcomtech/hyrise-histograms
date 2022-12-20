@@ -108,56 +108,56 @@ std::shared_ptr<EquiWidthHistogram<T>> EquiWidthHistogram<T>::from_column(const 
     bin_count = static_cast<BinID>(value_distribution.size());
   }
 
-  // Find the number of values per bin.
-  //const auto values_per_bin = std::ceil((float) value_distribution.size() / (float) bin_count);
-
-  // Initialize the resulting data structures.
-  std::vector<T> bin_minima(bin_count, std::numeric_limits<T>::max());
-  std::vector<T> bin_maxima(bin_count, std::numeric_limits<T>::min());
-  std::vector<HistogramCountType> bin_heights(bin_count, 0);
-  std::vector<HistogramCountType> bin_distinct_counts(bin_count, 0);
 
   const auto max_value = value_distribution[value_distribution.size() - 1].first;
   const auto min_value = value_distribution[0].first;
   auto bin_width = (static_cast<double>(max_value) - static_cast<double>(min_value)) / static_cast<double>(bin_count);
 
-  if (bin_width == 0) {
-    ++bin_width;
-  }
+  // Initialize the resulting data structures.
+  std::vector<T> bin_minima(bin_count, max_value);
+  std::vector<T> bin_maxima(bin_count, min_value);
+  std::vector<HistogramCountType> bin_heights(bin_count, 0);
+  std::vector<HistogramCountType> bin_distinct_counts(bin_count, 0);
 
-  Assert(bin_width > 0, "bin_width must be greater than zero.");
+  if (bin_width == 0) {
+    Assert(min_value == max_value, "Invalid bin_width without reason!");
+    ++bin_width;  
+  }
 
   BinID bin_index;
   const auto value_distribution_size = value_distribution.size();
   for (auto value_index = size_t{0}; value_index < value_distribution_size; ++value_index) {
-    auto value = value_distribution[value_index].first;
+    const auto value = value_distribution[value_index].first;
+    const auto value_from_min_value = value - min_value;
 
-    bin_index = (u_int32_t) std::floor((float) (value - min_value) / bin_width);
-    if (bin_index >= bin_minima.size()) {
-      --bin_index;
+    if (value == max_value) {
+      bin_index = bin_count - 1;
+    } else {
+      bin_index = std::floor(value_from_min_value / bin_width);
     }
+
+    Assert(bin_index < bin_minima.size(), "bin_index out of range!");
 
     bin_heights[bin_index] += value_distribution[value_index].second;
     ++bin_distinct_counts[bin_index];
 
-    if (bin_minima.at(bin_index) > value) {
+    if (bin_minima[bin_index] > value) {
       bin_minima[bin_index] = value;
     }
     if (bin_maxima[bin_index] < value) {
       bin_maxima[bin_index] = value;
     }
+    
+    if (bin_maxima[bin_index] < bin_minima[bin_index]) {
+      std::cout << "\n\n\n\n\nSetting wrond bin!\n" << std::endl;
+      std::cout << "value: " << value << "\n min_value: " << min_value << "\nmax_value: " << max_value << "\nbin_width: " << bin_width << std::endl;
+      std::cout << "value - min_value: " << value_from_min_value << "\nbin_index: " << bin_index << "\nbin_count: " << bin_count << std::endl;
+      std::cout << "bin_min: " << bin_minima[bin_index] << " bin_max: " << bin_maxima[bin_index] << std::endl;
+    }
+
   }
 
-  // Print the calculated bins.
-  // for (unsigned int i = 0; i < bin_count; ++i) {
-  //   std::cout << "### Bin " << (i+1) << " ###" << std::endl;
-  //   std::cout << "Minimum: " << bin_minima[i] << std::endl;
-  //   std::cout << "Maximum: " << bin_maxima[i] << std::endl;
-  //   std::cout << bin_heights[i] << " Values." << std::endl;
-  //   std::cout << bin_distinct_counts[i] << " Distinct Values." << std::endl;
-  // }
-
-  return std::make_shared<EquiWidthHistogram<T>>(std::move(bin_maxima), std::move(bin_minima), std::move(bin_heights), std::move(bin_distinct_counts), total_count);
+  return std::make_shared<EquiWidthHistogram<T>>(std::move(bin_minima), std::move(bin_maxima), std::move(bin_heights), std::move(bin_distinct_counts), total_count);
 }
 
 template <typename T>

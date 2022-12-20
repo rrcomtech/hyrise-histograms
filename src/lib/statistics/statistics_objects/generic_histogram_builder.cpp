@@ -21,6 +21,9 @@ bool GenericHistogramBuilder<T>::empty() const {
 template <typename T>
 void GenericHistogramBuilder<T>::add_bin(const T& min, const T& max, float height, float distinct_count) {
   DebugAssert(_bin_minima.empty() || min > _bin_maxima.back(), "Bins must be sorted and cannot overlap");
+  if (min > max) {
+    std::cout << "INVALIDD: " << min << ", " << max << std::endl;
+  }
   DebugAssert(min <= max, "Invalid bin slice");
 
   _bin_minima.emplace_back(min);
