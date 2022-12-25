@@ -110,7 +110,6 @@ std::shared_ptr<EquiWidthHistogram<T>> EquiWidthHistogram<T>::from_column(const 
     bin_count = static_cast<BinID>(value_distribution.size());
   }
 
-
   const auto max_value = value_distribution[value_distribution.size() - 1].first;
   const auto min_value = value_distribution[0].first;
   auto bin_width = (static_cast<double>(max_value) - static_cast<double>(min_value)) / static_cast<double>(bin_count);
@@ -135,7 +134,7 @@ std::shared_ptr<EquiWidthHistogram<T>> EquiWidthHistogram<T>::from_column(const 
     if (value == max_value) {
       bin_index = bin_count - 1;
     } else {
-      bin_index = std::floor(value_from_min_value / bin_width);
+      bin_index = static_cast<uint32_t>(std::floor(static_cast<double>(value_from_min_value) / bin_width));
     }
 
     Assert(bin_index < bin_minima.size(), "bin_index out of range!");
