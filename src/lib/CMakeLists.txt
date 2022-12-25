@@ -408,6 +408,8 @@ set(
     statistics/statistics_objects/equi_height_histogram.hpp
     statistics/statistics_objects/equi_width_histogram.cpp
     statistics/statistics_objects/equi_width_histogram.hpp
+    statistics/statistics_objects/max_diff_fr_histogram.cpp
+    statistics/statistics_objects/max_diff_fr_histogram.cpp
     statistics/statistics_objects/generic_histogram.cpp
     statistics/statistics_objects/generic_histogram.hpp
     statistics/statistics_objects/generic_histogram_builder.cpp
