@@ -124,7 +124,7 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
 
   // TODO(robert, tobias): What is the best beta?
   // Currently, the average frequency of a term is used.
-  const auto beta = std::ceil(total_count / static_cast<float>(value_distribution.size()));
+  const auto beta = total_count / static_cast<float>(value_distribution.size());
 
   auto bin_index = BinID{0};
   bin_minima[0] = value_distribution[0].first;

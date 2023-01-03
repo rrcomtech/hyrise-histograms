@@ -12,6 +12,7 @@
 #include "statistics/statistics_objects/abstract_histogram.hpp"
 #include "statistics/statistics_objects/equi_height_histogram.hpp"
 #include "statistics/statistics_objects/equi_width_histogram.hpp"
+#include "statistics/statistics_objects/max_diff_fr_histogram.hpp"
 #include "storage/table.hpp"
 #include "utils/assert.hpp"
 
@@ -48,11 +49,11 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
         const auto HISTORAM_TYPE = std::getenv("HISTOGRAM");
 
         if (HISTORAM_TYPE) {
-            // clang-tidy wants the != 0 part.
             if (strcmp(HISTORAM_TYPE, "EquiHeightHistogram") == 0) {
                 PerformanceWarning("EquiHeightHistogram is used!");
                 histogram = EquiHeightHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
             } else if (strcmp(HISTORAM_TYPE, "EquiWidthHistogram") == 0) {
+              // EquiWidth cannot handle strings well. Therefore, EquiHeight will be used in that case.
               if constexpr (std::is_same_v<ColumnDataType, pmr_string>) {
                 PerformanceWarning("Fallback EquiHeightHistogram is used!");
                 histogram = EquiHeightHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
@@ -61,8 +62,17 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
                 histogram = EquiWidthHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
               }
             } else if (strcmp(HISTORAM_TYPE, "EqualDistinctCountHistogram") == 0) {
-              PerformanceWarning("EqualDistinctCountHistogram is used!");
-              histogram = EqualDistinctCountHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
+                PerformanceWarning("EqualDistinctCountHistogram is used!");
+                histogram = EqualDistinctCountHistogram<ColumnDataType>::from_column(table, column_id,
+                                                                                     histogram_bin_count);
+            } else if (strcmp(HISTORAM_TYPE, "MaxDiffHistogram") == 0) {
+                if constexpr (std::is_same_v<ColumnDataType, pmr_string>) {
+                    PerformanceWarning("Fallback EquiHeightHistogram is used!");
+                    histogram = EquiHeightHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
+                } else {
+                    PerformanceWarning("MaxDiffHistogram (Frequency-based) is used!");
+                    histogram = MaxDiffFrHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
+                }
             } else {
               Fail("Unknown Histogram specified!");
             }
