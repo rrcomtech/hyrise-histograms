@@ -106,7 +106,6 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
                                                                             const BinID max_bin_count,
                                                                             const HistogramDomain<T>& domain) {
   Assert(max_bin_count > 0, "max_bin_count must be greater than zero ");
-  PerformanceWarning("Starting to construct MaxDiffHist");
 
   // Compute the value distribution. Basically, counting how many times each value appears in
   // the column.
@@ -148,8 +147,13 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
 
   std::sort(distances.begin(), distances.end(), sortDistance);
   std::reverse(distances.begin(), distances.end()); // Order is not important, but we want to resize later on.
-  const auto nlargest = std::max(static_cast<uint32_t>(static_cast<double>(distances.size()) * ratio), uint32_t{1});
+  auto nlargest = std::max(static_cast<uint32_t>(static_cast<double>(distances.size()) * ratio), uint32_t{1});
+  if (nlargest > bin_count - 1 && bin_count > 1) nlargest = bin_count - 1;
+
+  Assert(nlargest > 0, "nlargest cannot be smaller than 1 (current: " + std::to_string(nlargest) + ").");
   distances.resize(nlargest);
+
+  Assert(bin_count > 0, "Too few buckets");
 
   auto bucket_index = uint32_t{0};
   bin_minima[0] = value_distribution[0].first;
@@ -166,6 +170,7 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
     if (index_contained) {
       // New Bucket
       ++bucket_index;
+      Assert(bucket_index < bin_count, "Bucket Index became too large (Bin Count: " + std::to_string(bin_count) + ", Bucket Index: " + std::to_string(bucket_index));
       bin_minima[bucket_index] = value.first;
     }
 
@@ -174,7 +179,7 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
     bin_heights[bucket_index] += value.second;
   }
 
-  // Cleans up every buckets, that has not been used so far.
+  // Cleans up all buckets, that has not been used so far.
   auto usedBuckets = 0;
   for (const auto height : bin_heights) {
     if (height > 0) ++usedBuckets;
@@ -192,7 +197,6 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
     actual_bin_distinct_counts[ind] = bin_distinct_counts[ind];
   }
 
-  PerformanceWarning("Finished Constructing MaxDiffHistogram");
   return std::make_shared<MaxDiffFrHistogram<T>>(std::move(actual_bin_minima), std::move(actual_bin_maxima), std::move(actual_bin_heights), std::move(actual_bin_distinct_counts), total_count);
 }
 
