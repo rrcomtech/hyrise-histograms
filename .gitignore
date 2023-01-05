@@ -16,6 +16,7 @@ benchmark.json
 *.pyc
 console.log
 .repl_history
+.ipynb_checkpoints
 
 # Visualization results
 *.dot
