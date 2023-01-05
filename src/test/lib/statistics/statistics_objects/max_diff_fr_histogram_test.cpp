@@ -49,15 +49,17 @@ TEST_F(MaxDiffFrHistogramTest, FromColumnString) {
 TEST_F(MaxDiffFrHistogramTest, FromColumnInt) {
     const auto hist = MaxDiffFrHistogram<int32_t>::from_column(*_int_float4, ColumnID{0}, 2u);
 
-    ASSERT_EQ(hist->bin_count(), 1u);
-    EXPECT_EQ(hist->bin(BinID{0}), HistogramBin<int32_t>(12, 123456, 7, 4));
+    ASSERT_EQ(hist->bin_count(), 2u);
+    EXPECT_EQ(hist->bin(BinID{0}), HistogramBin<int32_t>(12, 12345, 4, 3));
+    EXPECT_EQ(hist->bin(BinID{1}), HistogramBin<int32_t>(123456, 123456, 3, 1));
 }
 
 TEST_F(MaxDiffFrHistogramTest, FromColumnFloat) {
     auto hist = MaxDiffFrHistogram<float>::from_column(*_int_float4, ColumnID{1}, 3u);
 
-    ASSERT_EQ(hist->bin_count(), 1u);
-    EXPECT_EQ(hist->bin(BinID{0}), HistogramBin<float>(350.7f, 900.0f, 7, 7));
+    ASSERT_EQ(hist->bin_count(), 2u);
+    EXPECT_EQ(hist->bin(BinID{0}), HistogramBin<float>(350.7f, 800.0f, 6, 6));
+    EXPECT_EQ(hist->bin(BinID{1}), HistogramBin<float>(900.0f, 900.0f, 1, 1));
 }
 
 }  // namespace hyrise

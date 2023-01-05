@@ -89,6 +89,16 @@ std::string MaxDiffFrHistogram<T>::name() const {
   return "MaxDiffFr";
 }
 
+struct ValueDistance {
+  // The distance between the index-th and index+1-th element.
+  uint32_t index;
+  float distance;
+};
+
+bool sortDistance (ValueDistance el1, ValueDistance el2) {
+  return (el1.distance < el2.distance);
+}
+
 template <typename T>
 std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const Table& table,
                                                                             const ColumnID column_id,
@@ -122,33 +132,47 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
   std::vector<HistogramCountType> bin_heights(bin_count, 0);
   std::vector<HistogramCountType> bin_distinct_counts(bin_count, 0);
 
-  // TODO(robert, tobias): What is the best beta?
-  // Currently, the average frequency of a term is used.
-  const auto beta = total_count / static_cast<float>(value_distribution.size());
+  // We state, that the n largest value distances cannot hold values within the same bucket.
+  // This ratio represents the number of corresponding elements.
+  const auto ratio = 0.05f;
 
-  auto bin_index = BinID{0};
+  std::vector<ValueDistance> distances(static_cast<int>(value_distribution.size() - 1));
+  for (auto ind = uint32_t{0}; ind < value_distribution.size() - 1; ++ind) {
+    struct ValueDistance val_dist;
+    val_dist.index = ind;
+    val_dist.distance = std::abs(value_distribution[ind].second - value_distribution[ind + 1].second);
+    distances[ind] = val_dist;
+  }
+
+  std::sort(distances.begin(), distances.end(), sortDistance);
+  std::reverse(distances.begin(), distances.end()); // Order is not important, but we want to resize later on.
+  const auto nlargest = std::max(static_cast<uint32_t>(static_cast<double>(distances.size()) * ratio), uint32_t{1});
+  distances.resize(nlargest);
+
+  auto bucket_index = uint32_t{0};
   bin_minima[0] = value_distribution[0].first;
   bin_maxima[0] = value_distribution[0].first;
   bin_heights[0] = value_distribution[0].second;
   bin_distinct_counts[0] = 1;
-
   for (auto ind = uint32_t{1}; ind < value_distribution.size(); ++ind) {
-    const auto val = value_distribution[ind];
-    auto prevVal = value_distribution[ind - 1];
+    const auto value = value_distribution[ind];
 
-    // If the "difference" between two values is larger than beta --> new bin.
-    const auto distance = std::abs(val.second - prevVal.second);
-    if (distance >= beta && bin_index < bin_count) {
-        // Next Bin
-        ++bin_index;
-        bin_minima[bin_index] = val.first;
+    // TODO(everyone): Ideally, this would be in an own designated function, but it did not work at first, so I put it here...
+    bool index_contained = false;
+    for (auto dist : distances) if ((dist.index+1) == ind) index_contained = true;
+
+    if (index_contained) {
+      // New Bucket
+      ++bucket_index;
+      bin_minima[bucket_index] = value.first;
     }
 
-    bin_maxima[bin_index] = val.first;
-    bin_heights[bin_index] += val.second;
-    bin_distinct_counts[bin_index] += 1;
+    bin_maxima[bucket_index] = value.first;
+    bin_distinct_counts[bucket_index] += 1;
+    bin_heights[bucket_index] += value.second;
   }
 
+  // Cleans up every buckets, that has not been used so far.
   auto usedBuckets = 0;
   for (const auto height : bin_heights) {
     if (height > 0) ++usedBuckets;
