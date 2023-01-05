@@ -6,6 +6,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <fstream>
 
 #include "boost/sort/sort.hpp"
 #include "tsl/robin_map.h"
@@ -105,6 +106,7 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
                                                                             const BinID max_bin_count,
                                                                             const HistogramDomain<T>& domain) {
   Assert(max_bin_count > 0, "max_bin_count must be greater than zero ");
+  PerformanceWarning("Starting to construct MaxDiffHist");
 
   // Compute the value distribution. Basically, counting how many times each value appears in
   // the column.
@@ -190,6 +192,7 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
     actual_bin_distinct_counts[ind] = bin_distinct_counts[ind];
   }
 
+  PerformanceWarning("Finished Constructing MaxDiffHistogram");
   return std::make_shared<MaxDiffFrHistogram<T>>(std::move(actual_bin_minima), std::move(actual_bin_maxima), std::move(actual_bin_heights), std::move(actual_bin_distinct_counts), total_count);
 }
 

@@ -2,8 +2,9 @@
 
 #include <algorithm>
 #include <numeric>
-#include <thread>
+#include <chrono>
 #include <cstdlib>
+#include <fstream>
 
 #include "attribute_statistics.hpp"
 #include "hyrise.hpp"
@@ -48,32 +49,48 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
         // export HISTOGRAM=<type>
         const auto HISTORAM_TYPE = std::getenv("HISTOGRAM");
 
+        auto histogram_name = "";
+
+        const auto start = std::chrono::steady_clock::now();
         if (HISTORAM_TYPE) {
             if (strcmp(HISTORAM_TYPE, "EquiHeightHistogram") == 0) {
-                PerformanceWarning("EquiHeightHistogram is used!");
+                histogram_name = "EquiHeightHistogram";
                 histogram = EquiHeightHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
             } else if (strcmp(HISTORAM_TYPE, "EquiWidthHistogram") == 0) {
               // EquiWidth cannot handle strings well. Therefore, EquiHeight will be used in that case.
               if constexpr (std::is_same_v<ColumnDataType, pmr_string>) {
-                PerformanceWarning("Fallback EquiHeightHistogram is used!");
+                histogram_name = "EquiHeightHistogram";
                 histogram = EquiHeightHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
               } else {
-                PerformanceWarning("EquiWidthHistogram is used!");
+                histogram_name = "EquiWidthHistogram";
                 histogram = EquiWidthHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
               }
             } else if (strcmp(HISTORAM_TYPE, "EqualDistinctCountHistogram") == 0) {
-                PerformanceWarning("EqualDistinctCountHistogram is used!");
+                histogram_name = "EqualDistinctCountHistogram";
                 histogram = EqualDistinctCountHistogram<ColumnDataType>::from_column(table, column_id,
                                                                                      histogram_bin_count);
             } else if (strcmp(HISTORAM_TYPE, "MaxDiffFrequencyHistogram") == 0) {
-                PerformanceWarning("MaxDiffHistogram (Frequency-based) is used!");
+                histogram_name = "MaxDiffHistogram (Frequency-based)";
                 histogram = MaxDiffFrHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
             } else {
               Fail("Unknown Histogram specified!");
             }
         } else {
-          PerformanceWarning("EqualDistinctCountHistogram is used!");
+          histogram_name = "Equal Distinct Count Histogram";
           histogram = EqualDistinctCountHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
+        }
+        const auto end = std::chrono::steady_clock::now();
+        const auto elapsed = static_cast<std::chrono::duration<double>>(end - start);
+        const std::string buf(histogram_name);
+        const std::string help_text(" construction took ");
+        PerformanceWarning(buf + help_text + std::to_string(elapsed.count()) + " s");
+
+        const auto build_time_file = std::getenv("BUILD_TIME");
+        if (build_time_file) {
+          std::ofstream out;
+          out.open(build_time_file, std::ios_base::app);
+          out << histogram_name << "," << elapsed.count() << "\n";
+          out.close();
         }
 
         if (histogram) {
