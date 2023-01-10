@@ -147,11 +147,9 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
 
   std::sort(distances.begin(), distances.end(), sortDistance);
   std::reverse(distances.begin(), distances.end()); // Order is not important, but we want to resize later on.
-  auto nlargest = std::max(static_cast<uint32_t>(static_cast<double>(distances.size()) * ratio), uint32_t{1});
-  if (nlargest > bin_count - 1 && bin_count > 1) nlargest = bin_count - 1;
 
-  Assert(nlargest > 0, "nlargest cannot be smaller than 1 (current: " + std::to_string(nlargest) + ").");
-  distances.resize(nlargest);
+  Assert(bin_count > 0, "Bucket Number cannot be 0.");
+  distances.resize(bin_count);
 
   Assert(bin_count > 0, "Too few buckets");
 
