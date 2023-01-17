@@ -127,16 +127,6 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
     bin_count = static_cast<BinID>(value_distribution.size());
   }
 
-  // Initialize the resulting data structures.
-  std::vector<T> bin_minima(bin_count);
-  std::vector<T> bin_maxima(bin_count);
-  std::vector<HistogramCountType> bin_heights(bin_count, 0);
-  std::vector<HistogramCountType> bin_distinct_counts(bin_count, 0);
-
-  // We state, that the n largest value distances cannot hold values within the same bucket.
-  // This ratio represents the number of corresponding elements.
-  const auto ratio = 0.05f;
-
   std::vector<ValueDistance> distances(static_cast<int>(value_distribution.size() - 1));
   for (auto ind = uint32_t{0}; ind < value_distribution.size() - 1; ++ind) {
     struct ValueDistance val_dist;
@@ -148,10 +138,45 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
   std::sort(distances.begin(), distances.end(), sortDistance);
   std::reverse(distances.begin(), distances.end()); // Order is not important, but we want to resize later on.
 
-  Assert(bin_count > 0, "Bucket Number cannot be 0.");
-  distances.resize(bin_count);
+  // Finds the first index, where the distance is zero.
+  auto firstZeroDistance = uint32_t{0};
+  for (auto ind = uint32_t{0}; ind < distances.size() && ind < bin_count; ++ind) {
+    if (distances[ind].distance == 0) {
+      firstZeroDistance = ind + 1;
+      break;
+    }
+  }
 
-  Assert(bin_count > 0, "Too few buckets");
+  // Every value occurrs exactly once.
+  if (firstZeroDistance == 1) {
+      auto mins = std::vector<T>(1);
+      mins[0] = value_distribution[0].first;
+      auto maxs = std::vector<T>(1);
+      maxs[0] = value_distribution[value_distribution.size() - 1].first;
+      auto heights = std::vector<HistogramCountType>(1);
+      heights[0] = total_count;
+      auto distinct_heights = std::vector<HistogramCountType>(1);
+      distinct_heights[0] = total_count;
+
+      // All distances are 0. Return a single bucket.
+      return std::make_shared<MaxDiffFrHistogram<T>>(
+        std::move(mins),
+        std::move(maxs),
+        std::move(heights),
+        std::move(distinct_heights),
+        total_count
+      );
+  }
+
+  distances.resize(firstZeroDistance);
+  std::reverse(distances.begin(), distances.end());
+  bin_count = firstZeroDistance;
+
+  // Initialize the resulting data structures.
+  std::vector<T> bin_minima(max_bin_count);
+  std::vector<T> bin_maxima(max_bin_count);
+  std::vector<HistogramCountType> bin_heights(max_bin_count, 0);
+  std::vector<HistogramCountType> bin_distinct_counts(max_bin_count, 0);
 
   auto bucket_index = uint32_t{0};
   bin_minima[0] = value_distribution[0].first;
@@ -161,14 +186,21 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
   for (auto ind = uint32_t{1}; ind < value_distribution.size(); ++ind) {
     const auto value = value_distribution[ind];
 
-    // TODO(everyone): Ideally, this would be in an own designated function, but it did not work at first, so I put it here...
-    bool index_contained = false;
-    for (auto dist : distances) if ((dist.index+1) == ind) index_contained = true;
+    // Finds, whether the current index is contained in the MaxDiffs or not.
+    auto index_contained = false;
+    auto prev_index_contained = false;
+    for (auto dist : distances) {
+        if ((dist.index+1) == ind) index_contained = true;
+        if ((dist.index) == ind) prev_index_contained = true;
+    }
 
-    if (index_contained) {
-      // New Bucket
+    /*
+     * When do we go to the next buckets? ==> Iff two adjacent indexes are not in the same group.
+     *      (Group = ["MaxDiff", "NotMaxDiff"])
+     */
+    if (bucket_index < max_bin_count - 1 && prev_index_contained != index_contained) {
       ++bucket_index;
-      Assert(bucket_index < bin_count, "Bucket Index became too large (Bin Count: " + std::to_string(bin_count) + ", Bucket Index: " + std::to_string(bucket_index));
+      Assert(bucket_index < max_bin_count, "Bucket Index became too large (Bin Count: " + std::to_string(max_bin_count) + ", Bucket Index: " + std::to_string(bucket_index));
       bin_minima[bucket_index] = value.first;
     }
 
@@ -193,6 +225,8 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
     actual_bin_maxima[ind] = bin_maxima[ind];
     actual_bin_heights[ind] = bin_heights[ind];
     actual_bin_distinct_counts[ind] = bin_distinct_counts[ind];
+
+    Assert(actual_bin_maxima[ind] >= actual_bin_minima[ind], "Invalid Bin Slice");
   }
 
   return std::make_shared<MaxDiffFrHistogram<T>>(std::move(actual_bin_minima), std::move(actual_bin_maxima), std::move(actual_bin_heights), std::move(actual_bin_distinct_counts), total_count);
