@@ -138,39 +138,7 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
   std::sort(distances.begin(), distances.end(), sortDistance);
   std::reverse(distances.begin(), distances.end()); // Order is not important, but we want to resize later on.
 
-  // Finds the first index, where the distance is zero.
-  auto firstZeroDistance = uint32_t{0};
-  for (auto ind = uint32_t{0}; ind < distances.size() && ind < bin_count; ++ind) {
-    if (distances[ind].distance == 0) {
-      firstZeroDistance = ind + 1;
-      break;
-    }
-  }
-
-  // Every value occurrs exactly once.
-  if (firstZeroDistance == 1) {
-      auto mins = std::vector<T>(1);
-      mins[0] = value_distribution[0].first;
-      auto maxs = std::vector<T>(1);
-      maxs[0] = value_distribution[value_distribution.size() - 1].first;
-      auto heights = std::vector<HistogramCountType>(1);
-      heights[0] = total_count;
-      auto distinct_heights = std::vector<HistogramCountType>(1);
-      distinct_heights[0] = total_count;
-
-      // All distances are 0. Return a single bucket.
-      return std::make_shared<MaxDiffFrHistogram<T>>(
-        std::move(mins),
-        std::move(maxs),
-        std::move(heights),
-        std::move(distinct_heights),
-        total_count
-      );
-  }
-
-  distances.resize(firstZeroDistance);
-  std::reverse(distances.begin(), distances.end());
-  bin_count = firstZeroDistance;
+  distances.resize(std::floor(bin_count/2));
 
   // Initialize the resulting data structures.
   std::vector<T> bin_minima(max_bin_count);
@@ -184,29 +152,43 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
   bin_heights[0] = value_distribution[0].second;
   bin_distinct_counts[0] = 1;
   for (auto ind = uint32_t{1}; ind < value_distribution.size(); ++ind) {
-    const auto value = value_distribution[ind];
+    auto value = value_distribution[ind];
 
     // Finds, whether the current index is contained in the MaxDiffs or not.
     auto index_contained = false;
-    auto prev_index_contained = false;
     for (auto dist : distances) {
-        if ((dist.index+1) == ind) index_contained = true;
-        if ((dist.index) == ind) prev_index_contained = true;
+      if ((dist.index + 1) == ind) index_contained = true;
     }
 
     /*
      * When do we go to the next buckets? ==> Iff two adjacent indexes are not in the same group.
      *      (Group = ["MaxDiff", "NotMaxDiff"])
      */
-    if (bucket_index < max_bin_count - 1 && prev_index_contained != index_contained) {
+    if (index_contained) {
       ++bucket_index;
       Assert(bucket_index < max_bin_count, "Bucket Index became too large (Bin Count: " + std::to_string(max_bin_count) + ", Bucket Index: " + std::to_string(bucket_index));
       bin_minima[bucket_index] = value.first;
+      bin_maxima[bucket_index] = value.first;
+      bin_distinct_counts[bucket_index] += 1;
+      bin_heights[bucket_index] += value.second;
+
+      if (ind != value_distribution.size() - 1) {
+        value = value_distribution[ind + 1];
+        ++bucket_index;
+
+        bin_minima[bucket_index] = value.first;
+        bin_maxima[bucket_index] = value.first;
+        bin_distinct_counts[bucket_index] += 1;
+        bin_heights[bucket_index] += value.second;
+
+        ++ind;
+      }
+    } else {
+      bin_maxima[bucket_index] = value.first;
+      bin_distinct_counts[bucket_index] += 1;
+      bin_heights[bucket_index] += value.second;
     }
 
-    bin_maxima[bucket_index] = value.first;
-    bin_distinct_counts[bucket_index] += 1;
-    bin_heights[bucket_index] += value.second;
   }
 
   // Cleans up all buckets, that has not been used so far.
