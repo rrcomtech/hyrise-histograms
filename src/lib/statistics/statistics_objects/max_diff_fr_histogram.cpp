@@ -136,6 +136,7 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
   // We state, that the n largest value distances cannot hold values within the same bucket.
   // This ratio represents the number of corresponding elements.
   const auto ratio = 0.05f;
+  (void)ratio;
 
   std::vector<ValueDistance> distances(static_cast<int>(value_distribution.size() - 1));
   for (auto ind = uint32_t{0}; ind < value_distribution.size() - 1; ++ind) {

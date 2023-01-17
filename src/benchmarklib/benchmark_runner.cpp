@@ -137,7 +137,13 @@ void BenchmarkRunner::run() {
   const auto CARDINALITIES_FILENAME = std::getenv("CARDINALITIES");
 
   if (CARDINALITIES_FILENAME) {
-    std::ofstream out(CARDINALITIES_FILENAME);
+    auto file_exist = std::filesystem::exists(CARDINALITIES_FILENAME);
+    std::ofstream out(CARDINALITIES_FILENAME, std::ios_base::app);
+
+    if (!file_exist) {
+      out << "benchmark,histogram,query,operator_count,name,operator_type,real_input,real_output,estimated_input,estimated_output\n";
+    }
+
     out << Hyrise::get().cardinality_statistics;
     out.close();
   }

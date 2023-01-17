@@ -37,6 +37,8 @@ using namespace hyrise;  // NOLINT
  */
 
 int main(int argc, char* argv[]) {
+  Hyrise::get().benchmark_type = "TPC-H";
+
   auto cli_options = BenchmarkRunner::get_basic_cli_options("TPC-H/JCC-H Benchmark");
 
   // clang-format off
