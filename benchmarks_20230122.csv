@@ -1,0 +1,1472 @@
+benchmark,histogram,query,operator_count,name,operator_type,real_input,real_output,estimated_input,estimated_output
+TPC-H,EquiHeightHistogram,TPC-H 01,0,TableScan,60175,59775,60175.000000,60148.539062
+TPC-H,EquiHeightHistogram,TPC-H 02,0,TableScan,2000,27,2000.000000,41.111111
+TPC-H,EquiHeightHistogram,TPC-H 02,1,JoinHashLeft,8000,36,8000.000000,16.444445
+TPC-H,EquiHeightHistogram,TPC-H 02,2,JoinHashLeft,100,12,100.000000,20.000002
+TPC-H,EquiHeightHistogram,TPC-H 02,3,JoinHashLeft,100,12,100.000000,20.000002
+TPC-H,EquiHeightHistogram,TPC-H 02,4,JoinHashLeft,25,5,25.000000,5.000000
+TPC-H,EquiHeightHistogram,TPC-H 02,5,JoinHashLeft,25,5,25.000000,5.000000
+TPC-H,EquiHeightHistogram,TPC-H 02,6,TableScan,5,1,5.000000,1.000000
+TPC-H,EquiHeightHistogram,TPC-H 02,7,TableScan,5,1,5.000000,1.000000
+TPC-H,EquiHeightHistogram,TPC-H 03,0,JoinHashLeft,60175,4911,60175.000000,9839.631836
+TPC-H,EquiHeightHistogram,TPC-H 03,1,JoinHashLeft,15000,2536,15000.000000,4311.281250
+TPC-H,EquiHeightHistogram,TPC-H 03,2,TableScan,1500,288,1500.000000,288.000000
+TPC-H,EquiHeightHistogram,TPC-H 04,0,TableScan,15000,544,15000.000000,0.007483
+TPC-H,EquiHeightHistogram,TPC-H 04,1,JoinHashLeft,60175,2227,60175.000000,0.029935
+TPC-H,EquiHeightHistogram,TPC-H 05,0,JoinHashRight,1500,1863,1500.000000,1710.570679
+TPC-H,EquiHeightHistogram,TPC-H 05,1,TableScan,15000,2303,15000.000000,2138.000488
+TPC-H,EquiHeightHistogram,TPC-H 05,2,JoinHashLeft,60175,9284,60175.000000,8552.851562
+TPC-H,EquiHeightHistogram,TPC-H 05,3,JoinHashLeft,100,20,100.000000,20.000002
+TPC-H,EquiHeightHistogram,TPC-H 05,4,JoinHashLeft,25,5,25.000000,5.000000
+TPC-H,EquiHeightHistogram,TPC-H 05,5,TableScan,5,1,5.000000,1.000000
+TPC-H,EquiHeightHistogram,TPC-H 06,0,TableScan,60175,9200,60175.000000,9961.997070
+TPC-H,EquiHeightHistogram,TPC-H 07,0,JoinHashLeft,100,7,100.000000,4.000000
+TPC-H,EquiHeightHistogram,TPC-H 07,1,TableScan,25,1,25.000000,1.000000
+TPC-H,EquiHeightHistogram,TPC-H 07,2,TableScan,25,1,25.000000,1.000000
+TPC-H,EquiHeightHistogram,TPC-H 07,3,JoinHashLeft,15000,1207,15000.000000,898.183716
+TPC-H,EquiHeightHistogram,TPC-H 07,4,JoinHashLeft,60175,4175,60175.000000,2407.000000
+TPC-H,EquiHeightHistogram,TPC-H 07,5,JoinHashLeft,1500,117,1500.000000,60.000000
+TPC-H,EquiHeightHistogram,TPC-H 08,0,JoinHashLeft,25,34,25.000000,54.622559
+TPC-H,EquiHeightHistogram,TPC-H 08,1,JoinHashLeft,100,34,100.000000,54.622562
+TPC-H,EquiHeightHistogram,TPC-H 08,2,JoinHashLeft,1500,302,1500.000000,300.000000
+TPC-H,EquiHeightHistogram,TPC-H 08,3,JoinHashLeft,60175,475,60175.000000,382.402405
+TPC-H,EquiHeightHistogram,TPC-H 08,4,JoinHashLeft,25,5,25.000000,5.000000
+TPC-H,EquiHeightHistogram,TPC-H 08,5,JoinHashLeft,15000,468,15000.000000,382.251434
+TPC-H,EquiHeightHistogram,TPC-H 08,6,TableScan,2000,16,2000.000000,12.709678
+TPC-H,EquiHeightHistogram,TPC-H 08,7,TableScan,5,1,5.000000,1.000000
+TPC-H,EquiHeightHistogram,TPC-H 09,0,JoinHashLeft,8000,436,8000.000000,800.000000
+TPC-H,EquiHeightHistogram,TPC-H 09,1,JoinHashLeft,15000,3370,15000.000000,6015.124023
+TPC-H,EquiHeightHistogram,TPC-H 09,2,JoinHashLeft,100,100,100.000000,100.000000
+TPC-H,EquiHeightHistogram,TPC-H 09,3,JoinHashRight,25,100,25.000000,100.000000
+TPC-H,EquiHeightHistogram,TPC-H 09,4,JoinHashLeft,60175,3370,60175.000000,6017.499512
+TPC-H,EquiHeightHistogram,TPC-H 09,5,TableScan,2000,109,2000.000000,200.000000
+TPC-H,EquiHeightHistogram,TPC-H 10,0,JoinHashLeft,1500,1500,1500.000000,1500.000000
+TPC-H,EquiHeightHistogram,TPC-H 10,1,JoinHashRight,25,1500,25.000000,1500.000000
+TPC-H,EquiHeightHistogram,TPC-H 10,2,JoinHashLeft,60175,2146,60175.000000,8551.914062
+TPC-H,EquiHeightHistogram,TPC-H 10,3,TableScan,15000,531,15000.000000,2137.765625
+TPC-H,EquiHeightHistogram,TPC-H 11,0,JoinHashLeft,8000,560,8000.000000,320.000000
+TPC-H,EquiHeightHistogram,TPC-H 11,1,JoinHashLeft,100,7,100.000000,4.000000
+TPC-H,EquiHeightHistogram,TPC-H 11,2,TableScan,25,1,25.000000,1.000000
+TPC-H,EquiHeightHistogram,TPC-H 12,0,JoinHashLeft,15000,282,15000.000000,1419.252686
+TPC-H,EquiHeightHistogram,TPC-H 12,1,TableScan,60175,8777,60175.000000,9973.998047
+TPC-H,EquiHeightHistogram,TPC-H 13,0,JoinHashLeft,1500,15334,1500.000000,13499.999023
+TPC-H,EquiHeightHistogram,TPC-H 13,1,TableScan,15000,14834,15000.000000,13500.000000
+TPC-H,EquiHeightHistogram,TPC-H 14,0,JoinHashRight,2000,770,2000.000000,666.388611
+TPC-H,EquiHeightHistogram,TPC-H 14,1,TableScan,60175,770,60175.000000,666.388550
+TPC-H,EquiHeightHistogram,TPC-H 15,0,JoinHashRight,100,1,100.000000,1983.007812
+TPC-H,EquiHeightHistogram,TPC-H 15,1,TableScan,60175,2247,60175.000000,1983.007568
+TPC-H,EquiHeightHistogram,TPC-H 16,0,JoinHashLeft,8000,1232,8000.000000,736.702271
+TPC-H,EquiHeightHistogram,TPC-H 16,1,TableScan,100,0,100.000000,10.000000
+TPC-H,EquiHeightHistogram,TPC-H 16,2,TableScan,2000,332,2000.000000,321.966675
+TPC-H,EquiHeightHistogram,TPC-H 17,0,JoinHashLeft,60175,62,60175.000000,60.741035
+TPC-H,EquiHeightHistogram,TPC-H 17,1,TableScan,2000,30,2000.000000,48.500000
+TPC-H,EquiHeightHistogram,TPC-H 18,0,JoinHashLeft,60175,0,60175.000000,59931.007812
+TPC-H,EquiHeightHistogram,TPC-H 18,1,JoinHashRight,1500,0,1500.000000,14939.257812
+TPC-H,EquiHeightHistogram,TPC-H 18,2,JoinHashLeft,15000,0,15000.000000,14939.258789
+TPC-H,EquiHeightHistogram,TPC-H 18,3,Aggregate,60175,15000,60175.000000,60175.000000
+TPC-H,EquiHeightHistogram,TPC-H 19,0,TableScan,2000,74,2000.000000,77.199997
+TPC-H,EquiHeightHistogram,TPC-H 19,1,JoinHashLeft,60175,50,60175.000000,24.005764
+TPC-H,EquiHeightHistogram,TPC-H 19,2,TableScan,2000,77,2000.000000,79.199997
+TPC-H,EquiHeightHistogram,TPC-H 19,3,TableScan,2000,80,2000.000000,77.199997
+TPC-H,EquiHeightHistogram,TPC-H 20,0,JoinHashLeft,100,39,100.000000,0.000001
+TPC-H,EquiHeightHistogram,TPC-H 20,1,JoinHashLeft,25,23,25.000000,0.000001
+TPC-H,EquiHeightHistogram,TPC-H 20,2,JoinHashLeft,8000,72,8000.000000,0.000010
+TPC-H,EquiHeightHistogram,TPC-H 20,3,TableScan,2000,18,2000.000000,0.000002
+TPC-H,EquiHeightHistogram,TPC-H 20,4,JoinHashLeft,60175,558,60175.000000,0.000073
+TPC-H,EquiHeightHistogram,TPC-H 21,0,JoinHashLeft,60175,7239,60175.000000,9660.646484
+TPC-H,EquiHeightHistogram,TPC-H 21,1,TableScan,15000,7304,15000.000000,7304.000000
+TPC-H,EquiHeightHistogram,TPC-H 21,2,JoinHashLeft,100,4,100.000000,4.000000
+TPC-H,EquiHeightHistogram,TPC-H 21,3,JoinHashLeft,60175,2447,60175.000000,2407.000000
+TPC-H,EquiHeightHistogram,TPC-H 21,4,TableScan,25,1,25.000000,1.000000
+TPC-H,EquiHeightHistogram,TPC-H 22,0,JoinHashRight,15000,59,15000.000000,1500.000000
+TPC-H,EquiHeightHistogram,TPC-H 22,1,TableScan,1500,672,1500.000000,1500.000000
+TPC-H,EquiWidthHistogram,TPC-H 01,0,TableScan,60175,59775,60175.000000,60148.539062
+TPC-H,EquiWidthHistogram,TPC-H 02,0,TableScan,2000,27,2000.000000,41.799999
+TPC-H,EquiWidthHistogram,TPC-H 02,1,JoinHashLeft,8000,36,8000.000000,16.719999
+TPC-H,EquiWidthHistogram,TPC-H 02,2,JoinHashLeft,100,12,100.000000,20.000000
+TPC-H,EquiWidthHistogram,TPC-H 02,3,JoinHashLeft,100,12,100.000000,20.000000
+TPC-H,EquiWidthHistogram,TPC-H 02,4,JoinHashLeft,25,5,25.000000,5.000000
+TPC-H,EquiWidthHistogram,TPC-H 02,5,JoinHashLeft,25,5,25.000000,5.000000
+TPC-H,EquiWidthHistogram,TPC-H 02,6,TableScan,5,1,5.000000,1.000000
+TPC-H,EquiWidthHistogram,TPC-H 02,7,TableScan,5,1,5.000000,1.000000
+TPC-H,EquiWidthHistogram,TPC-H 03,0,JoinHashLeft,60175,4911,60175.000000,9795.354492
+TPC-H,EquiWidthHistogram,TPC-H 03,1,JoinHashLeft,15000,2536,15000.000000,4305.524414
+TPC-H,EquiWidthHistogram,TPC-H 03,2,TableScan,1500,288,1500.000000,288.000000
+TPC-H,EquiWidthHistogram,TPC-H 04,0,TableScan,15000,544,15000.000000,0.007483
+TPC-H,EquiWidthHistogram,TPC-H 04,1,JoinHashLeft,60175,2227,60175.000000,0.029840
+TPC-H,EquiWidthHistogram,TPC-H 05,0,JoinHashRight,1500,1863,1500.000000,1705.149414
+TPC-H,EquiWidthHistogram,TPC-H 05,1,TableScan,15000,2303,15000.000000,2138.000488
+TPC-H,EquiWidthHistogram,TPC-H 05,2,JoinHashLeft,60175,9284,60175.000000,8525.747070
+TPC-H,EquiWidthHistogram,TPC-H 05,3,JoinHashLeft,100,20,100.000000,20.000000
+TPC-H,EquiWidthHistogram,TPC-H 05,4,JoinHashLeft,25,5,25.000000,5.000000
+TPC-H,EquiWidthHistogram,TPC-H 05,5,TableScan,5,1,5.000000,1.000000
+TPC-H,EquiWidthHistogram,TPC-H 06,0,TableScan,60175,9200,60175.000000,9961.997070
+TPC-H,EquiWidthHistogram,TPC-H 07,0,JoinHashLeft,100,7,100.000000,4.000000
+TPC-H,EquiWidthHistogram,TPC-H 07,1,TableScan,25,1,25.000000,1.000000
+TPC-H,EquiWidthHistogram,TPC-H 07,2,TableScan,25,1,25.000000,1.000000
+TPC-H,EquiWidthHistogram,TPC-H 07,3,JoinHashLeft,15000,1207,15000.000000,896.984192
+TPC-H,EquiWidthHistogram,TPC-H 07,4,JoinHashLeft,60175,4175,60175.000000,2406.999756
+TPC-H,EquiWidthHistogram,TPC-H 07,5,JoinHashLeft,1500,117,1500.000000,60.000000
+TPC-H,EquiWidthHistogram,TPC-H 08,0,JoinHashLeft,25,34,25.000000,54.535873
+TPC-H,EquiWidthHistogram,TPC-H 08,1,JoinHashLeft,100,34,100.000000,54.535877
+TPC-H,EquiWidthHistogram,TPC-H 08,2,JoinHashLeft,1500,302,1500.000000,300.000000
+TPC-H,EquiWidthHistogram,TPC-H 08,3,JoinHashLeft,60175,475,60175.000000,382.402496
+TPC-H,EquiWidthHistogram,TPC-H 08,4,JoinHashLeft,25,5,25.000000,5.000000
+TPC-H,EquiWidthHistogram,TPC-H 08,5,JoinHashLeft,15000,468,15000.000000,381.644806
+TPC-H,EquiWidthHistogram,TPC-H 08,6,TableScan,2000,16,2000.000000,12.709678
+TPC-H,EquiWidthHistogram,TPC-H 08,7,TableScan,5,1,5.000000,1.000000
+TPC-H,EquiWidthHistogram,TPC-H 09,0,JoinHashLeft,8000,436,8000.000000,799.999939
+TPC-H,EquiWidthHistogram,TPC-H 09,1,JoinHashLeft,15000,3370,15000.000000,6005.575684
+TPC-H,EquiWidthHistogram,TPC-H 09,2,JoinHashLeft,100,100,100.000000,100.000000
+TPC-H,EquiWidthHistogram,TPC-H 09,3,JoinHashRight,25,100,25.000000,100.000000
+TPC-H,EquiWidthHistogram,TPC-H 09,4,JoinHashLeft,60175,3370,60175.000000,6017.500000
+TPC-H,EquiWidthHistogram,TPC-H 09,5,TableScan,2000,109,2000.000000,200.000000
+TPC-H,EquiWidthHistogram,TPC-H 10,0,JoinHashLeft,1500,1500,1500.000000,1500.000000
+TPC-H,EquiWidthHistogram,TPC-H 10,1,JoinHashRight,25,1500,25.000000,1500.000000
+TPC-H,EquiWidthHistogram,TPC-H 10,2,TableScan,15000,531,15000.000000,2137.765625
+TPC-H,EquiWidthHistogram,TPC-H 10,3,JoinHashLeft,60175,2146,60175.000000,8524.810547
+TPC-H,EquiWidthHistogram,TPC-H 11,0,JoinHashLeft,8000,560,8000.000000,320.000000
+TPC-H,EquiWidthHistogram,TPC-H 11,1,JoinHashLeft,100,7,100.000000,4.000000
+TPC-H,EquiWidthHistogram,TPC-H 11,2,TableScan,25,1,25.000000,1.000000
+TPC-H,EquiWidthHistogram,TPC-H 12,0,JoinHashLeft,15000,282,15000.000000,1416.999878
+TPC-H,EquiWidthHistogram,TPC-H 12,1,TableScan,60175,8777,60175.000000,9973.998047
+TPC-H,EquiWidthHistogram,TPC-H 13,0,JoinHashLeft,1500,15334,1500.000000,13500.000000
+TPC-H,EquiWidthHistogram,TPC-H 13,1,TableScan,15000,14834,15000.000000,13500.000000
+TPC-H,EquiWidthHistogram,TPC-H 14,0,JoinHashRight,2000,770,2000.000000,666.388550
+TPC-H,EquiWidthHistogram,TPC-H 14,1,TableScan,60175,770,60175.000000,666.388550
+TPC-H,EquiWidthHistogram,TPC-H 15,0,JoinHashRight,100,1,100.000000,1983.007568
+TPC-H,EquiWidthHistogram,TPC-H 15,1,TableScan,60175,2247,60175.000000,1983.007568
+TPC-H,EquiWidthHistogram,TPC-H 16,0,JoinHashLeft,8000,1232,8000.000000,731.058228
+TPC-H,EquiWidthHistogram,TPC-H 16,1,TableScan,100,0,100.000000,10.000000
+TPC-H,EquiWidthHistogram,TPC-H 16,2,TableScan,2000,332,2000.000000,319.500000
+TPC-H,EquiWidthHistogram,TPC-H 17,0,JoinHashLeft,60175,62,60175.000000,60.741039
+TPC-H,EquiWidthHistogram,TPC-H 17,1,TableScan,2000,30,2000.000000,48.500000
+TPC-H,EquiWidthHistogram,TPC-H 18,0,JoinHashLeft,60175,0,60175.000000,59789.128906
+TPC-H,EquiWidthHistogram,TPC-H 18,1,JoinHashRight,1500,0,1500.000000,14903.198242
+TPC-H,EquiWidthHistogram,TPC-H 18,2,JoinHashLeft,15000,0,15000.000000,14903.197266
+TPC-H,EquiWidthHistogram,TPC-H 18,3,Aggregate,60175,15000,60175.000000,60175.000000
+TPC-H,EquiWidthHistogram,TPC-H 19,0,TableScan,2000,74,2000.000000,77.199997
+TPC-H,EquiWidthHistogram,TPC-H 19,1,JoinHashLeft,60175,50,60175.000000,24.408022
+TPC-H,EquiWidthHistogram,TPC-H 19,2,TableScan,2000,77,2000.000000,79.199997
+TPC-H,EquiWidthHistogram,TPC-H 19,3,TableScan,2000,80,2000.000000,77.199997
+TPC-H,EquiWidthHistogram,TPC-H 20,0,JoinHashLeft,100,39,100.000000,0.000001
+TPC-H,EquiWidthHistogram,TPC-H 20,1,JoinHashLeft,25,23,25.000000,0.000001
+TPC-H,EquiWidthHistogram,TPC-H 20,2,JoinHashLeft,8000,72,8000.000000,0.000010
+TPC-H,EquiWidthHistogram,TPC-H 20,3,TableScan,2000,18,2000.000000,0.000002
+TPC-H,EquiWidthHistogram,TPC-H 20,4,JoinHashLeft,60175,558,60175.000000,0.000073
+TPC-H,EquiWidthHistogram,TPC-H 21,0,TableScan,60175,37897,60175.000000,60175.000000
+TPC-H,EquiWidthHistogram,TPC-H 21,1,JoinHashLeft,60175,7239,60175.000000,9660.219727
+TPC-H,EquiWidthHistogram,TPC-H 21,2,TableScan,15000,7304,15000.000000,7304.000000
+TPC-H,EquiWidthHistogram,TPC-H 21,3,JoinHashLeft,100,4,100.000000,4.000000
+TPC-H,EquiWidthHistogram,TPC-H 21,4,JoinHashLeft,60175,2447,60175.000000,2406.999756
+TPC-H,EquiWidthHistogram,TPC-H 21,5,TableScan,25,1,25.000000,1.000000
+TPC-H,EquiWidthHistogram,TPC-H 22,0,JoinHashRight,15000,59,15000.000000,1500.000000
+TPC-H,EquiWidthHistogram,TPC-H 22,1,TableScan,1500,672,1500.000000,1500.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 01,0,TableScan,60175,59775,60175.000000,60165.917969
+TPC-H,EqualDistinctCountHistogram,TPC-H 02,0,TableScan,2000,27,2000.000000,41.799999
+TPC-H,EqualDistinctCountHistogram,TPC-H 02,1,JoinHashLeft,8000,36,8000.000000,16.719999
+TPC-H,EqualDistinctCountHistogram,TPC-H 02,2,JoinHashLeft,100,12,100.000000,20.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 02,3,JoinHashLeft,100,12,100.000000,20.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 02,4,JoinHashLeft,25,5,25.000000,5.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 02,5,JoinHashLeft,25,5,25.000000,5.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 02,6,TableScan,5,1,5.000000,1.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 02,7,TableScan,5,1,5.000000,1.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 03,0,JoinHashLeft,60175,4911,60175.000000,9788.289062
+TPC-H,EqualDistinctCountHistogram,TPC-H 03,1,JoinHashLeft,15000,2536,15000.000000,4308.431641
+TPC-H,EqualDistinctCountHistogram,TPC-H 03,2,TableScan,1500,288,1500.000000,288.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 04,0,TableScan,15000,544,15000.000000,0.007102
+TPC-H,EqualDistinctCountHistogram,TPC-H 04,1,JoinHashLeft,60175,2227,60175.000000,0.028489
+TPC-H,EqualDistinctCountHistogram,TPC-H 05,0,JoinHashRight,1500,1863,1500.000000,1627.957520
+TPC-H,EqualDistinctCountHistogram,TPC-H 05,1,TableScan,15000,2303,15000.000000,2029.020508
+TPC-H,EqualDistinctCountHistogram,TPC-H 05,2,JoinHashLeft,60175,9284,60175.000000,8139.788574
+TPC-H,EqualDistinctCountHistogram,TPC-H 05,3,JoinHashLeft,100,20,100.000000,20.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 05,4,JoinHashLeft,25,5,25.000000,5.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 05,5,TableScan,5,1,5.000000,1.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 06,0,TableScan,60175,9200,60175.000000,8473.002930
+TPC-H,EqualDistinctCountHistogram,TPC-H 07,0,JoinHashLeft,100,7,100.000000,4.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 07,1,TableScan,25,1,25.000000,1.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 07,2,TableScan,25,1,25.000000,1.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 07,3,JoinHashLeft,15000,1207,15000.000000,897.589722
+TPC-H,EqualDistinctCountHistogram,TPC-H 07,4,JoinHashLeft,60175,4175,60175.000000,2407.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 07,5,JoinHashLeft,1500,117,1500.000000,60.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 08,0,JoinHashLeft,25,34,25.000000,56.300404
+TPC-H,EqualDistinctCountHistogram,TPC-H 08,1,JoinHashLeft,100,34,100.000000,56.300400
+TPC-H,EqualDistinctCountHistogram,TPC-H 08,2,JoinHashLeft,1500,302,1500.000000,300.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 08,3,JoinHashLeft,60175,475,60175.000000,384.117126
+TPC-H,EqualDistinctCountHistogram,TPC-H 08,4,JoinHashLeft,25,5,25.000000,5.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 08,5,JoinHashLeft,15000,468,15000.000000,383.963470
+TPC-H,EqualDistinctCountHistogram,TPC-H 08,6,TableScan,2000,16,2000.000000,12.766666
+TPC-H,EqualDistinctCountHistogram,TPC-H 08,7,TableScan,5,1,5.000000,1.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 09,0,JoinHashLeft,8000,436,8000.000000,800.000061
+TPC-H,EqualDistinctCountHistogram,TPC-H 09,1,JoinHashLeft,15000,3370,15000.000000,6015.092285
+TPC-H,EqualDistinctCountHistogram,TPC-H 09,2,JoinHashLeft,100,100,100.000000,100.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 09,3,JoinHashRight,25,100,25.000000,100.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 09,4,JoinHashLeft,60175,3370,60175.000000,6017.500000
+TPC-H,EqualDistinctCountHistogram,TPC-H 09,5,TableScan,2000,109,2000.000000,200.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 10,0,JoinHashLeft,1500,1500,1500.000000,1500.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 10,1,JoinHashRight,25,1500,25.000000,1500.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 10,2,JoinHashLeft,60175,2146,60175.000000,8138.813477
+TPC-H,EqualDistinctCountHistogram,TPC-H 10,3,TableScan,15000,531,15000.000000,2028.777466
+TPC-H,EqualDistinctCountHistogram,TPC-H 11,0,JoinHashLeft,8000,560,8000.000000,320.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 11,1,JoinHashLeft,100,7,100.000000,4.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 11,2,TableScan,25,1,25.000000,1.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 12,0,JoinHashLeft,15000,282,15000.000000,1446.565552
+TPC-H,EqualDistinctCountHistogram,TPC-H 12,1,TableScan,60175,8777,60175.000000,10165.995117
+TPC-H,EqualDistinctCountHistogram,TPC-H 13,0,JoinHashLeft,1500,15334,1500.000000,13500.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 13,1,TableScan,15000,14834,15000.000000,13500.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 14,0,TableScan,60175,770,60175.000000,23.562426
+TPC-H,EqualDistinctCountHistogram,TPC-H 14,1,JoinHashLeft,2000,663,2000.000000,23.562424
+TPC-H,EqualDistinctCountHistogram,TPC-H 15,0,JoinHashRight,100,1,100.000000,3054.997070
+TPC-H,EqualDistinctCountHistogram,TPC-H 15,1,TableScan,60175,2247,60175.000000,3054.996826
+TPC-H,EqualDistinctCountHistogram,TPC-H 16,0,JoinHashLeft,8000,1232,8000.000000,731.058105
+TPC-H,EqualDistinctCountHistogram,TPC-H 16,1,TableScan,100,0,100.000000,10.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 16,2,TableScan,2000,332,2000.000000,319.500000
+TPC-H,EqualDistinctCountHistogram,TPC-H 17,0,JoinHashLeft,60175,62,60175.000000,57.316700
+TPC-H,EqualDistinctCountHistogram,TPC-H 17,1,TableScan,2000,30,2000.000000,47.625000
+TPC-H,EqualDistinctCountHistogram,TPC-H 18,0,JoinHashLeft,60175,0,60175.000000,59984.304688
+TPC-H,EqualDistinctCountHistogram,TPC-H 18,1,JoinHashRight,1500,0,1500.000000,14952.397461
+TPC-H,EqualDistinctCountHistogram,TPC-H 18,2,JoinHashLeft,15000,0,15000.000000,14952.397461
+TPC-H,EqualDistinctCountHistogram,TPC-H 18,3,Aggregate,60175,15000,60175.000000,60175.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 19,0,TableScan,2000,74,2000.000000,77.199997
+TPC-H,EqualDistinctCountHistogram,TPC-H 19,1,JoinHashLeft,60175,50,60175.000000,25.122337
+TPC-H,EqualDistinctCountHistogram,TPC-H 19,2,TableScan,2000,77,2000.000000,79.199997
+TPC-H,EqualDistinctCountHistogram,TPC-H 19,3,TableScan,2000,80,2000.000000,77.199997
+TPC-H,EqualDistinctCountHistogram,TPC-H 20,0,JoinHashLeft,100,39,100.000000,0.000002
+TPC-H,EqualDistinctCountHistogram,TPC-H 20,1,JoinHashLeft,25,23,25.000000,0.000002
+TPC-H,EqualDistinctCountHistogram,TPC-H 20,2,JoinHashLeft,8000,72,8000.000000,0.000010
+TPC-H,EqualDistinctCountHistogram,TPC-H 20,3,TableScan,2000,18,2000.000000,0.000002
+TPC-H,EqualDistinctCountHistogram,TPC-H 20,4,JoinHashLeft,60175,558,60175.000000,0.000073
+TPC-H,EqualDistinctCountHistogram,TPC-H 21,0,TableScan,60175,37897,60175.000000,60175.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 21,1,JoinHashLeft,60175,7239,60175.000000,9660.179688
+TPC-H,EqualDistinctCountHistogram,TPC-H 21,2,TableScan,15000,7304,15000.000000,7304.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 21,3,JoinHashLeft,100,4,100.000000,4.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 21,4,JoinHashLeft,60175,2447,60175.000000,2407.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 21,5,TableScan,25,1,25.000000,1.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 22,0,JoinHashRight,15000,59,15000.000000,1500.000000
+TPC-H,EqualDistinctCountHistogram,TPC-H 22,1,TableScan,1500,672,1500.000000,1500.000000
+JoinOrder,EqualDistinctCountHistogram,10a,0,JoinHashRight,4,265,4.000000,48.725433
+JoinOrder,EqualDistinctCountHistogram,10a,1,JoinHashLeft,2528312,130,2528312.000000,48.725422
+JoinOrder,EqualDistinctCountHistogram,10a,2,JoinHashLeft,3140339,200,3140339.000000,584.705505
+JoinOrder,EqualDistinctCountHistogram,10a,3,TableScan,12,1,12.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,10a,4,JoinHashLeft,2609129,8790,2609129.000000,7588.776855
+JoinOrder,EqualDistinctCountHistogram,10a,5,JoinHashLeft,36244344,310325,36244344.000000,120605.765625
+JoinOrder,EqualDistinctCountHistogram,10a,6,TableScan,234997,1361,234997.000000,683.500000
+JoinOrder,EqualDistinctCountHistogram,10b,0,JoinHashRight,4,0,4.000000,150.720276
+JoinOrder,EqualDistinctCountHistogram,10b,1,JoinHashLeft,3140339,0,3140339.000000,876.843567
+JoinOrder,EqualDistinctCountHistogram,10b,2,TableScan,12,1,12.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,10b,3,JoinHashLeft,36244344,36999,36244344.000000,18683.285156
+JoinOrder,EqualDistinctCountHistogram,10b,4,JoinHashLeft,2609129,8790,2609129.000000,7588.776855
+JoinOrder,EqualDistinctCountHistogram,10b,5,JoinHashLeft,2528312,6045,2528312.000000,7588.774902
+JoinOrder,EqualDistinctCountHistogram,10b,6,TableScan,234997,1361,234997.000000,683.500000
+JoinOrder,EqualDistinctCountHistogram,10c,0,JoinHashRight,12,14,12.000000,363398.437500
+JoinOrder,EqualDistinctCountHistogram,10c,1,JoinHashRight,4,14,4.000000,363398.406250
+JoinOrder,EqualDistinctCountHistogram,10c,2,JoinHashLeft,2528312,7,2528312.000000,363322.312500
+JoinOrder,EqualDistinctCountHistogram,10c,3,JoinHashLeft,3140339,1,3140339.000000,275779.843750
+JoinOrder,EqualDistinctCountHistogram,10c,4,JoinHashLeft,2609129,1153798,2609129.000000,471647.625000
+JoinOrder,EqualDistinctCountHistogram,10c,5,TableScan,36244344,1435439,36244344.000000,3624434.500000
+JoinOrder,EqualDistinctCountHistogram,10c,6,TableScan,234997,84843,234997.000000,42480.000000
+JoinOrder,EqualDistinctCountHistogram,11a,0,JoinHashLeft,234997,32,234997.000000,0.119126
+JoinOrder,EqualDistinctCountHistogram,11a,1,JoinHashLeft,2528312,26,2528312.000000,0.242745
+JoinOrder,EqualDistinctCountHistogram,11a,2,TableScan,18,2,18.000000,1.800000
+JoinOrder,EqualDistinctCountHistogram,11a,3,JoinHashLeft,2609129,132,2609129.000000,1.549352
+JoinOrder,EqualDistinctCountHistogram,11a,4,JoinHashLeft,29997,250,29997.000000,3.333502
+JoinOrder,EqualDistinctCountHistogram,11a,5,JoinHashLeft,4523930,10544,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,11a,6,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,11a,7,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,11b,0,JoinHashLeft,234997,3,234997.000000,0.136329
+JoinOrder,EqualDistinctCountHistogram,11b,1,JoinHashLeft,2528312,22,2528312.000000,0.242745
+JoinOrder,EqualDistinctCountHistogram,11b,2,TableScan,18,1,18.000000,1.800000
+JoinOrder,EqualDistinctCountHistogram,11b,3,JoinHashLeft,2609129,118,2609129.000000,1.549352
+JoinOrder,EqualDistinctCountHistogram,11b,4,JoinHashLeft,29997,250,29997.000000,3.333502
+JoinOrder,EqualDistinctCountHistogram,11b,5,JoinHashLeft,4523930,10544,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,11b,6,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,11b,7,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,11c,0,JoinHashRight,18,14916,18.000000,3.203964
+JoinOrder,EqualDistinctCountHistogram,11c,1,JoinHashLeft,234997,222,234997.000000,0.722481
+JoinOrder,EqualDistinctCountHistogram,11c,2,JoinHashLeft,2609129,902,2609129.000000,1.409761
+JoinOrder,EqualDistinctCountHistogram,11c,3,TableScan,4,3,4.000000,3.000000
+JoinOrder,EqualDistinctCountHistogram,11c,4,JoinHashLeft,2528312,181,2528312.000000,0.713664
+JoinOrder,EqualDistinctCountHistogram,11c,5,JoinHashLeft,29997,1414,29997.000000,3.333502
+JoinOrder,EqualDistinctCountHistogram,11c,6,JoinHashLeft,4523930,47403,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,11c,7,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,11c,8,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,11c,9,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,11d,0,JoinHashRight,18,14916,18.000000,3.203964
+JoinOrder,EqualDistinctCountHistogram,11d,1,JoinHashLeft,234997,249,234997.000000,0.722481
+JoinOrder,EqualDistinctCountHistogram,11d,2,TableScan,4,3,4.000000,3.000000
+JoinOrder,EqualDistinctCountHistogram,11d,3,JoinHashLeft,2609129,902,2609129.000000,1.409761
+JoinOrder,EqualDistinctCountHistogram,11d,4,JoinHashLeft,2528312,181,2528312.000000,0.713664
+JoinOrder,EqualDistinctCountHistogram,11d,5,JoinHashLeft,29997,1414,29997.000000,3.333502
+JoinOrder,EqualDistinctCountHistogram,11d,6,JoinHashLeft,4523930,47403,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,11d,7,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,11d,8,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,11d,9,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,12a,0,JoinHashLeft,234997,1132,234997.000000,0.003300
+JoinOrder,EqualDistinctCountHistogram,12a,1,JoinHashLeft,4,2,4.000000,0.003300
+JoinOrder,EqualDistinctCountHistogram,12a,2,JoinHashLeft,2609129,1859,2609129.000000,0.003483
+JoinOrder,EqualDistinctCountHistogram,12a,3,JoinHashLeft,2528312,1889,2528312.000000,0.008136
+JoinOrder,EqualDistinctCountHistogram,12a,4,JoinHashLeft,113,5,113.000000,0.008136
+JoinOrder,EqualDistinctCountHistogram,12a,5,JoinHashLeft,1380035,341884,1380035.000000,0.253522
+JoinOrder,EqualDistinctCountHistogram,12a,6,TableScan,14835720,30801,14835720.000000,4.353523
+JoinOrder,EqualDistinctCountHistogram,12a,7,TableScan,14835720,243843,14835720.000000,10.739204
+JoinOrder,EqualDistinctCountHistogram,12a,8,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,12b,0,JoinHashLeft,234997,22,234997.000000,28.286766
+JoinOrder,EqualDistinctCountHistogram,12b,1,JoinHashLeft,2609129,33,2609129.000000,118.465698
+JoinOrder,EqualDistinctCountHistogram,12b,2,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,12b,3,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,12b,4,JoinHashLeft,1380035,10,1380035.000000,12212.701172
+JoinOrder,EqualDistinctCountHistogram,12b,5,JoinHashLeft,14835720,581,14835720.000000,98676.562500
+JoinOrder,EqualDistinctCountHistogram,12b,6,JoinHashLeft,2528312,4,1872962.000000,873.251953
+JoinOrder,EqualDistinctCountHistogram,12b,7,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,12b,8,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,12c,0,JoinHashLeft,234997,12016,234997.000000,0.008069
+JoinOrder,EqualDistinctCountHistogram,12c,1,JoinHashLeft,4,2,4.000000,0.008069
+JoinOrder,EqualDistinctCountHistogram,12c,2,JoinHashLeft,2609129,42471,2609129.000000,0.008517
+JoinOrder,EqualDistinctCountHistogram,12c,3,JoinHashLeft,2528312,20844,2528312.000000,0.008506
+JoinOrder,EqualDistinctCountHistogram,12c,4,JoinHashLeft,113,5,113.000000,0.008506
+JoinOrder,EqualDistinctCountHistogram,12c,5,JoinHashLeft,1380035,399280,1380035.000000,0.123593
+JoinOrder,EqualDistinctCountHistogram,12c,6,TableScan,14835720,243843,14835720.000000,10.739204
+JoinOrder,EqualDistinctCountHistogram,12c,7,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,12c,8,TableScan,14835720,13607,14835720.000000,3.912272
+JoinOrder,EqualDistinctCountHistogram,12c,9,TableScan,14835720,39062,14835720.000000,3.425080
+JoinOrder,EqualDistinctCountHistogram,12c,10,TableScan,14835720,30801,14835720.000000,4.353523
+JoinOrder,EqualDistinctCountHistogram,13a,0,JoinHashLeft,14835720,312596,14835720.000000,173.977234
+JoinOrder,EqualDistinctCountHistogram,13a,1,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,13a,2,JoinHashLeft,234997,93495,234997.000000,1012.223633
+JoinOrder,EqualDistinctCountHistogram,13a,3,JoinHashLeft,2609129,773084,2609129.000000,4187.107910
+JoinOrder,EqualDistinctCountHistogram,13a,4,JoinHashLeft,1380035,459925,1380035.000000,12212.701172
+JoinOrder,EqualDistinctCountHistogram,13a,5,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,13a,6,JoinHashLeft,2528312,459925,2528312.000000,12212.701172
+JoinOrder,EqualDistinctCountHistogram,13a,7,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,13a,8,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,13b,0,JoinHashLeft,14835720,1461,14835720.000000,832.585815
+JoinOrder,EqualDistinctCountHistogram,13b,1,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,13b,2,JoinHashLeft,234997,110,234997.000000,101.222328
+JoinOrder,EqualDistinctCountHistogram,13b,3,JoinHashLeft,2609129,313,2609129.000000,418.710754
+JoinOrder,EqualDistinctCountHistogram,13b,4,JoinHashLeft,1380035,459925,1380035.000000,12212.701172
+JoinOrder,EqualDistinctCountHistogram,13b,5,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,13b,6,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,13b,7,JoinHashLeft,2528312,459925,2528312.000000,12212.701172
+JoinOrder,EqualDistinctCountHistogram,13b,8,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,13c,0,JoinHashLeft,14835720,410,14835720.000000,1362.231445
+JoinOrder,EqualDistinctCountHistogram,13c,1,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,13c,2,JoinHashLeft,234997,32,234997.000000,165.614395
+JoinOrder,EqualDistinctCountHistogram,13c,3,JoinHashLeft,2609129,95,2609129.000000,685.071228
+JoinOrder,EqualDistinctCountHistogram,13c,4,JoinHashLeft,1380035,459925,1380035.000000,12212.701172
+JoinOrder,EqualDistinctCountHistogram,13c,5,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,13c,6,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,13c,7,JoinHashLeft,2200637,356442,1545287.000000,12212.702148
+JoinOrder,EqualDistinctCountHistogram,13c,8,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,13d,0,JoinHashLeft,14835720,4158109,14835720.000000,8325.860352
+JoinOrder,EqualDistinctCountHistogram,13d,1,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,13d,2,JoinHashLeft,234997,93495,234997.000000,1012.223633
+JoinOrder,EqualDistinctCountHistogram,13d,3,JoinHashLeft,2609129,773084,2609129.000000,4187.107910
+JoinOrder,EqualDistinctCountHistogram,13d,4,JoinHashLeft,1380035,459925,1380035.000000,12212.701172
+JoinOrder,EqualDistinctCountHistogram,13d,5,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,13d,6,JoinHashLeft,2528312,459925,2528312.000000,12212.701172
+JoinOrder,EqualDistinctCountHistogram,13d,7,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,13d,8,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,14a,0,JoinHashLeft,7,6,7.000000,0.000433
+JoinOrder,EqualDistinctCountHistogram,14a,1,JoinHashLeft,2528312,14568,2528312.000000,0.002796
+JoinOrder,EqualDistinctCountHistogram,14a,2,JoinHashLeft,134170,99623,134170.000000,0.026229
+JoinOrder,EqualDistinctCountHistogram,14a,3,JoinHashLeft,4523930,2199635,4523930.000000,0.026229
+JoinOrder,EqualDistinctCountHistogram,14a,4,JoinHashLeft,1380035,640551,1380035.000000,0.008392
+JoinOrder,EqualDistinctCountHistogram,14a,5,TableScan,14835720,9863,14835720.000000,7.126759
+JoinOrder,EqualDistinctCountHistogram,14a,6,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,14a,7,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,14a,8,TableScan,14835720,552777,14835720.000000,48.809841
+JoinOrder,EqualDistinctCountHistogram,14a,9,TableScan,14835720,4049,14835720.000000,4.845529
+JoinOrder,EqualDistinctCountHistogram,14a,10,TableScan,14835720,65767,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,14a,11,TableScan,14835720,50792,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,14a,12,TableScan,14835720,12445,14835720.000000,3.010622
+JoinOrder,EqualDistinctCountHistogram,14a,13,TableScan,14835720,7817,14835720.000000,4.217538
+JoinOrder,EqualDistinctCountHistogram,14a,14,TableScan,14835720,3164,14835720.000000,13.019516
+JoinOrder,EqualDistinctCountHistogram,14a,15,TableScan,14835720,0,14835720.000000,1.394377
+JoinOrder,EqualDistinctCountHistogram,14a,16,TableScan,14835720,0,14835720.000000,3.010622
+JoinOrder,EqualDistinctCountHistogram,14b,0,JoinHashLeft,7,2,7.000000,0.000024
+JoinOrder,EqualDistinctCountHistogram,14b,1,JoinHashLeft,2528312,5257,2528312.000000,0.001530
+JoinOrder,EqualDistinctCountHistogram,14b,2,JoinHashLeft,4523930,1339896,4523930.000000,0.014353
+JoinOrder,EqualDistinctCountHistogram,14b,3,JoinHashLeft,134170,86955,134170.000000,0.012752
+JoinOrder,EqualDistinctCountHistogram,14b,4,JoinHashLeft,1380035,640551,1380035.000000,0.008392
+JoinOrder,EqualDistinctCountHistogram,14b,5,TableScan,14835720,9863,14835720.000000,7.126759
+JoinOrder,EqualDistinctCountHistogram,14b,6,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,14b,7,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,14b,8,TableScan,14835720,552777,14835720.000000,48.809841
+JoinOrder,EqualDistinctCountHistogram,14b,9,TableScan,14835720,4049,14835720.000000,4.845529
+JoinOrder,EqualDistinctCountHistogram,14b,10,TableScan,14835720,65767,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,14b,11,TableScan,14835720,50792,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,14b,12,TableScan,14835720,12445,14835720.000000,3.010622
+JoinOrder,EqualDistinctCountHistogram,14b,13,TableScan,14835720,7817,14835720.000000,4.217538
+JoinOrder,EqualDistinctCountHistogram,14b,14,TableScan,14835720,3164,14835720.000000,13.019516
+JoinOrder,EqualDistinctCountHistogram,14b,15,TableScan,14835720,0,14835720.000000,1.394377
+JoinOrder,EqualDistinctCountHistogram,14b,16,TableScan,14835720,0,14835720.000000,3.010622
+JoinOrder,EqualDistinctCountHistogram,14c,0,JoinHashLeft,134170,59425,134170.000000,0.025580
+JoinOrder,EqualDistinctCountHistogram,14c,1,JoinHashLeft,7,6,7.000000,0.001134
+JoinOrder,EqualDistinctCountHistogram,14c,2,JoinHashLeft,2528312,130720,2528312.000000,0.002831
+JoinOrder,EqualDistinctCountHistogram,14c,3,JoinHashLeft,4523930,2199635,4523930.000000,0.026555
+JoinOrder,EqualDistinctCountHistogram,14c,4,JoinHashLeft,1380035,640551,1380035.000000,0.008497
+JoinOrder,EqualDistinctCountHistogram,14c,5,TableScan,14835720,9863,14835720.000000,7.126759
+JoinOrder,EqualDistinctCountHistogram,14c,6,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,14c,7,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,14c,8,TableScan,14835720,552777,14835720.000000,48.809841
+JoinOrder,EqualDistinctCountHistogram,14c,9,TableScan,14835720,4049,14835720.000000,4.845529
+JoinOrder,EqualDistinctCountHistogram,14c,10,TableScan,14835720,65767,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,14c,11,TableScan,14835720,50792,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,14c,12,TableScan,14835720,12445,14835720.000000,3.010622
+JoinOrder,EqualDistinctCountHistogram,14c,13,TableScan,14835720,9536,14835720.000000,1.728141
+JoinOrder,EqualDistinctCountHistogram,14c,14,TableScan,14835720,7817,14835720.000000,4.217538
+JoinOrder,EqualDistinctCountHistogram,14c,15,TableScan,14835720,0,14835720.000000,1.394377
+JoinOrder,EqualDistinctCountHistogram,14c,16,TableScan,14835720,3164,14835720.000000,13.019516
+JoinOrder,EqualDistinctCountHistogram,15a,0,JoinHashLeft,134170,175,134170.000000,29.867598
+JoinOrder,EqualDistinctCountHistogram,15a,1,JoinHashRight,4,57,4.000000,3.975658
+JoinOrder,EqualDistinctCountHistogram,15a,2,JoinHashLeft,4523930,182,4523930.000000,38.139332
+JoinOrder,EqualDistinctCountHistogram,15a,3,JoinHashLeft,234997,33,234997.000000,14.243781
+JoinOrder,EqualDistinctCountHistogram,15a,4,JoinHashLeft,2609129,221,2609129.000000,1424.378052
+JoinOrder,EqualDistinctCountHistogram,15a,5,JoinHashLeft,361472,111,361472.000000,1822.962402
+JoinOrder,EqualDistinctCountHistogram,15a,6,JoinHashLeft,2528312,1755,2528312.000000,1075.113770
+JoinOrder,EqualDistinctCountHistogram,15a,7,JoinHashLeft,12148785,3036719,12148785.000000,107511.398438
+JoinOrder,EqualDistinctCountHistogram,15a,8,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,15b,0,JoinHashLeft,134170,36,134170.000000,1.021447
+JoinOrder,EqualDistinctCountHistogram,15b,1,JoinHashLeft,4523930,37,4523930.000000,1.021448
+JoinOrder,EqualDistinctCountHistogram,15b,2,JoinHashLeft,4,1,4.000000,0.110950
+JoinOrder,EqualDistinctCountHistogram,15b,3,JoinHashLeft,361472,111,361472.000000,1822.962402
+JoinOrder,EqualDistinctCountHistogram,15b,4,JoinHashLeft,2609129,1458,2609129.000000,11.102818
+JoinOrder,EqualDistinctCountHistogram,15b,5,JoinHashLeft,2528312,1755,2528312.000000,1075.113770
+JoinOrder,EqualDistinctCountHistogram,15b,6,JoinHashLeft,12148785,3036719,12148785.000000,107511.398438
+JoinOrder,EqualDistinctCountHistogram,15b,7,TableScan,234997,1,234997.000000,1.020954
+JoinOrder,EqualDistinctCountHistogram,15b,8,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,15c,0,JoinHashLeft,134170,614,134170.000000,2922.822754
+JoinOrder,EqualDistinctCountHistogram,15c,1,JoinHashRight,4,284,4.000000,388.435669
+JoinOrder,EqualDistinctCountHistogram,15c,2,JoinHashLeft,4523930,694,4523930.000000,3731.544189
+JoinOrder,EqualDistinctCountHistogram,15c,3,JoinHashLeft,234997,172,234997.000000,1404.526978
+JoinOrder,EqualDistinctCountHistogram,15c,4,JoinHashLeft,2609129,242,2609129.000000,1404.527344
+JoinOrder,EqualDistinctCountHistogram,15c,5,JoinHashLeft,361472,115,361472.000000,982.172729
+JoinOrder,EqualDistinctCountHistogram,15c,6,JoinHashLeft,2528312,1767,2528312.000000,837.332153
+JoinOrder,EqualDistinctCountHistogram,15c,7,JoinHashLeft,12148785,3036719,9461850.000000,83733.195312
+JoinOrder,EqualDistinctCountHistogram,15c,8,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,15d,0,JoinHashRight,134170,2229,134170.000000,85067.265625
+JoinOrder,EqualDistinctCountHistogram,15d,1,JoinHashRight,4,875,4.000000,18593.033203
+JoinOrder,EqualDistinctCountHistogram,15d,2,JoinHashLeft,4523930,2229,4523930.000000,85067.234375
+JoinOrder,EqualDistinctCountHistogram,15d,3,JoinHashLeft,2609129,1225,2609129.000000,22022.298828
+JoinOrder,EqualDistinctCountHistogram,15d,4,TableScan,234997,84843,234997.000000,42480.000000
+JoinOrder,EqualDistinctCountHistogram,15d,5,JoinHashLeft,361472,557,361472.000000,22261.447266
+JoinOrder,EqualDistinctCountHistogram,15d,6,JoinHashLeft,2528312,10581,2528312.000000,13128.955078
+JoinOrder,EqualDistinctCountHistogram,15d,7,JoinHashLeft,14835720,3036719,14835720.000000,131289.562500
+JoinOrder,EqualDistinctCountHistogram,15d,8,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,16a,0,JoinHashLeft,2528312,23622,2528312.000000,33.711285
+JoinOrder,EqualDistinctCountHistogram,16a,1,JoinHashLeft,4167491,118594,4167491.000000,366.315186
+JoinOrder,EqualDistinctCountHistogram,16a,2,JoinHashLeft,234997,26991,234997.000000,83.339867
+JoinOrder,EqualDistinctCountHistogram,16a,3,JoinHashLeft,2609129,146204,2609129.000000,83.339867
+JoinOrder,EqualDistinctCountHistogram,16a,4,JoinHashLeft,901343,286992,901343.000000,842.621826
+JoinOrder,EqualDistinctCountHistogram,16a,5,JoinHashLeft,36244344,1037924,36244344.000000,542.559570
+JoinOrder,EqualDistinctCountHistogram,16a,6,JoinHashLeft,4523930,41840,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,16a,7,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,16b,0,JoinHashLeft,2528312,23622,2528312.000000,33.711285
+JoinOrder,EqualDistinctCountHistogram,16b,1,JoinHashLeft,4167491,118594,4167491.000000,366.315186
+JoinOrder,EqualDistinctCountHistogram,16b,2,JoinHashLeft,234997,26991,234997.000000,83.339867
+JoinOrder,EqualDistinctCountHistogram,16b,3,JoinHashLeft,2609129,146204,2609129.000000,83.339867
+JoinOrder,EqualDistinctCountHistogram,16b,4,JoinHashLeft,901343,286992,901343.000000,842.621826
+JoinOrder,EqualDistinctCountHistogram,16b,5,JoinHashLeft,36244344,1037924,36244344.000000,542.559570
+JoinOrder,EqualDistinctCountHistogram,16b,6,JoinHashLeft,4523930,41840,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,16b,7,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,16c,0,JoinHashLeft,2528312,23622,2528312.000000,33.711285
+JoinOrder,EqualDistinctCountHistogram,16c,1,JoinHashLeft,4167491,118594,4167491.000000,366.315186
+JoinOrder,EqualDistinctCountHistogram,16c,2,JoinHashLeft,234997,26991,234997.000000,83.339867
+JoinOrder,EqualDistinctCountHistogram,16c,3,JoinHashLeft,2609129,146204,2609129.000000,83.339867
+JoinOrder,EqualDistinctCountHistogram,16c,4,JoinHashLeft,901343,286992,901343.000000,842.621826
+JoinOrder,EqualDistinctCountHistogram,16c,5,JoinHashLeft,36244344,1037924,36244344.000000,542.559570
+JoinOrder,EqualDistinctCountHistogram,16c,6,JoinHashLeft,4523930,41840,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,16c,7,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,16d,0,JoinHashLeft,2528312,23622,2528312.000000,33.711285
+JoinOrder,EqualDistinctCountHistogram,16d,1,JoinHashLeft,4167491,118594,4167491.000000,366.315186
+JoinOrder,EqualDistinctCountHistogram,16d,2,JoinHashLeft,234997,26991,234997.000000,83.339867
+JoinOrder,EqualDistinctCountHistogram,16d,3,JoinHashLeft,2609129,146204,2609129.000000,83.339867
+JoinOrder,EqualDistinctCountHistogram,16d,4,JoinHashLeft,901343,286992,901343.000000,842.621826
+JoinOrder,EqualDistinctCountHistogram,16d,5,JoinHashLeft,36244344,1037924,36244344.000000,542.559570
+JoinOrder,EqualDistinctCountHistogram,16d,6,JoinHashLeft,4523930,41840,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,16d,7,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,17a,0,JoinHashLeft,234997,23499,234997.000000,83.339844
+JoinOrder,EqualDistinctCountHistogram,17a,1,JoinHashLeft,2609129,117207,2609129.000000,83.339844
+JoinOrder,EqualDistinctCountHistogram,17a,2,JoinHashLeft,2528312,40811,2528312.000000,33.717793
+JoinOrder,EqualDistinctCountHistogram,17a,3,JoinHashLeft,1218416,113593,1218416.000000,542.559631
+JoinOrder,EqualDistinctCountHistogram,17a,4,JoinHashLeft,36244344,1037924,36244344.000000,542.559570
+JoinOrder,EqualDistinctCountHistogram,17a,5,JoinHashLeft,4523930,41840,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,17a,6,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,17b,0,JoinHashLeft,234997,9612,234997.000000,11.158068
+JoinOrder,EqualDistinctCountHistogram,17b,1,JoinHashLeft,2528312,4495,2528312.000000,4.759573
+JoinOrder,EqualDistinctCountHistogram,17b,2,JoinHashLeft,2609129,146204,2609129.000000,83.339867
+JoinOrder,EqualDistinctCountHistogram,17b,3,JoinHashLeft,3774281,400862,3774281.000000,542.559631
+JoinOrder,EqualDistinctCountHistogram,17b,4,JoinHashLeft,36244344,1037924,36244344.000000,542.559570
+JoinOrder,EqualDistinctCountHistogram,17b,5,JoinHashLeft,4523930,41840,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,17b,6,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,17c,0,JoinHashLeft,234997,963,234997.000000,6.479522
+JoinOrder,EqualDistinctCountHistogram,17c,1,JoinHashLeft,2528312,184,2528312.000000,2.763898
+JoinOrder,EqualDistinctCountHistogram,17c,2,JoinHashLeft,2609129,146204,2609129.000000,83.339867
+JoinOrder,EqualDistinctCountHistogram,17c,3,JoinHashLeft,3774281,400862,3774281.000000,542.559631
+JoinOrder,EqualDistinctCountHistogram,17c,4,JoinHashLeft,36244344,1037924,36244344.000000,542.559570
+JoinOrder,EqualDistinctCountHistogram,17c,5,JoinHashLeft,4523930,41840,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,17c,6,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,17d,0,JoinHashLeft,234997,3792,234997.000000,83.339844
+JoinOrder,EqualDistinctCountHistogram,17d,1,JoinHashLeft,2609129,9853,2609129.000000,83.339844
+JoinOrder,EqualDistinctCountHistogram,17d,2,JoinHashLeft,2528312,40811,2528312.000000,33.717793
+JoinOrder,EqualDistinctCountHistogram,17d,3,JoinHashLeft,4167491,446684,4167491.000000,542.559631
+JoinOrder,EqualDistinctCountHistogram,17d,4,JoinHashLeft,36244344,1037924,36244344.000000,542.559570
+JoinOrder,EqualDistinctCountHistogram,17d,5,JoinHashLeft,4523930,41840,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,17d,6,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,17e,0,JoinHashLeft,2528312,24307,2528312.000000,15.065200
+JoinOrder,EqualDistinctCountHistogram,17e,1,JoinHashLeft,4167491,322169,4167491.000000,237.042343
+JoinOrder,EqualDistinctCountHistogram,17e,2,JoinHashLeft,36244344,975229,36244344.000000,542.450500
+JoinOrder,EqualDistinctCountHistogram,17e,3,JoinHashLeft,2609129,148487,2609129.000000,83.340096
+JoinOrder,EqualDistinctCountHistogram,17e,4,JoinHashLeft,4523930,41840,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,17e,5,JoinHashLeft,234997,28056,234997.000000,83.340096
+JoinOrder,EqualDistinctCountHistogram,17e,6,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,17f,0,JoinHashLeft,234997,25024,234997.000000,83.339844
+JoinOrder,EqualDistinctCountHistogram,17f,1,JoinHashLeft,2609129,126895,2609129.000000,83.339844
+JoinOrder,EqualDistinctCountHistogram,17f,2,JoinHashLeft,2528312,40811,2528312.000000,33.717793
+JoinOrder,EqualDistinctCountHistogram,17f,3,JoinHashLeft,4167491,446684,4167491.000000,542.559631
+JoinOrder,EqualDistinctCountHistogram,17f,4,JoinHashLeft,36244344,1037924,36244344.000000,542.559570
+JoinOrder,EqualDistinctCountHistogram,17f,5,JoinHashLeft,4523930,41840,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,17f,6,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,18a,0,JoinHashLeft,3184466,52515,3184466.000000,0.156604
+JoinOrder,EqualDistinctCountHistogram,18a,1,JoinHashLeft,2528312,40376,2528312.000000,0.459879
+JoinOrder,EqualDistinctCountHistogram,18a,2,JoinHashLeft,14835720,5685394,14835720.000000,24.969715
+JoinOrder,EqualDistinctCountHistogram,18a,3,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,18a,4,JoinHashLeft,1380035,1006510,1380035.000000,451.930511
+JoinOrder,EqualDistinctCountHistogram,18a,5,TableScan,36244344,1009916,36244344.000000,150.701843
+JoinOrder,EqualDistinctCountHistogram,18a,6,TableScan,36244344,1369355,36244344.000000,195.896286
+JoinOrder,EqualDistinctCountHistogram,18a,7,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,18b,0,JoinHashLeft,2463581,108,2463581.000000,0.003847
+JoinOrder,EqualDistinctCountHistogram,18b,1,JoinHashLeft,36244344,11175,36244344.000000,0.004054
+JoinOrder,EqualDistinctCountHistogram,18b,2,JoinHashLeft,113,1,113.000000,0.000254
+JoinOrder,EqualDistinctCountHistogram,18b,3,JoinHashLeft,2528312,654,2528312.000000,0.002134
+JoinOrder,EqualDistinctCountHistogram,18b,4,JoinHashLeft,1380035,102619,1380035.000000,7.358775
+JoinOrder,EqualDistinctCountHistogram,18b,5,TableScan,14835720,42246,14835720.000000,2.717446
+JoinOrder,EqualDistinctCountHistogram,18b,6,TableScan,14835720,30801,14835720.000000,4.353523
+JoinOrder,EqualDistinctCountHistogram,18b,7,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,18c,0,JoinHashLeft,2528312,26650,2528312.000000,0.026898
+JoinOrder,EqualDistinctCountHistogram,18c,1,JoinHashLeft,3184466,23363,3184466.000000,0.415487
+JoinOrder,EqualDistinctCountHistogram,18c,2,JoinHashLeft,36244344,2764032,36244344.000000,0.428571
+JoinOrder,EqualDistinctCountHistogram,18c,3,JoinHashLeft,1380035,226638,1380035.000000,1.855059
+JoinOrder,EqualDistinctCountHistogram,18c,4,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,18c,5,TableScan,14835720,30801,14835720.000000,4.353523
+JoinOrder,EqualDistinctCountHistogram,18c,6,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,18c,7,TableScan,14835720,47569,14835720.000000,6.176920
+JoinOrder,EqualDistinctCountHistogram,18c,8,TableScan,14835720,21464,14835720.000000,2.697526
+JoinOrder,EqualDistinctCountHistogram,18c,9,TableScan,14835720,12200,14835720.000000,2.475945
+JoinOrder,EqualDistinctCountHistogram,18c,10,TableScan,14835720,34691,14835720.000000,46.797455
+JoinOrder,EqualDistinctCountHistogram,18c,11,TableScan,14835720,42246,14835720.000000,2.717446
+JoinOrder,EqualDistinctCountHistogram,19a,0,JoinHashLeft,234997,27,234997.000000,0.001632
+JoinOrder,EqualDistinctCountHistogram,19a,1,JoinHashLeft,13590555,2163,10903620.000000,0.006236
+JoinOrder,EqualDistinctCountHistogram,19a,2,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,19a,3,JoinHashLeft,901343,14910,901343.000000,0.009321
+JoinOrder,EqualDistinctCountHistogram,19a,4,JoinHashLeft,2609129,367,2609129.000000,0.003184
+JoinOrder,EqualDistinctCountHistogram,19a,5,JoinHashLeft,2528312,76048,2528312.000000,0.006002
+JoinOrder,EqualDistinctCountHistogram,19a,6,JoinHashLeft,3140339,47387,3140339.000000,0.079425
+JoinOrder,EqualDistinctCountHistogram,19a,7,JoinHashLeft,2463581,26243,2463581.000000,0.006002
+JoinOrder,EqualDistinctCountHistogram,19a,8,TableScan,36244344,713828,36244344.000000,108.811295
+JoinOrder,EqualDistinctCountHistogram,19a,9,TableScan,12,1,12.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,19a,10,TableScan,36244344,30776,36244344.000000,151.362183
+JoinOrder,EqualDistinctCountHistogram,19a,11,TableScan,36244344,93095,36244344.000000,23.161448
+JoinOrder,EqualDistinctCountHistogram,19a,12,TableScan,36244344,29778,36244344.000000,23.161448
+JoinOrder,EqualDistinctCountHistogram,19b,0,JoinHashLeft,234997,2,234997.000000,0.000649
+JoinOrder,EqualDistinctCountHistogram,19b,1,JoinHashLeft,13590555,372,10903620.000000,0.003020
+JoinOrder,EqualDistinctCountHistogram,19b,2,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,19b,3,JoinHashLeft,901343,13701,901343.000000,6.128598
+JoinOrder,EqualDistinctCountHistogram,19b,4,JoinHashLeft,2609129,35,2609129.000000,0.088332
+JoinOrder,EqualDistinctCountHistogram,19b,5,JoinHashLeft,3140339,40408,3140339.000000,3.946170
+JoinOrder,EqualDistinctCountHistogram,19b,6,JoinHashLeft,2528312,67634,2528312.000000,3.946170
+JoinOrder,EqualDistinctCountHistogram,19b,7,TableScan,34733550,713828,34733552.000000,97.266121
+JoinOrder,EqualDistinctCountHistogram,19b,8,JoinHashLeft,2463581,23610,2463581.000000,3.946170
+JoinOrder,EqualDistinctCountHistogram,19b,9,TableScan,12,1,12.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,19c,0,JoinHashLeft,234997,1371,234997.000000,0.007656
+JoinOrder,EqualDistinctCountHistogram,19c,1,JoinHashLeft,13590555,20143,10903620.000000,0.015000
+JoinOrder,EqualDistinctCountHistogram,19c,2,JoinHashLeft,2609129,3601,2609129.000000,0.007656
+JoinOrder,EqualDistinctCountHistogram,19c,3,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,19c,4,JoinHashLeft,901343,14910,901343.000000,0.009321
+JoinOrder,EqualDistinctCountHistogram,19c,5,JoinHashLeft,2528312,76048,2528312.000000,0.006002
+JoinOrder,EqualDistinctCountHistogram,19c,6,JoinHashLeft,3140339,47387,3140339.000000,0.079425
+JoinOrder,EqualDistinctCountHistogram,19c,7,JoinHashLeft,2463581,26243,2463581.000000,0.006002
+JoinOrder,EqualDistinctCountHistogram,19c,8,TableScan,36244344,713828,36244344.000000,108.811295
+JoinOrder,EqualDistinctCountHistogram,19c,9,TableScan,12,1,12.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,19c,10,TableScan,36244344,30776,36244344.000000,151.362183
+JoinOrder,EqualDistinctCountHistogram,19c,11,TableScan,36244344,93095,36244344.000000,23.161448
+JoinOrder,EqualDistinctCountHistogram,19c,12,TableScan,36244344,29778,36244344.000000,23.161448
+JoinOrder,EqualDistinctCountHistogram,19d,0,JoinHashLeft,14835720,203570,14835720.000000,0.020409
+JoinOrder,EqualDistinctCountHistogram,19d,1,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,19d,2,JoinHashLeft,234997,7881,234997.000000,0.007656
+JoinOrder,EqualDistinctCountHistogram,19d,3,JoinHashLeft,2609129,44589,2609129.000000,0.007656
+JoinOrder,EqualDistinctCountHistogram,19d,4,JoinHashLeft,901343,14910,901343.000000,0.009321
+JoinOrder,EqualDistinctCountHistogram,19d,5,JoinHashLeft,2528312,76048,2528312.000000,0.006002
+JoinOrder,EqualDistinctCountHistogram,19d,6,JoinHashLeft,3140339,47387,3140339.000000,0.079425
+JoinOrder,EqualDistinctCountHistogram,19d,7,JoinHashLeft,2463581,26243,2463581.000000,0.006002
+JoinOrder,EqualDistinctCountHistogram,19d,8,TableScan,36244344,713828,36244344.000000,108.811295
+JoinOrder,EqualDistinctCountHistogram,19d,9,TableScan,12,1,12.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,19d,10,TableScan,36244344,30776,36244344.000000,151.362183
+JoinOrder,EqualDistinctCountHistogram,19d,11,TableScan,36244344,93095,36244344.000000,23.161448
+JoinOrder,EqualDistinctCountHistogram,19d,12,TableScan,36244344,29778,36244344.000000,23.161448
+JoinOrder,EqualDistinctCountHistogram,1a,0,JoinHashLeft,2528312,105,2528312.000000,659.469666
+JoinOrder,EqualDistinctCountHistogram,1a,1,JoinHashLeft,1380035,250,1380035.000000,12212.701172
+JoinOrder,EqualDistinctCountHistogram,1a,2,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,1a,3,JoinHashLeft,2609129,8309,2609129.000000,29309.765625
+JoinOrder,EqualDistinctCountHistogram,1a,4,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,1b,0,JoinHashLeft,2528312,3,2528312.000000,6594.690918
+JoinOrder,EqualDistinctCountHistogram,1b,1,JoinHashLeft,1380035,10,1380035.000000,12212.701172
+JoinOrder,EqualDistinctCountHistogram,1b,2,JoinHashLeft,2609129,120,2609129.000000,29309.765625
+JoinOrder,EqualDistinctCountHistogram,1b,3,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,1b,4,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,1c,0,JoinHashLeft,2528312,8,2528312.000000,659.469666
+JoinOrder,EqualDistinctCountHistogram,1c,1,JoinHashLeft,1380035,250,1380035.000000,12212.701172
+JoinOrder,EqualDistinctCountHistogram,1c,2,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,1c,3,JoinHashLeft,2609129,8309,2609129.000000,29309.765625
+JoinOrder,EqualDistinctCountHistogram,1c,4,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,1d,0,JoinHashLeft,2528312,3,2528312.000000,6594.690918
+JoinOrder,EqualDistinctCountHistogram,1d,1,JoinHashLeft,1380035,10,1380035.000000,12212.701172
+JoinOrder,EqualDistinctCountHistogram,1d,2,JoinHashLeft,2609129,120,2609129.000000,29309.765625
+JoinOrder,EqualDistinctCountHistogram,1d,3,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,1d,4,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,20a,0,JoinHashLeft,4167491,5,4167491.000000,0.829507
+JoinOrder,EqualDistinctCountHistogram,20a,1,JoinHashLeft,36244344,377489,36244344.000000,19.829662
+JoinOrder,EqualDistinctCountHistogram,20a,2,JoinHashLeft,3140339,103853,3140339.000000,9.216753
+JoinOrder,EqualDistinctCountHistogram,20a,3,JoinHashLeft,4523930,35548,4523930.000000,269.743195
+JoinOrder,EqualDistinctCountHistogram,20a,4,JoinHashLeft,135086,6448,135086.000000,50.006287
+JoinOrder,EqualDistinctCountHistogram,20a,5,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,20a,6,TableScan,4,2,4.000000,0.400000
+JoinOrder,EqualDistinctCountHistogram,20a,7,JoinHashLeft,2528312,29863,2528312.000000,269.743164
+JoinOrder,EqualDistinctCountHistogram,20a,8,TableScan,134170,8,134170.000000,8.000000
+JoinOrder,EqualDistinctCountHistogram,20a,9,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,20b,0,JoinHashLeft,4167491,5,4167491.000000,0.501002
+JoinOrder,EqualDistinctCountHistogram,20b,1,JoinHashLeft,36244344,144546,36244344.000000,11.976613
+JoinOrder,EqualDistinctCountHistogram,20b,2,JoinHashLeft,3140339,35728,3140339.000000,5.566683
+JoinOrder,EqualDistinctCountHistogram,20b,3,JoinHashLeft,4523930,35548,4523930.000000,269.743195
+JoinOrder,EqualDistinctCountHistogram,20b,4,JoinHashLeft,135086,1206,135086.000000,30.202520
+JoinOrder,EqualDistinctCountHistogram,20b,5,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,20b,6,TableScan,4,2,4.000000,0.400000
+JoinOrder,EqualDistinctCountHistogram,20b,7,JoinHashLeft,2528312,29863,2528312.000000,269.743164
+JoinOrder,EqualDistinctCountHistogram,20b,8,TableScan,134170,8,134170.000000,8.000000
+JoinOrder,EqualDistinctCountHistogram,20b,9,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,20c,0,JoinHashLeft,4167491,3451,4167491.000000,0.695835
+JoinOrder,EqualDistinctCountHistogram,20c,1,JoinHashLeft,3140339,32570,3140339.000000,6.958348
+JoinOrder,EqualDistinctCountHistogram,20c,2,JoinHashLeft,36244344,131110,36244344.000000,14.970758
+JoinOrder,EqualDistinctCountHistogram,20c,3,JoinHashLeft,4523930,24091,4523930.000000,337.178955
+JoinOrder,EqualDistinctCountHistogram,20c,4,JoinHashLeft,135086,1098,135086.000000,37.753147
+JoinOrder,EqualDistinctCountHistogram,20c,5,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,20c,6,TableScan,4,2,4.000000,0.400000
+JoinOrder,EqualDistinctCountHistogram,20c,7,JoinHashLeft,2528312,21046,2528312.000000,337.179016
+JoinOrder,EqualDistinctCountHistogram,20c,8,TableScan,134170,10,134170.000000,10.000000
+JoinOrder,EqualDistinctCountHistogram,20c,9,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,21a,0,JoinHashLeft,14835720,198,14835720.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,21a,1,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,21a,2,JoinHashLeft,234997,39,234997.000000,0.271899
+JoinOrder,EqualDistinctCountHistogram,21a,3,JoinHashLeft,2609129,98,2609129.000000,0.557724
+JoinOrder,EqualDistinctCountHistogram,21a,4,JoinHashLeft,2528312,29,2528312.000000,0.709696
+JoinOrder,EqualDistinctCountHistogram,21a,5,TableScan,18,2,18.000000,1.800000
+JoinOrder,EqualDistinctCountHistogram,21a,6,JoinHashLeft,29997,250,29997.000000,3.333502
+JoinOrder,EqualDistinctCountHistogram,21a,7,JoinHashLeft,4523930,10544,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,21a,8,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,21b,0,JoinHashLeft,4523930,324,4523930.000000,1.491699
+JoinOrder,EqualDistinctCountHistogram,21b,1,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,21b,2,JoinHashLeft,234997,43,234997.000000,0.243757
+JoinOrder,EqualDistinctCountHistogram,21b,3,JoinHashLeft,2609129,254,2609129.000000,0.635482
+JoinOrder,EqualDistinctCountHistogram,21b,4,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,21b,5,JoinHashLeft,2528312,90,2528312.000000,0.324050
+JoinOrder,EqualDistinctCountHistogram,21b,6,TableScan,18,2,18.000000,1.800000
+JoinOrder,EqualDistinctCountHistogram,21b,7,JoinHashLeft,29997,1321,29997.000000,1.508829
+JoinOrder,EqualDistinctCountHistogram,21b,8,TableScan,14835720,65767,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,21b,9,TableScan,14835720,50792,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,21c,0,JoinHashLeft,14835720,517,14835720.000000,0.696677
+JoinOrder,EqualDistinctCountHistogram,21c,1,JoinHashLeft,234997,42,234997.000000,0.243757
+JoinOrder,EqualDistinctCountHistogram,21c,2,JoinHashLeft,2609129,132,2609129.000000,1.164266
+JoinOrder,EqualDistinctCountHistogram,21c,3,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,21c,4,JoinHashLeft,2528312,29,2528312.000000,0.709696
+JoinOrder,EqualDistinctCountHistogram,21c,5,TableScan,18,2,18.000000,1.800000
+JoinOrder,EqualDistinctCountHistogram,21c,6,JoinHashLeft,29997,250,29997.000000,3.333502
+JoinOrder,EqualDistinctCountHistogram,21c,7,JoinHashLeft,4523930,10544,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,21c,8,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,22a,0,JoinHashLeft,134170,11236,134170.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,22a,1,JoinHashLeft,4523930,47177,4523930.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,22a,2,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,22a,3,JoinHashLeft,1380035,6799,1380035.000000,0.000701
+JoinOrder,EqualDistinctCountHistogram,22a,4,JoinHashLeft,234997,2140,234997.000000,0.000234
+JoinOrder,EqualDistinctCountHistogram,22a,5,JoinHashLeft,4,2,4.000000,0.000234
+JoinOrder,EqualDistinctCountHistogram,22a,6,JoinHashLeft,2609129,169798,2609129.000000,0.002686
+JoinOrder,EqualDistinctCountHistogram,22a,7,JoinHashLeft,2528312,585093,2528312.000000,0.004228
+JoinOrder,EqualDistinctCountHistogram,22a,8,TableScan,14835720,50792,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,22a,9,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,22a,10,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,22a,11,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,22a,12,TableScan,14835720,65767,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,22a,13,TableScan,14835720,0,14835720.000000,1.394377
+JoinOrder,EqualDistinctCountHistogram,22a,14,TableScan,14835720,552777,14835720.000000,48.809841
+JoinOrder,EqualDistinctCountHistogram,22b,0,JoinHashLeft,134170,1207,134170.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,22b,1,JoinHashLeft,4523930,1576,4523930.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,22b,2,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,22b,3,JoinHashLeft,1380035,450,1380035.000000,0.000565
+JoinOrder,EqualDistinctCountHistogram,22b,4,JoinHashLeft,234997,251,234997.000000,0.000188
+JoinOrder,EqualDistinctCountHistogram,22b,5,JoinHashLeft,4,2,4.000000,0.000188
+JoinOrder,EqualDistinctCountHistogram,22b,6,JoinHashLeft,2609129,131179,2609129.000000,0.002164
+JoinOrder,EqualDistinctCountHistogram,22b,7,JoinHashLeft,2528312,585093,2528312.000000,0.004228
+JoinOrder,EqualDistinctCountHistogram,22b,8,TableScan,14835720,50792,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,22b,9,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,22b,10,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,22b,11,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,22b,12,TableScan,14835720,65767,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,22b,13,TableScan,14835720,0,14835720.000000,1.394377
+JoinOrder,EqualDistinctCountHistogram,22b,14,TableScan,14835720,552777,14835720.000000,48.809841
+JoinOrder,EqualDistinctCountHistogram,22c,0,JoinHashLeft,134170,35475,134170.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,22c,1,JoinHashLeft,4523930,209414,4523930.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,22c,2,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,22c,3,JoinHashLeft,1380035,34340,1380035.000000,0.000719
+JoinOrder,EqualDistinctCountHistogram,22c,4,JoinHashLeft,234997,5614,234997.000000,0.000240
+JoinOrder,EqualDistinctCountHistogram,22c,5,JoinHashLeft,4,2,4.000000,0.000240
+JoinOrder,EqualDistinctCountHistogram,22c,6,JoinHashLeft,2609129,273891,2609129.000000,0.002755
+JoinOrder,EqualDistinctCountHistogram,22c,7,JoinHashLeft,2528312,609058,2528312.000000,0.002834
+JoinOrder,EqualDistinctCountHistogram,22c,8,TableScan,14835720,9863,14835720.000000,7.126759
+JoinOrder,EqualDistinctCountHistogram,22c,9,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,22c,10,TableScan,14835720,552777,14835720.000000,48.809841
+JoinOrder,EqualDistinctCountHistogram,22c,11,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,22c,12,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,22c,13,TableScan,14835720,4049,14835720.000000,4.845529
+JoinOrder,EqualDistinctCountHistogram,22c,14,TableScan,14835720,65767,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,22c,15,TableScan,14835720,50792,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,22c,16,TableScan,14835720,12445,14835720.000000,3.010622
+JoinOrder,EqualDistinctCountHistogram,22c,17,TableScan,14835720,9536,14835720.000000,1.728141
+JoinOrder,EqualDistinctCountHistogram,22c,18,TableScan,14835720,7817,14835720.000000,4.217538
+JoinOrder,EqualDistinctCountHistogram,22c,19,TableScan,14835720,0,14835720.000000,1.394377
+JoinOrder,EqualDistinctCountHistogram,22c,20,TableScan,14835720,3164,14835720.000000,13.019516
+JoinOrder,EqualDistinctCountHistogram,22d,0,JoinHashLeft,134170,48026,134170.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,22d,1,JoinHashLeft,4523930,338280,4523930.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,22d,2,JoinHashRight,4,286048,4.000000,0.002663
+JoinOrder,EqualDistinctCountHistogram,22d,3,JoinHashLeft,1380035,112759,1380035.000000,0.003404
+JoinOrder,EqualDistinctCountHistogram,22d,4,JoinHashLeft,234997,56955,234997.000000,0.002663
+JoinOrder,EqualDistinctCountHistogram,22d,5,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,22d,6,JoinHashLeft,2609129,273891,2609129.000000,0.002755
+JoinOrder,EqualDistinctCountHistogram,22d,7,JoinHashLeft,2528312,609058,2528312.000000,0.002834
+JoinOrder,EqualDistinctCountHistogram,22d,8,TableScan,14835720,9863,14835720.000000,7.126759
+JoinOrder,EqualDistinctCountHistogram,22d,9,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,22d,10,TableScan,14835720,552777,14835720.000000,48.809841
+JoinOrder,EqualDistinctCountHistogram,22d,11,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,22d,12,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,22d,13,TableScan,14835720,4049,14835720.000000,4.845529
+JoinOrder,EqualDistinctCountHistogram,22d,14,TableScan,14835720,65767,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,22d,15,TableScan,14835720,50792,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,22d,16,TableScan,14835720,12445,14835720.000000,3.010622
+JoinOrder,EqualDistinctCountHistogram,22d,17,TableScan,14835720,9536,14835720.000000,1.728141
+JoinOrder,EqualDistinctCountHistogram,22d,18,TableScan,14835720,7817,14835720.000000,4.217538
+JoinOrder,EqualDistinctCountHistogram,22d,19,TableScan,14835720,0,14835720.000000,1.394377
+JoinOrder,EqualDistinctCountHistogram,22d,20,TableScan,14835720,3164,14835720.000000,13.019516
+JoinOrder,EqualDistinctCountHistogram,23a,0,JoinHashLeft,134170,156,134170.000000,1.886848
+JoinOrder,EqualDistinctCountHistogram,23a,1,JoinHashLeft,4523930,156,4523930.000000,2.676555
+JoinOrder,EqualDistinctCountHistogram,23a,2,JoinHashRight,4,5763,4.000000,1074.386963
+JoinOrder,EqualDistinctCountHistogram,23a,3,JoinHashLeft,234997,3722,234997.000000,5943.449219
+JoinOrder,EqualDistinctCountHistogram,23a,4,JoinHashLeft,12148785,190078,9461850.000000,5225.581543
+JoinOrder,EqualDistinctCountHistogram,23a,5,JoinHashLeft,2609129,22452,2609129.000000,6207.683594
+JoinOrder,EqualDistinctCountHistogram,23a,6,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,23a,7,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,23a,8,JoinHashLeft,135086,24592,135086.000000,33771.500000
+JoinOrder,EqualDistinctCountHistogram,23a,9,JoinHashLeft,2528312,19311,2528312.000000,33771.503906
+JoinOrder,EqualDistinctCountHistogram,23a,10,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,23b,0,JoinHashRight,4,315,4.000000,1.582847
+JoinOrder,EqualDistinctCountHistogram,23b,1,JoinHashLeft,12148785,9464,12148785.000000,29.992846
+JoinOrder,EqualDistinctCountHistogram,23b,2,JoinHashLeft,234997,559,234997.000000,8.756220
+JoinOrder,EqualDistinctCountHistogram,23b,3,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,23b,4,JoinHashLeft,2609129,1003,2609129.000000,9.220919
+JoinOrder,EqualDistinctCountHistogram,23b,5,JoinHashLeft,135086,128,135086.000000,15.137963
+JoinOrder,EqualDistinctCountHistogram,23b,6,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,23b,7,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,23b,8,JoinHashLeft,4523930,1133,4523930.000000,134.871597
+JoinOrder,EqualDistinctCountHistogram,23b,9,JoinHashLeft,2528312,1102,2528312.000000,134.871582
+JoinOrder,EqualDistinctCountHistogram,23b,10,TableScan,134170,4,134170.000000,4.000000
+JoinOrder,EqualDistinctCountHistogram,23c,0,JoinHashLeft,134170,164,134170.000000,911.099121
+JoinOrder,EqualDistinctCountHistogram,23c,1,JoinHashLeft,4523930,166,4523930.000000,1124.355713
+JoinOrder,EqualDistinctCountHistogram,23c,2,JoinHashRight,4,18736,4.000000,15707.099609
+JoinOrder,EqualDistinctCountHistogram,23c,3,TableScan,7,4,7.000000,4.000000
+JoinOrder,EqualDistinctCountHistogram,23c,4,JoinHashLeft,12148785,3036719,9461850.000000,83733.195312
+JoinOrder,EqualDistinctCountHistogram,23c,5,JoinHashLeft,2609129,62275,2609129.000000,31437.712891
+JoinOrder,EqualDistinctCountHistogram,23c,6,JoinHashLeft,135086,24592,135086.000000,33771.500000
+JoinOrder,EqualDistinctCountHistogram,23c,7,TableScan,234997,84843,234997.000000,42480.000000
+JoinOrder,EqualDistinctCountHistogram,23c,8,JoinHashLeft,2528312,19311,2528312.000000,33771.503906
+JoinOrder,EqualDistinctCountHistogram,23c,9,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,23c,10,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,24a,0,JoinHashLeft,901343,338,901343.000000,0.386084
+JoinOrder,EqualDistinctCountHistogram,24a,1,JoinHashLeft,3140339,220,3140339.000000,0.248597
+JoinOrder,EqualDistinctCountHistogram,24a,2,JoinHashLeft,2463581,186,2463581.000000,0.248597
+JoinOrder,EqualDistinctCountHistogram,24a,3,JoinHashLeft,36244344,23041,36244344.000000,1.011698
+JoinOrder,EqualDistinctCountHistogram,24a,4,TableScan,12,1,12.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,24a,5,JoinHashLeft,234997,1322,234997.000000,12.520688
+JoinOrder,EqualDistinctCountHistogram,24a,6,JoinHashLeft,13590555,20257,10903620.000000,37.996796
+JoinOrder,EqualDistinctCountHistogram,24a,7,JoinHashLeft,2609129,3265,2609129.000000,12.910387
+JoinOrder,EqualDistinctCountHistogram,24a,8,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,24a,9,JoinHashLeft,4523930,9696,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,24a,10,JoinHashLeft,2528312,6159,2528312.000000,33.717896
+JoinOrder,EqualDistinctCountHistogram,24a,11,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,24a,12,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,24a,13,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,24b,0,JoinHashLeft,901343,98,901343.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,24b,1,JoinHashLeft,3140339,47,3140339.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,24b,2,JoinHashLeft,2463581,10,2463581.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,24b,3,JoinHashLeft,12,2,12.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,24b,4,JoinHashLeft,36244344,220,36244344.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,24b,5,JoinHashLeft,134170,55,134170.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,24b,6,JoinHashLeft,4523930,74,4523930.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,24b,7,JoinHashLeft,113,1,113.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,24b,8,JoinHashLeft,13590555,288,10903620.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,24b,9,JoinHashLeft,2609129,36,2609129.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,24b,10,TableScan,2200637,15,2200637.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,24b,11,JoinHashLeft,234997,28,234997.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,25a,0,JoinHashLeft,3184466,2656,3184466.000000,4.522844
+JoinOrder,EqualDistinctCountHistogram,25a,1,JoinHashLeft,36244344,443054,36244344.000000,4.522844
+JoinOrder,EqualDistinctCountHistogram,25a,2,JoinHashLeft,134170,32586,134170.000000,2.662516
+JoinOrder,EqualDistinctCountHistogram,25a,3,JoinHashLeft,4523930,318037,4523930.000000,2.662515
+JoinOrder,EqualDistinctCountHistogram,25a,4,JoinHashLeft,113,5,113.000000,0.851286
+JoinOrder,EqualDistinctCountHistogram,25a,5,JoinHashLeft,1380035,49239,1380035.000000,0.851926
+JoinOrder,EqualDistinctCountHistogram,25a,6,JoinHashLeft,2528312,30320,2528312.000000,0.284127
+JoinOrder,EqualDistinctCountHistogram,25a,7,TableScan,13590555,30801,13590555.000000,3.988144
+JoinOrder,EqualDistinctCountHistogram,25a,8,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,25b,0,JoinHashLeft,3184466,2,3184466.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,25b,1,JoinHashLeft,36244344,232,36244344.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,25b,2,JoinHashLeft,134170,55,134170.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,25b,3,JoinHashLeft,4523930,74,4523930.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,25b,4,JoinHashLeft,113,1,113.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,25b,5,JoinHashLeft,13590555,370,13590555.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,25b,6,JoinHashLeft,1380035,48,1380035.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,25b,7,JoinHashLeft,113,3,113.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,25b,8,TableScan,2528312,284,2528312.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,25c,0,JoinHashLeft,3184466,8378,3184466.000000,0.428137
+JoinOrder,EqualDistinctCountHistogram,25c,1,JoinHashLeft,36244344,2231916,36244344.000000,0.428137
+JoinOrder,EqualDistinctCountHistogram,25c,2,JoinHashLeft,134170,74080,134170.000000,0.205150
+JoinOrder,EqualDistinctCountHistogram,25c,3,JoinHashLeft,4523930,1393190,4523930.000000,0.252059
+JoinOrder,EqualDistinctCountHistogram,25c,4,JoinHashLeft,1380035,226638,1380035.000000,1.855059
+JoinOrder,EqualDistinctCountHistogram,25c,5,JoinHashLeft,2528312,144595,2528312.000000,0.618684
+JoinOrder,EqualDistinctCountHistogram,25c,6,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,25c,7,TableScan,14835720,30801,14835720.000000,4.353523
+JoinOrder,EqualDistinctCountHistogram,25c,8,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,25c,9,TableScan,14835720,47569,14835720.000000,6.176920
+JoinOrder,EqualDistinctCountHistogram,25c,10,TableScan,14835720,21464,14835720.000000,2.697526
+JoinOrder,EqualDistinctCountHistogram,25c,11,TableScan,14835720,12200,14835720.000000,2.475945
+JoinOrder,EqualDistinctCountHistogram,25c,12,TableScan,14835720,34691,14835720.000000,46.797455
+JoinOrder,EqualDistinctCountHistogram,25c,13,TableScan,14835720,42246,14835720.000000,2.717446
+JoinOrder,EqualDistinctCountHistogram,26a,0,JoinHashLeft,4167491,991,4167491.000000,0.001352
+JoinOrder,EqualDistinctCountHistogram,26a,1,JoinHashLeft,3140339,9784,3140339.000000,0.013525
+JoinOrder,EqualDistinctCountHistogram,26a,2,JoinHashLeft,36244344,37085,36244344.000000,0.029617
+JoinOrder,EqualDistinctCountHistogram,26a,3,JoinHashLeft,1380035,2798,1380035.000000,2.790392
+JoinOrder,EqualDistinctCountHistogram,26a,4,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,26a,5,JoinHashLeft,4523930,24091,4523930.000000,337.178955
+JoinOrder,EqualDistinctCountHistogram,26a,6,JoinHashLeft,135086,1098,135086.000000,37.753147
+JoinOrder,EqualDistinctCountHistogram,26a,7,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,26a,8,TableScan,4,2,4.000000,0.400000
+JoinOrder,EqualDistinctCountHistogram,26a,9,JoinHashLeft,2528312,21046,2528312.000000,337.179016
+JoinOrder,EqualDistinctCountHistogram,26a,10,TableScan,134170,10,134170.000000,10.000000
+JoinOrder,EqualDistinctCountHistogram,26a,11,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,26b,0,JoinHashLeft,4167491,47,4167491.000000,0.034433
+JoinOrder,EqualDistinctCountHistogram,26b,1,JoinHashLeft,3140339,366,3140339.000000,0.344330
+JoinOrder,EqualDistinctCountHistogram,26b,2,JoinHashLeft,36244344,1334,36244344.000000,0.754028
+JoinOrder,EqualDistinctCountHistogram,26b,3,JoinHashLeft,113,2,113.000000,0.046850
+JoinOrder,EqualDistinctCountHistogram,26b,4,JoinHashLeft,1380035,702,1380035.000000,1.478229
+JoinOrder,EqualDistinctCountHistogram,26b,5,JoinHashLeft,4523930,9984,4523930.000000,134.871597
+JoinOrder,EqualDistinctCountHistogram,26b,6,JoinHashLeft,135086,257,135086.000000,11.099585
+JoinOrder,EqualDistinctCountHistogram,26b,7,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,26b,8,TableScan,4,2,4.000000,0.400000
+JoinOrder,EqualDistinctCountHistogram,26b,9,JoinHashLeft,2528312,9089,2528312.000000,134.871582
+JoinOrder,EqualDistinctCountHistogram,26b,10,TableScan,134170,4,134170.000000,4.000000
+JoinOrder,EqualDistinctCountHistogram,26b,11,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,26c,0,JoinHashLeft,4167491,3445,4167491.000000,0.019652
+JoinOrder,EqualDistinctCountHistogram,26c,1,JoinHashLeft,3140339,32537,3140339.000000,0.196523
+JoinOrder,EqualDistinctCountHistogram,26c,2,JoinHashLeft,36244344,131004,36244344.000000,0.430353
+JoinOrder,EqualDistinctCountHistogram,26c,3,JoinHashLeft,1380035,2798,1380035.000000,2.790392
+JoinOrder,EqualDistinctCountHistogram,26c,4,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,26c,5,JoinHashLeft,4523930,24091,4523930.000000,337.178955
+JoinOrder,EqualDistinctCountHistogram,26c,6,JoinHashLeft,135086,1098,135086.000000,37.753147
+JoinOrder,EqualDistinctCountHistogram,26c,7,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,26c,8,TableScan,4,2,4.000000,0.400000
+JoinOrder,EqualDistinctCountHistogram,26c,9,JoinHashLeft,2528312,21046,2528312.000000,337.179016
+JoinOrder,EqualDistinctCountHistogram,26c,10,TableScan,134170,10,134170.000000,10.000000
+JoinOrder,EqualDistinctCountHistogram,26c,11,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,27a,0,JoinHashLeft,4523930,36,4523930.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,27a,1,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,27a,2,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,27a,3,JoinHashLeft,234997,19,234997.000000,0.124422
+JoinOrder,EqualDistinctCountHistogram,27a,4,JoinHashLeft,2609129,44,2609129.000000,0.255216
+JoinOrder,EqualDistinctCountHistogram,27a,5,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,27a,6,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,27a,7,JoinHashLeft,135086,7,135086.000000,0.176418
+JoinOrder,EqualDistinctCountHistogram,27a,8,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,27a,9,JoinHashLeft,2528312,112,2528312.000000,0.324050
+JoinOrder,EqualDistinctCountHistogram,27a,10,TableScan,18,2,18.000000,1.800000
+JoinOrder,EqualDistinctCountHistogram,27a,11,JoinHashLeft,29997,1802,29997.000000,1.508829
+JoinOrder,EqualDistinctCountHistogram,27a,12,TableScan,14835720,9863,14835720.000000,7.126759
+JoinOrder,EqualDistinctCountHistogram,27a,13,TableScan,14835720,50792,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,27a,14,TableScan,14835720,65767,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,27a,15,TableScan,14835720,7817,14835720.000000,4.217538
+JoinOrder,EqualDistinctCountHistogram,27b,0,JoinHashLeft,4523930,14,4523930.000000,1.520372
+JoinOrder,EqualDistinctCountHistogram,27b,1,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,27b,2,JoinHashLeft,234997,9,234997.000000,0.243757
+JoinOrder,EqualDistinctCountHistogram,27b,3,JoinHashLeft,2609129,12,2609129.000000,0.707306
+JoinOrder,EqualDistinctCountHistogram,27b,4,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,27b,5,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,27b,6,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,27b,7,JoinHashLeft,135086,3,135086.000000,0.490087
+JoinOrder,EqualDistinctCountHistogram,27b,8,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,27b,9,JoinHashLeft,2528312,112,2528312.000000,0.324050
+JoinOrder,EqualDistinctCountHistogram,27b,10,TableScan,18,2,18.000000,1.800000
+JoinOrder,EqualDistinctCountHistogram,27b,11,JoinHashLeft,29997,1802,29997.000000,1.508829
+JoinOrder,EqualDistinctCountHistogram,27b,12,TableScan,14835720,9863,14835720.000000,7.126759
+JoinOrder,EqualDistinctCountHistogram,27b,13,TableScan,14835720,50792,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,27b,14,TableScan,14835720,65767,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,27b,15,TableScan,14835720,7817,14835720.000000,4.217538
+JoinOrder,EqualDistinctCountHistogram,27c,0,JoinHashLeft,14835720,200,14835720.000000,0.582669
+JoinOrder,EqualDistinctCountHistogram,27c,1,JoinHashLeft,234997,22,234997.000000,0.201908
+JoinOrder,EqualDistinctCountHistogram,27c,2,JoinHashLeft,2609129,56,2609129.000000,1.065370
+JoinOrder,EqualDistinctCountHistogram,27c,3,JoinHashLeft,4,2,4.000000,0.500000
+JoinOrder,EqualDistinctCountHistogram,27c,4,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,27c,5,JoinHashLeft,135086,13,135086.000000,0.808639
+JoinOrder,EqualDistinctCountHistogram,27c,6,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,27c,7,JoinHashLeft,2528312,29,2528312.000000,0.709696
+JoinOrder,EqualDistinctCountHistogram,27c,8,TableScan,18,2,18.000000,1.800000
+JoinOrder,EqualDistinctCountHistogram,27c,9,JoinHashLeft,29997,250,29997.000000,3.333502
+JoinOrder,EqualDistinctCountHistogram,27c,10,JoinHashLeft,4523930,10544,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,27c,11,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,28a,0,JoinHashLeft,134170,15148,134170.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,28a,1,JoinHashLeft,4523930,49423,4523930.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,28a,2,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,28a,3,JoinHashLeft,1380035,6036,1380035.000000,0.001002
+JoinOrder,EqualDistinctCountHistogram,28a,4,JoinHashLeft,234997,1171,234997.000000,0.000338
+JoinOrder,EqualDistinctCountHistogram,28a,5,JoinHashLeft,4,1,4.000000,0.000338
+JoinOrder,EqualDistinctCountHistogram,28a,6,JoinHashLeft,2609129,29617,2609129.000000,0.003754
+JoinOrder,EqualDistinctCountHistogram,28a,7,JoinHashLeft,4,2,4.000000,0.002189
+JoinOrder,EqualDistinctCountHistogram,28a,8,JoinHashLeft,135086,15141,135086.000000,0.002227
+JoinOrder,EqualDistinctCountHistogram,28a,9,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,28a,10,JoinHashLeft,2528312,609058,2528312.000000,0.002834
+JoinOrder,EqualDistinctCountHistogram,28a,11,TableScan,14835720,9863,14835720.000000,7.126759
+JoinOrder,EqualDistinctCountHistogram,28a,12,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,28a,13,TableScan,14835720,552777,14835720.000000,48.809841
+JoinOrder,EqualDistinctCountHistogram,28a,14,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,28a,15,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,28a,16,TableScan,14835720,4049,14835720.000000,4.845529
+JoinOrder,EqualDistinctCountHistogram,28a,17,TableScan,14835720,65767,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,28a,18,TableScan,14835720,50792,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,28a,19,TableScan,14835720,12445,14835720.000000,3.010622
+JoinOrder,EqualDistinctCountHistogram,28a,20,TableScan,14835720,9536,14835720.000000,1.728141
+JoinOrder,EqualDistinctCountHistogram,28a,21,TableScan,14835720,7817,14835720.000000,4.217538
+JoinOrder,EqualDistinctCountHistogram,28a,22,TableScan,14835720,0,14835720.000000,1.394377
+JoinOrder,EqualDistinctCountHistogram,28a,23,TableScan,14835720,3164,14835720.000000,13.019516
+JoinOrder,EqualDistinctCountHistogram,28b,0,JoinHashLeft,134170,1019,134170.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,28b,1,JoinHashLeft,4523930,1249,4523930.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,28b,2,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,28b,3,JoinHashLeft,1380035,261,1380035.000000,0.032698
+JoinOrder,EqualDistinctCountHistogram,28b,4,JoinHashLeft,234997,151,234997.000000,0.011026
+JoinOrder,EqualDistinctCountHistogram,28b,5,JoinHashLeft,4,1,4.000000,0.011026
+JoinOrder,EqualDistinctCountHistogram,28b,6,JoinHashLeft,2609129,2450,2609129.000000,0.122513
+JoinOrder,EqualDistinctCountHistogram,28b,7,JoinHashLeft,4,2,4.000000,0.071441
+JoinOrder,EqualDistinctCountHistogram,28b,8,JoinHashLeft,135086,1410,135086.000000,0.072682
+JoinOrder,EqualDistinctCountHistogram,28b,9,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,28b,10,JoinHashLeft,2528312,58669,2528312.000000,0.126124
+JoinOrder,EqualDistinctCountHistogram,28b,11,TableScan,14835720,9863,14835720.000000,7.126759
+JoinOrder,EqualDistinctCountHistogram,28b,12,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,28b,13,TableScan,14835720,50792,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,28b,14,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,28b,15,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,28b,16,TableScan,14835720,65767,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,28b,17,TableScan,14835720,7817,14835720.000000,4.217538
+JoinOrder,EqualDistinctCountHistogram,28c,0,JoinHashLeft,134170,19691,134170.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,28c,1,JoinHashLeft,4523930,74106,4523930.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,28c,2,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,28c,3,JoinHashLeft,1380035,5628,1380035.000000,0.000743
+JoinOrder,EqualDistinctCountHistogram,28c,4,JoinHashLeft,234997,1476,234997.000000,0.000248
+JoinOrder,EqualDistinctCountHistogram,28c,5,JoinHashLeft,4,2,4.000000,0.000248
+JoinOrder,EqualDistinctCountHistogram,28c,6,JoinHashLeft,2609129,33278,2609129.000000,0.002753
+JoinOrder,EqualDistinctCountHistogram,28c,7,JoinHashLeft,135086,10179,135086.000000,0.001633
+JoinOrder,EqualDistinctCountHistogram,28c,8,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,28c,9,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,28c,10,JoinHashLeft,2528312,609058,2528312.000000,0.002834
+JoinOrder,EqualDistinctCountHistogram,28c,11,TableScan,14835720,9863,14835720.000000,7.126759
+JoinOrder,EqualDistinctCountHistogram,28c,12,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,28c,13,TableScan,14835720,552777,14835720.000000,48.809841
+JoinOrder,EqualDistinctCountHistogram,28c,14,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,28c,15,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,28c,16,TableScan,14835720,4049,14835720.000000,4.845529
+JoinOrder,EqualDistinctCountHistogram,28c,17,TableScan,14835720,65767,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,28c,18,TableScan,14835720,50792,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,28c,19,TableScan,14835720,12445,14835720.000000,3.010622
+JoinOrder,EqualDistinctCountHistogram,28c,20,TableScan,14835720,9536,14835720.000000,1.728141
+JoinOrder,EqualDistinctCountHistogram,28c,21,TableScan,14835720,7817,14835720.000000,4.217538
+JoinOrder,EqualDistinctCountHistogram,28c,22,TableScan,14835720,0,14835720.000000,1.394377
+JoinOrder,EqualDistinctCountHistogram,28c,23,TableScan,14835720,3164,14835720.000000,13.019516
+JoinOrder,EqualDistinctCountHistogram,29a,0,JoinHashLeft,134170,108,134170.000000,0.262460
+JoinOrder,EqualDistinctCountHistogram,29a,1,JoinHashLeft,4523930,108,4523930.000000,0.262460
+JoinOrder,EqualDistinctCountHistogram,29a,2,JoinHashLeft,113,1,113.000000,0.027841
+JoinOrder,EqualDistinctCountHistogram,29a,3,JoinHashLeft,13590555,456,10903620.000000,0.278410
+JoinOrder,EqualDistinctCountHistogram,29a,4,JoinHashLeft,2963664,163,2963664.000000,0.010605
+JoinOrder,EqualDistinctCountHistogram,29a,5,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,29a,6,JoinHashLeft,234997,20,234997.000000,0.142093
+JoinOrder,EqualDistinctCountHistogram,29a,7,JoinHashLeft,2609129,22,2609129.000000,0.142093
+JoinOrder,EqualDistinctCountHistogram,29a,8,JoinHashLeft,901343,3,901343.000000,0.003154
+JoinOrder,EqualDistinctCountHistogram,29a,9,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,29a,10,JoinHashLeft,135086,1,135086.000000,0.088221
+JoinOrder,EqualDistinctCountHistogram,29a,11,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,29a,12,JoinHashLeft,2463581,1,2463581.000000,0.020307
+JoinOrder,EqualDistinctCountHistogram,29a,13,TableScan,2462777,3,2462777.000000,1.197738
+JoinOrder,EqualDistinctCountHistogram,29a,14,TableScan,3140339,1,3140339.000000,1.001434
+JoinOrder,EqualDistinctCountHistogram,29a,15,TableScan,12,1,12.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,29a,16,JoinHashLeft,36244344,513,36244344.000000,5.603447
+JoinOrder,EqualDistinctCountHistogram,29b,0,JoinHashLeft,4523930,108,4523930.000000,0.289105
+JoinOrder,EqualDistinctCountHistogram,29b,1,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,29b,2,JoinHashLeft,113,1,113.000000,0.031020
+JoinOrder,EqualDistinctCountHistogram,29b,3,JoinHashLeft,12148785,448,12148785.000000,0.310204
+JoinOrder,EqualDistinctCountHistogram,29b,4,JoinHashLeft,2963664,163,2963664.000000,0.010605
+JoinOrder,EqualDistinctCountHistogram,29b,5,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,29b,6,JoinHashLeft,234997,20,234997.000000,0.142093
+JoinOrder,EqualDistinctCountHistogram,29b,7,JoinHashLeft,2609129,22,2609129.000000,0.142093
+JoinOrder,EqualDistinctCountHistogram,29b,8,JoinHashLeft,901343,3,901343.000000,0.003154
+JoinOrder,EqualDistinctCountHistogram,29b,9,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,29b,10,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,29b,11,JoinHashLeft,135086,1,135086.000000,0.288985
+JoinOrder,EqualDistinctCountHistogram,29b,12,TableScan,2462777,3,2462777.000000,1.197738
+JoinOrder,EqualDistinctCountHistogram,29b,13,JoinHashLeft,2463581,1,2463581.000000,0.020307
+JoinOrder,EqualDistinctCountHistogram,29b,14,TableScan,3140339,1,3140339.000000,1.001434
+JoinOrder,EqualDistinctCountHistogram,29b,15,TableScan,12,1,12.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,29b,16,JoinHashLeft,36244344,513,36244344.000000,5.603447
+JoinOrder,EqualDistinctCountHistogram,29c,0,JoinHashLeft,113,20,113.000000,0.104204
+JoinOrder,EqualDistinctCountHistogram,29c,1,JoinHashLeft,2963664,970,2963664.000000,0.104204
+JoinOrder,EqualDistinctCountHistogram,29c,2,JoinHashLeft,901343,601,901343.000000,0.309882
+JoinOrder,EqualDistinctCountHistogram,29c,3,JoinHashLeft,3140339,378,3140339.000000,0.199531
+JoinOrder,EqualDistinctCountHistogram,29c,4,JoinHashLeft,2463581,83,2463581.000000,0.199531
+JoinOrder,EqualDistinctCountHistogram,29c,5,JoinHashLeft,12,2,12.000000,0.199531
+JoinOrder,EqualDistinctCountHistogram,29c,6,JoinHashLeft,36244344,2778,36244344.000000,0.459488
+JoinOrder,EqualDistinctCountHistogram,29c,7,JoinHashLeft,234997,207,234997.000000,2.938004
+JoinOrder,EqualDistinctCountHistogram,29c,8,JoinHashLeft,13590555,5706,10903620.000000,9.032150
+JoinOrder,EqualDistinctCountHistogram,29c,9,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,29c,10,JoinHashLeft,2609129,415,2609129.000000,3.093925
+JoinOrder,EqualDistinctCountHistogram,29c,11,JoinHashLeft,4523930,414,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,29c,12,JoinHashLeft,135086,61,135086.000000,19.948767
+JoinOrder,EqualDistinctCountHistogram,29c,13,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,29c,14,JoinHashLeft,2528312,413,2528312.000000,33.717896
+JoinOrder,EqualDistinctCountHistogram,29c,15,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,29c,16,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,2a,0,JoinHashLeft,2528312,35557,2528312.000000,33.711388
+JoinOrder,EqualDistinctCountHistogram,2a,1,JoinHashLeft,2609129,148487,2609129.000000,83.340096
+JoinOrder,EqualDistinctCountHistogram,2a,2,JoinHashLeft,4523930,41840,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,2a,3,JoinHashLeft,234997,28056,234997.000000,83.340096
+JoinOrder,EqualDistinctCountHistogram,2a,4,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,2b,0,JoinHashLeft,2528312,2584,2528312.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,2b,1,JoinHashLeft,2609129,148487,2609129.000000,83.340096
+JoinOrder,EqualDistinctCountHistogram,2b,2,JoinHashLeft,4523930,41840,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,2b,3,JoinHashLeft,234997,28056,234997.000000,83.340096
+JoinOrder,EqualDistinctCountHistogram,2b,4,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,2c,0,JoinHashLeft,2528312,0,2528312.000000,14.334346
+JoinOrder,EqualDistinctCountHistogram,2c,1,JoinHashLeft,4523930,41840,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,2c,2,JoinHashLeft,2609129,148487,2609129.000000,83.340096
+JoinOrder,EqualDistinctCountHistogram,2c,3,TableScan,234997,1,234997.000000,17.000000
+JoinOrder,EqualDistinctCountHistogram,2c,4,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,2d,0,JoinHashLeft,2528312,35557,2528312.000000,33.711388
+JoinOrder,EqualDistinctCountHistogram,2d,1,JoinHashLeft,2609129,148487,2609129.000000,83.340096
+JoinOrder,EqualDistinctCountHistogram,2d,2,JoinHashLeft,4523930,41840,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,2d,3,JoinHashLeft,234997,28056,234997.000000,83.340096
+JoinOrder,EqualDistinctCountHistogram,2d,4,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,30a,0,JoinHashLeft,3184466,221,3184466.000000,0.423394
+JoinOrder,EqualDistinctCountHistogram,30a,1,JoinHashLeft,36244344,44453,36244344.000000,0.423394
+JoinOrder,EqualDistinctCountHistogram,30a,2,JoinHashLeft,134170,12803,134170.000000,0.249270
+JoinOrder,EqualDistinctCountHistogram,30a,3,JoinHashLeft,4523930,43252,4523930.000000,0.249270
+JoinOrder,EqualDistinctCountHistogram,30a,4,JoinHashLeft,1380035,1054,1380035.000000,0.157744
+JoinOrder,EqualDistinctCountHistogram,30a,5,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,30a,6,JoinHashLeft,4,2,4.000000,0.074441
+JoinOrder,EqualDistinctCountHistogram,30a,7,JoinHashLeft,135086,11077,135086.000000,0.138607
+JoinOrder,EqualDistinctCountHistogram,30a,8,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,30a,9,JoinHashLeft,2528312,63848,2528312.000000,0.096360
+JoinOrder,EqualDistinctCountHistogram,30a,10,TableScan,14835720,42246,14835720.000000,2.717446
+JoinOrder,EqualDistinctCountHistogram,30a,11,TableScan,14835720,30801,14835720.000000,4.353523
+JoinOrder,EqualDistinctCountHistogram,30a,12,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,30b,0,JoinHashLeft,3184466,4,3184466.000000,0.083743
+JoinOrder,EqualDistinctCountHistogram,30b,1,JoinHashLeft,36244344,195,36244344.000000,0.083743
+JoinOrder,EqualDistinctCountHistogram,30b,2,JoinHashLeft,134170,275,134170.000000,0.049301
+JoinOrder,EqualDistinctCountHistogram,30b,3,JoinHashLeft,4523930,291,4523930.000000,0.049301
+JoinOrder,EqualDistinctCountHistogram,30b,4,JoinHashLeft,1380035,6,1380035.000000,0.015774
+JoinOrder,EqualDistinctCountHistogram,30b,5,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,30b,6,JoinHashLeft,4,1,4.000000,0.007444
+JoinOrder,EqualDistinctCountHistogram,30b,7,JoinHashLeft,135086,11077,135086.000000,0.138607
+JoinOrder,EqualDistinctCountHistogram,30b,8,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,30b,9,TableScan,14835720,42246,14835720.000000,2.717446
+JoinOrder,EqualDistinctCountHistogram,30b,10,TableScan,14835720,30801,14835720.000000,4.353523
+JoinOrder,EqualDistinctCountHistogram,30b,11,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,30b,12,JoinHashLeft,2528312,63848,2462777.000000,0.096360
+JoinOrder,EqualDistinctCountHistogram,30c,0,JoinHashLeft,3184466,1947,3184466.000000,0.415382
+JoinOrder,EqualDistinctCountHistogram,30c,1,JoinHashLeft,36244344,424637,36244344.000000,0.415382
+JoinOrder,EqualDistinctCountHistogram,30c,2,JoinHashLeft,134170,42576,134170.000000,0.190440
+JoinOrder,EqualDistinctCountHistogram,30c,3,JoinHashLeft,4523930,390990,4523930.000000,0.246734
+JoinOrder,EqualDistinctCountHistogram,30c,4,JoinHashLeft,1380035,20461,1380035.000000,1.005058
+JoinOrder,EqualDistinctCountHistogram,30c,5,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,30c,6,JoinHashLeft,2528312,144595,2528312.000000,0.618684
+JoinOrder,EqualDistinctCountHistogram,30c,7,JoinHashLeft,135086,23778,135086.000000,0.889927
+JoinOrder,EqualDistinctCountHistogram,30c,8,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,30c,9,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,30c,10,TableScan,14835720,30801,14835720.000000,4.353523
+JoinOrder,EqualDistinctCountHistogram,30c,11,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,30c,12,TableScan,14835720,47569,14835720.000000,6.176920
+JoinOrder,EqualDistinctCountHistogram,30c,13,TableScan,14835720,21464,14835720.000000,2.697526
+JoinOrder,EqualDistinctCountHistogram,30c,14,TableScan,14835720,12200,14835720.000000,2.475945
+JoinOrder,EqualDistinctCountHistogram,30c,15,TableScan,14835720,34691,14835720.000000,46.797455
+JoinOrder,EqualDistinctCountHistogram,30c,16,TableScan,14835720,42246,14835720.000000,2.717446
+JoinOrder,EqualDistinctCountHistogram,31a,0,JoinHashLeft,3184466,173,3184466.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31a,1,JoinHashLeft,36244344,24905,36244344.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31a,2,JoinHashLeft,134170,7919,134170.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31a,3,JoinHashLeft,4523930,21686,4523930.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31a,4,JoinHashLeft,113,2,113.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31a,5,JoinHashLeft,14835720,61923,14835720.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31a,6,JoinHashLeft,113,5,113.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31a,7,JoinHashLeft,1380035,3246,1380035.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31a,8,JoinHashLeft,2528312,1421,2528312.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31a,9,JoinHashLeft,2609129,1814,2609129.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31a,10,TableScan,234997,10,234997.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31b,0,JoinHashLeft,3184466,6,3184466.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31b,1,JoinHashLeft,36244344,502,36244344.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31b,2,JoinHashLeft,134170,492,134170.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31b,3,JoinHashLeft,4523930,714,4523930.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31b,4,JoinHashLeft,113,1,113.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31b,5,JoinHashLeft,14835720,1660,14835720.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31b,6,JoinHashLeft,113,3,113.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31b,7,JoinHashLeft,1380035,362,1380035.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31b,8,JoinHashLeft,2609129,1814,2609129.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31b,9,JoinHashLeft,2528312,119,2462777.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31b,10,TableScan,234997,10,234997.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31c,0,JoinHashLeft,4167491,220,4167491.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31c,1,JoinHashLeft,36244344,32846,36244344.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31c,2,JoinHashLeft,134170,9426,134170.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31c,3,JoinHashLeft,4523930,27128,4523930.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31c,4,JoinHashLeft,113,2,113.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31c,5,JoinHashLeft,14835720,61923,14835720.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31c,6,JoinHashLeft,113,5,113.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31c,7,JoinHashLeft,1380035,3246,1380035.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31c,8,JoinHashLeft,2528312,1421,2528312.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31c,9,JoinHashLeft,2609129,1814,2609129.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,31c,10,TableScan,234997,10,234997.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,32a,0,JoinHashLeft,2528312,0,2528312.000000,3.333502
+JoinOrder,EqualDistinctCountHistogram,32a,1,JoinHashLeft,18,0,18.000000,3.333502
+JoinOrder,EqualDistinctCountHistogram,32a,2,JoinHashLeft,29997,0,29997.000000,3.333502
+JoinOrder,EqualDistinctCountHistogram,32a,3,JoinHashLeft,2528312,1,2528312.000000,33.717896
+JoinOrder,EqualDistinctCountHistogram,32a,4,JoinHashLeft,4523930,1,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,32a,5,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,32b,0,JoinHashLeft,2528312,3594,2528312.000000,3.333502
+JoinOrder,EqualDistinctCountHistogram,32b,1,JoinHashLeft,18,16,18.000000,3.333502
+JoinOrder,EqualDistinctCountHistogram,32b,2,JoinHashLeft,29997,4388,29997.000000,3.333502
+JoinOrder,EqualDistinctCountHistogram,32b,3,JoinHashLeft,2528312,41819,2528312.000000,33.717896
+JoinOrder,EqualDistinctCountHistogram,32b,4,JoinHashLeft,4523930,41840,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,32b,5,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,33a,0,JoinHashLeft,1380035,3,1380035.000000,0.199386
+JoinOrder,EqualDistinctCountHistogram,33a,1,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,33a,2,JoinHashLeft,234997,98,234997.000000,5.152900
+JoinOrder,EqualDistinctCountHistogram,33a,3,JoinHashLeft,1380035,69,1380035.000000,6.782010
+JoinOrder,EqualDistinctCountHistogram,33a,4,JoinHashLeft,2609129,223,2609129.000000,14.188807
+JoinOrder,EqualDistinctCountHistogram,33a,5,JoinHashLeft,234997,150,234997.000000,12.508364
+JoinOrder,EqualDistinctCountHistogram,33a,6,JoinHashLeft,2609129,242,2609129.000000,12.915882
+JoinOrder,EqualDistinctCountHistogram,33a,7,JoinHashLeft,29997,2315,29997.000000,1666.500000
+JoinOrder,EqualDistinctCountHistogram,33a,8,JoinHashLeft,2528312,834,2528312.000000,238.071503
+JoinOrder,EqualDistinctCountHistogram,33a,9,JoinHashLeft,2528312,570,2528312.000000,1666.499878
+JoinOrder,EqualDistinctCountHistogram,33a,10,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,33a,11,TableScan,18,0,18.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,33a,12,TableScan,18,1,18.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,33a,13,TableScan,18,1,18.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,33b,0,JoinHashLeft,1380035,3,1380035.000000,0.088214
+JoinOrder,EqualDistinctCountHistogram,33b,1,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,33b,2,JoinHashLeft,234997,5,234997.000000,2.278917
+JoinOrder,EqualDistinctCountHistogram,33b,3,JoinHashLeft,1380035,3,1380035.000000,2.999408
+JoinOrder,EqualDistinctCountHistogram,33b,4,JoinHashLeft,2609129,6,2609129.000000,2.365749
+JoinOrder,EqualDistinctCountHistogram,33b,5,JoinHashLeft,234997,35,234997.000000,6.384066
+JoinOrder,EqualDistinctCountHistogram,33b,6,JoinHashLeft,2609129,47,2609129.000000,6.592056
+JoinOrder,EqualDistinctCountHistogram,33b,7,JoinHashLeft,2528312,20,2528312.000000,20.307177
+JoinOrder,EqualDistinctCountHistogram,33b,8,JoinHashLeft,29997,2315,29997.000000,2999.699951
+JoinOrder,EqualDistinctCountHistogram,33b,9,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,33b,10,JoinHashLeft,2528312,951,2528312.000000,2999.699463
+JoinOrder,EqualDistinctCountHistogram,33b,11,TableScan,18,2,18.000000,1.800000
+JoinOrder,EqualDistinctCountHistogram,33c,0,JoinHashLeft,1380035,39,1380035.000000,1.853890
+JoinOrder,EqualDistinctCountHistogram,33c,1,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,33c,2,JoinHashLeft,234997,287,234997.000000,33.185501
+JoinOrder,EqualDistinctCountHistogram,33c,3,JoinHashLeft,1380035,450,1380035.000000,42.074154
+JoinOrder,EqualDistinctCountHistogram,33c,4,JoinHashLeft,2609129,769,2609129.000000,33.185513
+JoinOrder,EqualDistinctCountHistogram,33c,5,JoinHashLeft,234997,341,234997.000000,29.255209
+JoinOrder,EqualDistinctCountHistogram,33c,6,JoinHashLeft,2609129,769,2609129.000000,30.208319
+JoinOrder,EqualDistinctCountHistogram,33c,7,JoinHashLeft,29997,2315,29997.000000,1666.500000
+JoinOrder,EqualDistinctCountHistogram,33c,8,JoinHashLeft,2528312,951,2528312.000000,238.071503
+JoinOrder,EqualDistinctCountHistogram,33c,9,JoinHashLeft,2528312,570,2528312.000000,1666.499878
+JoinOrder,EqualDistinctCountHistogram,33c,10,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,33c,11,TableScan,7,1,7.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,33c,12,TableScan,18,0,18.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,33c,13,TableScan,18,1,18.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,33c,14,TableScan,18,1,18.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,3a,0,JoinHashLeft,2528312,102977,2528312.000000,3.010621
+JoinOrder,EqualDistinctCountHistogram,3a,1,JoinHashLeft,4523930,415025,4523930.000000,28.222961
+JoinOrder,EqualDistinctCountHistogram,3a,2,JoinHashLeft,134170,45001,134170.000000,28.222954
+JoinOrder,EqualDistinctCountHistogram,3a,3,TableScan,14835720,9863,14835720.000000,7.126759
+JoinOrder,EqualDistinctCountHistogram,3a,4,TableScan,14835720,4049,14835720.000000,4.845529
+JoinOrder,EqualDistinctCountHistogram,3a,5,TableScan,14835720,65767,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,3a,6,TableScan,14835720,50792,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,3a,7,TableScan,14835720,12445,14835720.000000,3.010622
+JoinOrder,EqualDistinctCountHistogram,3a,8,TableScan,14835720,7817,14835720.000000,4.217538
+JoinOrder,EqualDistinctCountHistogram,3a,9,TableScan,14835720,0,14835720.000000,3.010622
+JoinOrder,EqualDistinctCountHistogram,3a,10,TableScan,14835720,3164,14835720.000000,13.019516
+JoinOrder,EqualDistinctCountHistogram,3b,0,JoinHashLeft,2528312,2204,2528312.000000,3.926497
+JoinOrder,EqualDistinctCountHistogram,3b,1,JoinHashLeft,4523930,6869,4523930.000000,36.808815
+JoinOrder,EqualDistinctCountHistogram,3b,2,TableScan,14835720,2287,14835720.000000,3.926498
+JoinOrder,EqualDistinctCountHistogram,3b,3,JoinHashLeft,134170,3324,134170.000000,36.808819
+JoinOrder,EqualDistinctCountHistogram,3c,0,JoinHashLeft,2528312,7688,2528312.000000,1.213104
+JoinOrder,EqualDistinctCountHistogram,3c,1,JoinHashLeft,4523930,2885812,4523930.000000,13.071537
+JoinOrder,EqualDistinctCountHistogram,3c,2,JoinHashLeft,134170,109624,134170.000000,13.071539
+JoinOrder,EqualDistinctCountHistogram,3c,3,TableScan,14835720,9863,14835720.000000,7.126759
+JoinOrder,EqualDistinctCountHistogram,3c,4,TableScan,14835720,552777,14835720.000000,48.809841
+JoinOrder,EqualDistinctCountHistogram,3c,5,TableScan,14835720,4049,14835720.000000,4.845529
+JoinOrder,EqualDistinctCountHistogram,3c,6,TableScan,14835720,65767,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,3c,7,TableScan,14835720,50792,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,3c,8,TableScan,14835720,12445,14835720.000000,3.010622
+JoinOrder,EqualDistinctCountHistogram,3c,9,TableScan,14835720,7817,14835720.000000,4.217538
+JoinOrder,EqualDistinctCountHistogram,3c,10,TableScan,14835720,3164,14835720.000000,13.019516
+JoinOrder,EqualDistinctCountHistogram,3c,11,TableScan,14835720,0,14835720.000000,1.394377
+JoinOrder,EqualDistinctCountHistogram,3c,12,TableScan,14835720,0,14835720.000000,3.010622
+JoinOrder,EqualDistinctCountHistogram,4a,0,JoinHashLeft,2528312,5082,2528312.000000,3868.428223
+JoinOrder,EqualDistinctCountHistogram,4a,1,JoinHashLeft,4523930,2881657,4523930.000000,34787.109375
+JoinOrder,EqualDistinctCountHistogram,4a,2,JoinHashLeft,1380035,459925,1380035.000000,12212.701172
+JoinOrder,EqualDistinctCountHistogram,4a,3,TableScan,134170,30,134170.000000,13417.000000
+JoinOrder,EqualDistinctCountHistogram,4a,4,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,4b,0,JoinHashLeft,2528312,305,2528312.000000,41.002380
+JoinOrder,EqualDistinctCountHistogram,4b,1,JoinHashLeft,4523930,6032,4523930.000000,368.651855
+JoinOrder,EqualDistinctCountHistogram,4b,2,JoinHashLeft,134170,3586,134170.000000,368.651703
+JoinOrder,EqualDistinctCountHistogram,4b,3,TableScan,1380035,8322,1380035.000000,4632.140137
+JoinOrder,EqualDistinctCountHistogram,4b,4,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,4c,0,JoinHashLeft,2528312,6837,2528312.000000,7111.483887
+JoinOrder,EqualDistinctCountHistogram,4c,1,JoinHashLeft,4523930,3435922,4523930.000000,64101.335938
+JoinOrder,EqualDistinctCountHistogram,4c,2,JoinHashLeft,1380035,459925,1380035.000000,12212.701172
+JoinOrder,EqualDistinctCountHistogram,4c,3,TableScan,134170,30,134170.000000,13417.000000
+JoinOrder,EqualDistinctCountHistogram,4c,4,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,5a,0,JoinHashLeft,113,0,113.000000,0.001630
+JoinOrder,EqualDistinctCountHistogram,5a,1,JoinHashLeft,2528312,0,2528312.000000,0.073053
+JoinOrder,EqualDistinctCountHistogram,5a,2,TableScan,14835720,9863,14835720.000000,7.126759
+JoinOrder,EqualDistinctCountHistogram,5a,3,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,5a,4,TableScan,14835720,4049,14835720.000000,4.845529
+JoinOrder,EqualDistinctCountHistogram,5a,5,JoinHashLeft,2609129,239682,2609129.000000,7.305342
+JoinOrder,EqualDistinctCountHistogram,5a,6,TableScan,14835720,65767,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,5a,7,TableScan,14835720,50792,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,5a,8,TableScan,14835720,12445,14835720.000000,3.010622
+JoinOrder,EqualDistinctCountHistogram,5a,9,TableScan,14835720,7817,14835720.000000,4.217538
+JoinOrder,EqualDistinctCountHistogram,5a,10,TableScan,14835720,0,14835720.000000,3.010622
+JoinOrder,EqualDistinctCountHistogram,5a,11,TableScan,14835720,3164,14835720.000000,13.019516
+JoinOrder,EqualDistinctCountHistogram,5b,0,JoinHashLeft,113,0,113.000000,0.000015
+JoinOrder,EqualDistinctCountHistogram,5b,1,JoinHashLeft,2528312,0,2528312.000000,0.003383
+JoinOrder,EqualDistinctCountHistogram,5b,2,TableScan,14835720,0,14835720.000000,1.394377
+JoinOrder,EqualDistinctCountHistogram,5b,3,TableScan,14835720,552777,14835720.000000,48.809841
+JoinOrder,EqualDistinctCountHistogram,5b,4,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,5b,5,JoinHashLeft,2609129,1114502,2609129.000000,3.383487
+JoinOrder,EqualDistinctCountHistogram,5c,0,JoinHashLeft,113,3,113.000000,0.002817
+JoinOrder,EqualDistinctCountHistogram,5c,1,JoinHashLeft,2528312,657,2528312.000000,0.304514
+JoinOrder,EqualDistinctCountHistogram,5c,2,TableScan,14835720,9863,14835720.000000,7.126759
+JoinOrder,EqualDistinctCountHistogram,5c,3,TableScan,14835720,552777,14835720.000000,48.809841
+JoinOrder,EqualDistinctCountHistogram,5c,4,JoinHashLeft,2609129,1317431,2609129.000000,3.383487
+JoinOrder,EqualDistinctCountHistogram,5c,5,TableScan,4,1,4.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,5c,6,TableScan,14835720,4049,14835720.000000,4.845529
+JoinOrder,EqualDistinctCountHistogram,5c,7,TableScan,14835720,65767,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,5c,8,TableScan,14835720,50792,14835720.000000,9.409827
+JoinOrder,EqualDistinctCountHistogram,5c,9,TableScan,14835720,12445,14835720.000000,3.010622
+JoinOrder,EqualDistinctCountHistogram,5c,10,TableScan,14835720,7817,14835720.000000,4.217538
+JoinOrder,EqualDistinctCountHistogram,5c,11,TableScan,14835720,3164,14835720.000000,13.019516
+JoinOrder,EqualDistinctCountHistogram,5c,12,TableScan,14835720,0,14835720.000000,1.394377
+JoinOrder,EqualDistinctCountHistogram,5c,13,TableScan,14835720,0,14835720.000000,3.010622
+JoinOrder,EqualDistinctCountHistogram,6a,0,JoinHashLeft,2528312,14,2528312.000000,33.717896
+JoinOrder,EqualDistinctCountHistogram,6a,1,JoinHashLeft,4167491,990,4167491.000000,542.559631
+JoinOrder,EqualDistinctCountHistogram,6a,2,JoinHashLeft,36244344,1242,36244344.000000,542.559570
+JoinOrder,EqualDistinctCountHistogram,6a,3,JoinHashLeft,4523930,14,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,6a,4,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,6b,0,JoinHashLeft,4167491,162,4167491.000000,3172.107910
+JoinOrder,EqualDistinctCountHistogram,6b,1,JoinHashLeft,36244344,201,36244344.000000,3260.323975
+JoinOrder,EqualDistinctCountHistogram,6b,2,TableScan,1217612,438,1217612.000000,438.000000
+JoinOrder,EqualDistinctCountHistogram,6b,3,JoinHashLeft,4523930,35548,4523930.000000,269.743195
+JoinOrder,EqualDistinctCountHistogram,6b,4,TableScan,134170,8,134170.000000,8.000000
+JoinOrder,EqualDistinctCountHistogram,6c,0,JoinHashLeft,4167491,20,4167491.000000,0.190135
+JoinOrder,EqualDistinctCountHistogram,6c,1,JoinHashLeft,36244344,33,36244344.000000,0.195170
+JoinOrder,EqualDistinctCountHistogram,6c,2,JoinHashLeft,1217612,13,1217612.000000,33.717896
+JoinOrder,EqualDistinctCountHistogram,6c,3,JoinHashLeft,4523930,14,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,6c,4,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,6d,0,JoinHashLeft,2528312,29863,2528312.000000,269.743164
+JoinOrder,EqualDistinctCountHistogram,6d,1,JoinHashLeft,4167491,509543,4167491.000000,4340.477051
+JoinOrder,EqualDistinctCountHistogram,6d,2,JoinHashLeft,36244344,1212764,36244344.000000,4340.476562
+JoinOrder,EqualDistinctCountHistogram,6d,3,JoinHashLeft,4523930,35548,4523930.000000,269.743195
+JoinOrder,EqualDistinctCountHistogram,6d,4,TableScan,134170,8,134170.000000,8.000000
+JoinOrder,EqualDistinctCountHistogram,6e,0,JoinHashLeft,2528312,14,2528312.000000,33.717896
+JoinOrder,EqualDistinctCountHistogram,6e,1,JoinHashLeft,4167491,990,4167491.000000,542.559631
+JoinOrder,EqualDistinctCountHistogram,6e,2,JoinHashLeft,36244344,1242,36244344.000000,542.559570
+JoinOrder,EqualDistinctCountHistogram,6e,3,JoinHashLeft,4523930,14,4523930.000000,33.717899
+JoinOrder,EqualDistinctCountHistogram,6e,4,TableScan,134170,1,134170.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,6f,0,JoinHashLeft,4167491,285237,4167491.000000,2310.428467
+JoinOrder,EqualDistinctCountHistogram,6f,1,JoinHashLeft,36244344,584444,36244344.000000,2371.608398
+JoinOrder,EqualDistinctCountHistogram,6f,2,JoinHashLeft,2528312,29863,2528312.000000,269.743164
+JoinOrder,EqualDistinctCountHistogram,6f,3,JoinHashLeft,4523930,35548,4523930.000000,269.743195
+JoinOrder,EqualDistinctCountHistogram,6f,4,TableScan,134170,8,134170.000000,8.000000
+JoinOrder,EqualDistinctCountHistogram,7a,0,JoinHashLeft,901343,10,901343.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,7a,1,TableScan,1677161,1007327,0.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,7a,2,JoinHashLeft,2528312,7469,2528312.000000,13.476628
+JoinOrder,EqualDistinctCountHistogram,7a,3,JoinHashLeft,29997,556,29997.000000,24.680412
+JoinOrder,EqualDistinctCountHistogram,7a,4,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,7a,5,TableScan,18,1,18.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,7a,6,JoinHashLeft,36244344,8764,36244344.000000,13.476627
+JoinOrder,EqualDistinctCountHistogram,7a,7,TableScan,2963664,64,2963664.000000,1.450000
+JoinOrder,EqualDistinctCountHistogram,7b,0,JoinHashLeft,901343,3,901343.000000,0.055703
+JoinOrder,EqualDistinctCountHistogram,7b,1,JoinHashLeft,2528312,12,2528312.000000,1.170856
+JoinOrder,EqualDistinctCountHistogram,7b,2,JoinHashLeft,1087346,6,300926.000000,1.387433
+JoinOrder,EqualDistinctCountHistogram,7b,3,JoinHashLeft,29997,556,29997.000000,24.680412
+JoinOrder,EqualDistinctCountHistogram,7b,4,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,7b,5,TableScan,18,1,18.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,7b,6,JoinHashLeft,36244344,8764,36244344.000000,13.476627
+JoinOrder,EqualDistinctCountHistogram,7b,7,TableScan,2963664,64,2963664.000000,1.450000
+JoinOrder,EqualDistinctCountHistogram,7c,0,TableScan,1611626,941792,0.000000,0.000000
+JoinOrder,EqualDistinctCountHistogram,7c,1,JoinHashLeft,2528312,12433,2528312.000000,1979.950439
+JoinOrder,EqualDistinctCountHistogram,7c,2,TableScan,18,4,18.000000,4.000000
+JoinOrder,EqualDistinctCountHistogram,7c,3,JoinHashLeft,29997,362837,29997.000000,12680.327148
+JoinOrder,EqualDistinctCountHistogram,7c,4,JoinHashLeft,901343,95734,901343.000000,1170.517578
+JoinOrder,EqualDistinctCountHistogram,7c,5,JoinHashLeft,36244344,4526271,36244344.000000,6924.036621
+JoinOrder,EqualDistinctCountHistogram,7c,6,JoinHashLeft,2963664,84184,2963664.000000,26227.107422
+JoinOrder,EqualDistinctCountHistogram,7c,7,TableScan,113,1,113.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,8a,0,JoinHashLeft,901343,6,901343.000000,0.277366
+JoinOrder,EqualDistinctCountHistogram,8a,1,JoinHashLeft,234997,27,234997.000000,0.178594
+JoinOrder,EqualDistinctCountHistogram,8a,2,JoinHashLeft,2528312,8808,2528312.000000,1.984381
+JoinOrder,EqualDistinctCountHistogram,8a,3,TableScan,34733550,93095,34733552.000000,20.703970
+JoinOrder,EqualDistinctCountHistogram,8a,4,JoinHashLeft,4167491,2771,4167491.000000,1.984380
+JoinOrder,EqualDistinctCountHistogram,8a,5,TableScan,12,1,12.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,8a,6,JoinHashLeft,2609129,12135,2609129.000000,4.632536
+JoinOrder,EqualDistinctCountHistogram,8b,0,JoinHashLeft,901343,3,901343.000000,0.002418
+JoinOrder,EqualDistinctCountHistogram,8b,1,JoinHashLeft,4167491,16,4167491.000000,0.017298
+JoinOrder,EqualDistinctCountHistogram,8b,2,JoinHashLeft,234997,2,234997.000000,0.008649
+JoinOrder,EqualDistinctCountHistogram,8b,3,TableScan,34733550,93095,34733552.000000,20.703970
+JoinOrder,EqualDistinctCountHistogram,8b,4,JoinHashLeft,2266172,8532,1676357.000000,1.984381
+JoinOrder,EqualDistinctCountHistogram,8b,5,TableScan,12,1,12.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,8b,6,JoinHashLeft,2609129,12135,2609129.000000,4.632536
+JoinOrder,EqualDistinctCountHistogram,8c,0,JoinHashLeft,2528312,233786,2528312.000000,471643.781250
+JoinOrder,EqualDistinctCountHistogram,8c,1,JoinHashLeft,901343,2487611,901343.000000,764476.375000
+JoinOrder,EqualDistinctCountHistogram,8c,2,JoinHashLeft,4167491,155254,4167491.000000,625576.937500
+JoinOrder,EqualDistinctCountHistogram,8c,3,JoinHashLeft,2609129,1153798,2609129.000000,471647.625000
+JoinOrder,EqualDistinctCountHistogram,8c,4,JoinHashLeft,36244344,2728943,36244344.000000,3020362.000000
+JoinOrder,EqualDistinctCountHistogram,8c,5,TableScan,234997,84843,234997.000000,42480.000000
+JoinOrder,EqualDistinctCountHistogram,8c,6,TableScan,12,1,12.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,8d,0,JoinHashLeft,2528312,51572,2528312.000000,471643.781250
+JoinOrder,EqualDistinctCountHistogram,8d,1,JoinHashLeft,901343,323005,901343.000000,764476.375000
+JoinOrder,EqualDistinctCountHistogram,8d,2,JoinHashLeft,4167491,17778,4167491.000000,625576.937500
+JoinOrder,EqualDistinctCountHistogram,8d,3,JoinHashLeft,2609129,1153798,2609129.000000,471647.625000
+JoinOrder,EqualDistinctCountHistogram,8d,4,JoinHashLeft,36244344,276403,36244344.000000,3020362.000000
+JoinOrder,EqualDistinctCountHistogram,8d,5,TableScan,234997,84843,234997.000000,42480.000000
+JoinOrder,EqualDistinctCountHistogram,8d,6,TableScan,12,1,12.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,9a,0,JoinHashLeft,901343,31,901343.000000,0.000018
+JoinOrder,EqualDistinctCountHistogram,9a,1,JoinHashLeft,2463581,5756,2463581.000000,0.000119
+JoinOrder,EqualDistinctCountHistogram,9a,2,JoinHashLeft,234997,1571,234997.000000,0.001573
+JoinOrder,EqualDistinctCountHistogram,9a,3,JoinHashLeft,2528312,14561,2528312.000000,0.007181
+JoinOrder,EqualDistinctCountHistogram,9a,4,JoinHashLeft,3140339,47387,3140339.000000,0.079425
+JoinOrder,EqualDistinctCountHistogram,9a,5,TableScan,36244344,713828,36244344.000000,108.811295
+JoinOrder,EqualDistinctCountHistogram,9a,6,TableScan,12,1,12.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,9a,7,JoinHashLeft,2609129,124315,2609129.000000,0.382459
+JoinOrder,EqualDistinctCountHistogram,9a,8,TableScan,36244344,30776,36244344.000000,151.362183
+JoinOrder,EqualDistinctCountHistogram,9a,9,TableScan,36244344,93095,36244344.000000,23.161448
+JoinOrder,EqualDistinctCountHistogram,9a,10,TableScan,36244344,29778,36244344.000000,23.161448
+JoinOrder,EqualDistinctCountHistogram,9b,0,JoinHashLeft,901343,14,901343.000000,0.002902
+JoinOrder,EqualDistinctCountHistogram,9b,1,JoinHashLeft,2463581,2134,2463581.000000,0.018686
+JoinOrder,EqualDistinctCountHistogram,9b,2,JoinHashLeft,234997,639,234997.000000,0.009343
+JoinOrder,EqualDistinctCountHistogram,9b,3,JoinHashLeft,2528312,5390,2528312.000000,0.092123
+JoinOrder,EqualDistinctCountHistogram,9b,4,JoinHashLeft,3140339,40408,3140339.000000,3.946170
+JoinOrder,EqualDistinctCountHistogram,9b,5,TableScan,34733550,713828,34733552.000000,97.266121
+JoinOrder,EqualDistinctCountHistogram,9b,6,TableScan,12,1,12.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,9b,7,JoinHashLeft,2609129,104106,2609129.000000,19.002060
+JoinOrder,EqualDistinctCountHistogram,9c,0,JoinHashLeft,901343,426,901343.000000,0.000164
+JoinOrder,EqualDistinctCountHistogram,9c,1,JoinHashLeft,2463581,14423,2463581.000000,0.001059
+JoinOrder,EqualDistinctCountHistogram,9c,2,JoinHashLeft,2528312,76048,2528312.000000,0.006002
+JoinOrder,EqualDistinctCountHistogram,9c,3,JoinHashLeft,2609129,114925,2609129.000000,0.014012
+JoinOrder,EqualDistinctCountHistogram,9c,4,JoinHashLeft,234997,19379,234997.000000,0.014012
+JoinOrder,EqualDistinctCountHistogram,9c,5,JoinHashLeft,3140339,47387,3140339.000000,0.079425
+JoinOrder,EqualDistinctCountHistogram,9c,6,TableScan,36244344,713828,36244344.000000,108.811295
+JoinOrder,EqualDistinctCountHistogram,9c,7,TableScan,12,1,12.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,9c,8,TableScan,36244344,30776,36244344.000000,151.362183
+JoinOrder,EqualDistinctCountHistogram,9c,9,TableScan,36244344,93095,36244344.000000,23.161448
+JoinOrder,EqualDistinctCountHistogram,9c,10,TableScan,36244344,29778,36244344.000000,23.161448
+JoinOrder,EqualDistinctCountHistogram,9d,0,JoinHashLeft,901343,9701,901343.000000,0.009321
+JoinOrder,EqualDistinctCountHistogram,9d,1,JoinHashLeft,2528312,76048,2528312.000000,0.006002
+JoinOrder,EqualDistinctCountHistogram,9d,2,JoinHashLeft,2609129,114925,2609129.000000,0.014012
+JoinOrder,EqualDistinctCountHistogram,9d,3,JoinHashLeft,234997,19368,234997.000000,0.014012
+JoinOrder,EqualDistinctCountHistogram,9d,4,JoinHashLeft,3140339,47387,3140339.000000,0.079425
+JoinOrder,EqualDistinctCountHistogram,9d,5,JoinHashLeft,2463581,26243,2463581.000000,0.006002
+JoinOrder,EqualDistinctCountHistogram,9d,6,TableScan,36244344,713828,36244344.000000,108.811295
+JoinOrder,EqualDistinctCountHistogram,9d,7,TableScan,12,1,12.000000,1.000000
+JoinOrder,EqualDistinctCountHistogram,9d,8,TableScan,36244344,30776,36244344.000000,151.362183
+JoinOrder,EqualDistinctCountHistogram,9d,9,TableScan,36244344,93095,36244344.000000,23.161448
+JoinOrder,EqualDistinctCountHistogram,9d,10,TableScan,36244344,29778,36244344.000000,23.161448
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 01,0,TableScan,60175,59775,60175.000000,60174.992188
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 02,0,TableScan,2000,27,2000.000000,40.024391
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 02,1,JoinHashLeft,8000,36,8000.000000,16.009756
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 02,2,JoinHashLeft,100,12,100.000000,20.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 02,3,JoinHashLeft,100,12,100.000000,20.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 02,4,JoinHashLeft,25,5,25.000000,5.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 02,5,JoinHashLeft,25,5,25.000000,5.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 02,6,TableScan,5,1,5.000000,1.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 02,7,TableScan,5,1,5.000000,1.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 03,0,JoinHashLeft,60175,4911,60175.000000,9614.540039
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 03,1,JoinHashLeft,15000,2536,15000.000000,4288.602539
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 03,2,TableScan,1500,288,1500.000000,287.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 04,0,TableScan,15000,544,15000.000000,0.009777
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 04,1,JoinHashLeft,60175,2227,60175.000000,0.039129
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 05,0,JoinHashRight,1500,1863,1500.000000,2188.254639
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 05,1,TableScan,15000,2303,15000.000000,2733.991943
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 05,2,JoinHashLeft,60175,9284,60175.000000,10941.275391
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 05,3,JoinHashLeft,100,20,100.000000,20.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 05,4,JoinHashLeft,25,5,25.000000,5.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 05,5,TableScan,5,1,5.000000,1.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 06,0,TableScan,60175,9200,60175.000000,15781.878906
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 07,0,JoinHashLeft,100,7,100.000000,4.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 07,1,TableScan,25,1,25.000000,1.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 07,2,TableScan,25,1,25.000000,1.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 07,3,JoinHashLeft,15000,1207,15000.000000,896.572021
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 07,4,JoinHashLeft,1500,117,1500.000000,60.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 07,5,JoinHashLeft,60175,4175,60175.000000,2406.999756
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 08,0,JoinHashLeft,25,34,25.000000,69.417534
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 08,1,JoinHashLeft,100,34,100.000000,69.417534
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 08,2,JoinHashLeft,1500,302,1500.000000,300.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 08,3,JoinHashLeft,60175,475,60175.000000,400.889923
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 08,4,JoinHashLeft,25,5,25.000000,5.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 08,5,JoinHashLeft,15000,468,15000.000000,400.728027
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 08,6,TableScan,2000,16,2000.000000,13.324138
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 08,7,TableScan,5,1,5.000000,1.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 09,0,JoinHashLeft,8000,436,8000.000000,799.999939
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 09,1,JoinHashLeft,15000,3370,15000.000000,6009.222656
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 09,2,JoinHashLeft,100,100,100.000000,99.999992
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 09,3,JoinHashRight,25,100,25.000000,99.999992
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 09,4,JoinHashLeft,60175,3370,60175.000000,6017.499512
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 09,5,TableScan,2000,109,2000.000000,200.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 10,0,JoinHashLeft,1500,1500,1500.000000,1500.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 10,1,JoinHashRight,25,1500,25.000000,1500.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 10,2,TableScan,15000,531,15000.000000,2733.692627
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 10,3,JoinHashLeft,60175,2146,60175.000000,10940.074219
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 11,0,JoinHashLeft,8000,560,8000.000000,319.999969
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 11,1,JoinHashLeft,100,7,100.000000,4.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 11,2,TableScan,25,1,25.000000,1.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 12,0,JoinHashLeft,15000,282,15000.000000,555.397583
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 12,1,TableScan,60175,8777,60175.000000,3880.068359
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 13,0,JoinHashLeft,1500,15334,1500.000000,13500.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 13,1,TableScan,15000,14834,15000.000000,13500.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 14,0,TableScan,60175,770,60175.000000,0.015502
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 14,1,JoinHashLeft,2000,663,2000.000000,0.015502
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 15,0,JoinHashRight,100,1,100.000000,1957.686890
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 15,1,TableScan,60175,2247,60175.000000,1957.687012
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 16,0,JoinHashLeft,8000,1232,8000.000000,924.694458
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 16,1,TableScan,100,0,100.000000,10.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 16,2,TableScan,2000,332,2000.000000,316.396332
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 17,0,JoinHashLeft,60175,62,60175.000000,58.025417
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 17,1,TableScan,2000,30,2000.000000,48.619049
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 18,0,JoinHashLeft,60175,0,60175.000000,60003.304688
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 18,1,JoinHashRight,1500,0,1500.000000,14957.577148
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 18,2,JoinHashLeft,15000,0,15000.000000,14957.576172
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 18,3,Aggregate,60175,15000,60175.000000,60175.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 19,0,TableScan,2000,74,2000.000000,77.909088
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 19,1,JoinHashLeft,60175,50,60175.000000,22.240553
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 19,2,TableScan,2000,77,2000.000000,77.909088
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 19,3,TableScan,2000,80,2000.000000,77.909088
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 20,0,JoinHashLeft,100,39,100.000000,0.000001
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 20,1,JoinHashLeft,25,23,25.000000,0.000001
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 20,2,JoinHashLeft,8000,72,8000.000000,0.000006
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 20,3,TableScan,2000,18,2000.000000,0.000002
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 20,4,JoinHashLeft,60175,558,60175.000000,0.000048
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 21,0,JoinHashLeft,60175,7239,60175.000000,9663.587891
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 21,1,TableScan,15000,7304,15000.000000,7318.500000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 21,2,JoinHashLeft,100,4,100.000000,4.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 21,3,JoinHashLeft,60175,2447,60175.000000,2406.999756
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 21,4,TableScan,25,1,25.000000,1.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 22,0,JoinHashRight,15000,59,15000.000000,1500.000000
+TPC-H,MaxDiffFrequencyHistogram,TPC-H 22,1,TableScan,1500,672,1500.000000,1500.000000
