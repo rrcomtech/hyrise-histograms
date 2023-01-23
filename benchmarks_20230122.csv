@@ -1,4 +1,4 @@
-benchmark,histogram,query,operator_count,name,operator_type,real_input,real_output,estimated_input,estimated_output
+benchmark,histogram,query,operator_count,operator_type,real_input,real_output,estimated_input,estimated_output
 TPC-H,EquiHeightHistogram,TPC-H 01,0,TableScan,60175,59775,60175.000000,60148.539062
 TPC-H,EquiHeightHistogram,TPC-H 02,0,TableScan,2000,27,2000.000000,41.111111
 TPC-H,EquiHeightHistogram,TPC-H 02,1,JoinHashLeft,8000,36,8000.000000,16.444445
