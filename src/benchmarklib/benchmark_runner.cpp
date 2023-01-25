@@ -141,7 +141,7 @@ void BenchmarkRunner::run() {
     std::ofstream out(CARDINALITIES_FILENAME, std::ios_base::app);
 
     if (!file_exist) {
-      out << "benchmark,histogram,query,operator_count,name,operator_type,real_input,real_output,estimated_input,estimated_output\n";
+      out << "benchmark,histogram,query,operator_count,operator_type,real_input,real_output,estimated_input,estimated_output\n";
     }
 
     out << Hyrise::get().cardinality_statistics;
