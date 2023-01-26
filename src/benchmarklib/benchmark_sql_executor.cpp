@@ -162,7 +162,7 @@ std::pair<SQLPipelineStatus, std::shared_ptr<const Table>> BenchmarkSQLExecutor:
           const auto& get_table_performance_data = node->left_input()->performance_data;
 
           Hyrise::get().cardinality_statistics += Hyrise::get().benchmark_type + ",";
-          //// Hyrise::get().cardinality_statistics += std::string(std::getenv("HISTOGRAM")) + ",";
+          // Hyrise::get().cardinality_statistics += std::string(std::getenv("HISTOGRAM")) + ",";
           Hyrise::get().cardinality_statistics += Hyrise::get().current_benchmark + ",";
           Hyrise::get().cardinality_statistics += std::to_string(Hyrise::get().current_operator);
           ++Hyrise::get().current_operator;
