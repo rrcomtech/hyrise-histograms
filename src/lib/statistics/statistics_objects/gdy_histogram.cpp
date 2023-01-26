@@ -104,7 +104,6 @@ template <typename T>
 std::pair<std::vector<error_increase>, std::vector<error_decrease>> calculate_error_changes(
         std::vector<std::pair<T, HistogramCountType>> value_distribution, std::vector<uint32_t> barrier_indexes
     ) {
-    const auto bin_count = barrier_indexes.size() + 1;
     const auto barrier_count = barrier_indexes.size();
 
     std::vector<error_increase> error_increases(barrier_count);
