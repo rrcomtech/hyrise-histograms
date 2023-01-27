@@ -872,7 +872,7 @@ void AbstractHistogram<T>::_assert_bin_validity() {
     Assert(bin_minimum(bin_id) <= bin_maximum(bin_id), "Bin minimum must be <= bin maximum.");
 
     if (bin_id < bin_count() - 1) {
-      Assert(bin_maximum(bin_id) < bin_minimum(bin_id + 1), "Bins must be sorted and cannot overlap.");
+      Assert(bin_maximum(bin_id) <= bin_minimum(bin_id + 1), "Bins must be sorted and cannot overlap.");
     }
 
     // NOLINTNEXTLINE clang-tidy is crazy and sees a "potentially unintended semicolon" here...
