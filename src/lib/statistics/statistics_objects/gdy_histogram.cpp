@@ -109,6 +109,10 @@ std::pair<std::vector<error_increase>, std::vector<error_decrease>> calculate_er
 
     for (auto bin_id = 0u; bin_id < barrier_count; ++bin_id) {
         error_increases[bin_id].barrier_index = bin_id;
+        error_increases[bin_id].error_increase = bin_id;
+
+        error_decreases[bin_id].error_decrease = barrier_count - bin_id;
+        error_decreases[bin_id].ideal_barrier_index = 0;
         error_decreases[bin_id].bin_index = bin_id;
     }
 
@@ -140,15 +144,24 @@ std::shared_ptr<GDYHistogram<T>> GDYHistogram<T>::from_column(
     return nullptr;
   }
 
-  // 1. Generate random histogram (aka value distribution partitioning).
-  auto histogram = EqualDistinctCountHistogram<T>::from_column(table, column_id, max_bin_count, domain);
-  // 2. Calculate errors for removing barriers and for adding an ideal partitioning.
-
   std::vector<uint32_t> barrier_indexes(max_bin_count + 1);
   // Removing barriers.
   std::vector<error_increase> error_increases(max_bin_count + 1);
   // Adding barriers in segments.
   std::vector<error_decrease> error_decreases(max_bin_count + 1);
+
+  // 1. Generate random histogram (aka value distribution partitioning).
+  //auto histogram = EqualDistinctCountHistogram<T>::from_column(table, column_id, max_bin_count, domain);
+
+  // As an initial partitioning, we use the values 1 to max_bin_count.
+  // TODO: Find out, whether using an actual histogram is more worthy.
+  for (auto bin_id = 0u; bin_id < max_bin_count; ++bin_id) {
+    barrier_indexes[bin_id] = bin_id;
+  }
+
+
+  // 2. Calculate errors for removing barriers and for adding an ideal partitioning.
+
 
   // --------------------------------------------------------
   // -------          Construct Histogram             -------
