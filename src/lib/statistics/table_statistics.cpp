@@ -76,6 +76,7 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
               Fail("Unknown Histogram specified!");
             }
         } else {
+          setenv("HISTOGRAM", std::string{"EqualDistinctCountHistogram"}.c_str(), 1);
           histogram_name = "EqualDistinctCountHistogram";
           histogram = EqualDistinctCountHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
         }

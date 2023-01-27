@@ -584,8 +584,12 @@ std::shared_ptr<AbstractStatisticsObject> AbstractHistogram<T>::sliced(
 
       GenericHistogramBuilder<T> builder{bin_count() - first_new_bin_id, _domain};
 
-      builder.add_sliced_bin(*this, first_new_bin_id, std::max(*value, bin_minimum(first_new_bin_id)),
-                             bin_maximum(first_new_bin_id));
+      if (*value > bin_maximum(first_new_bin_id)) {
+        builder.add_sliced_bin(*this, first_new_bin_id, bin_minimum(first_new_bin_id), bin_maximum(first_new_bin_id));
+      } else {
+        builder.add_sliced_bin(*this, first_new_bin_id, std::max(*value, bin_minimum(first_new_bin_id)),
+                              bin_maximum(first_new_bin_id)); 
+      }
       builder.add_copied_bins(*this, first_new_bin_id + 1, bin_count());
 
       return builder.build();
