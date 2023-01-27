@@ -22,13 +22,12 @@ using ValueDistributionMap =
 // TODO: Add an include guard. See https://en.wikipedia.org/wiki/Include_guard.
 struct error_increase {
     uint32_t barrier_index;
-    uint32_t error_increase;
+    float error_increase;
 };
 
 struct error_decrease {
-    uint32_t bin_index;
     uint32_t ideal_barrier_index;
-    uint32_t error_decrease;
+    float error_decrease;
 };
 
 /**
