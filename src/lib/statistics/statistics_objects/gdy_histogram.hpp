@@ -43,12 +43,13 @@ class GDYHistogram : public AbstractHistogram<T> {
   using AbstractHistogram<T>::AbstractHistogram;
 
   GDYHistogram(std::vector<T>&& bin_minima, std::vector<T>&& bin_maxima,
-                              std::vector<HistogramCountType>&& bin_heights,
-                              const HistogramCountType distinct_count_per_bin, const BinID bin_count_with_extra_value,
-                              const HistogramDomain<T>& domain = {});
+                                  std::vector<HistogramCountType>&& bin_heights,
+                                  std::vector<HistogramCountType>&&distinct_count_per_bin,
+                                  const BinID bin_count_with_extra_value,
+                                  const HistogramDomain<T>& domain);
 
   /**
-   * Create an GDYHistogram for a column (spanning all Segments) of a Table
+   * Create a GDYHistogram for a column (spanning all Segments) of a Table
    * @param max_bin_count   Desired number of bins. Less might be created, but never more. Must not be zero.
    */
   static std::shared_ptr<GDYHistogram<T>> from_column(const Table& table, const ColumnID column_id,
@@ -73,6 +74,7 @@ class GDYHistogram : public AbstractHistogram<T> {
   HistogramCountType bin_height(const BinID index) const override;
   HistogramCountType bin_distinct_count(const BinID index) const override;
 
+
  protected:
   BinID _bin_for_value(const T& value) const override;
   BinID _next_bin_for_value(const T& value) const override;
@@ -92,7 +94,7 @@ class GDYHistogram : public AbstractHistogram<T> {
   std::vector<HistogramCountType> _bin_heights;
 
   // Number of distinct values per bin.
-  HistogramCountType _distinct_count_per_bin;
+  std::vector<HistogramCountType>&& _distinct_count_per_bin;
 
   // The first bin_count_with_extra_value bins have an additional distinct value.
   BinID _bin_count_with_extra_value;
@@ -123,6 +125,7 @@ class GDYHistogram : public AbstractHistogram<T> {
           std::vector<std::pair<T, HistogramCountType>> value_distribution,
           std::vector<T> bin_minima, std::vector<T> bin_maxima
   );*/
+  const HistogramDomain<T>& _domain;
 };
 
 }  // namespace hyrise

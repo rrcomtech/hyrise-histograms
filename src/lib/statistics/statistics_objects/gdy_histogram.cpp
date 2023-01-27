@@ -79,25 +79,23 @@ namespace hyrise {
 template <typename T>
 GDYHistogram<T>::GDYHistogram(std::vector<T>&& bin_minima, std::vector<T>&& bin_maxima,
                                                             std::vector<HistogramCountType>&& bin_heights,
-                                                            const HistogramCountType distinct_count_per_bin,
+                                                            std::vector<HistogramCountType>&&distinct_count_per_bin,
                                                             const BinID bin_count_with_extra_value,
                                                             const HistogramDomain<T>& domain)
     : AbstractHistogram<T>(domain),
       _bin_minima(std::move(bin_minima)),
       _bin_maxima(std::move(bin_maxima)),
       _bin_heights(std::move(bin_heights)),
-      _distinct_count_per_bin(distinct_count_per_bin),
-      _bin_count_with_extra_value(bin_count_with_extra_value) {
+      _distinct_count_per_bin(std::move(distinct_count_per_bin)),
+      _bin_count_with_extra_value(bin_count_with_extra_value),
+      _domain(domain) {
   Assert(_bin_minima.size() == _bin_maxima.size(), "Must have the same number of lower as upper bin edges.");
   Assert(_bin_minima.size() == _bin_heights.size(), "Must have the same number of edges and heights.");
-  Assert(_distinct_count_per_bin > 0, "Cannot have bins with no distinct values.");
   Assert(_bin_count_with_extra_value < _bin_minima.size(), "Cannot have more bins with extra value than bins.");
 
   AbstractHistogram<T>::_assert_bin_validity();
 
   _total_count = std::accumulate(_bin_heights.cbegin(), _bin_heights.cend(), HistogramCountType{0});
-  _total_distinct_count = _distinct_count_per_bin * static_cast<HistogramCountType>(bin_count()) +
-                          static_cast<HistogramCountType>(_bin_count_with_extra_value);
 }
 
 template <typename T>
@@ -183,13 +181,24 @@ std::shared_ptr<GDYHistogram<T>> GDYHistogram<T>::from_column(
   std::vector<T> bin_minima(max_bin_count);
   std::vector<T> bin_maxima(max_bin_count);
   std::vector<HistogramCountType> bin_heights(max_bin_count);
-  std::vector<HistogramCountType> bin_distinct_count(max_bin_count);
+  std::vector<HistogramCountType> bin_distinct_counts(max_bin_count);
 
-  return 0;
-/*
+  // Populate bin_minima & bin_maxima.
+  auto bin_id = BinID{0};
+  for (auto val_ind = uint32_t{0}; val_ind < value_distribution.size(); ++val_ind) {
+    if (val_ind == barrier_indexes[bin_id]) {
+      bin_maxima[bin_id] = value_distribution[val_ind].first;
+      bin_id++;
+      bin_minima[bin_id] = value_distribution[val_ind].first;
+    }
+    bin_heights[bin_id] += value_distribution[val_ind].second;
+    ++bin_distinct_counts[bin_id];
+  }
+  bin_maxima[max_bin_count - 1] = value_distribution.back().first;
+
   return std::make_shared<GDYHistogram<T>>(
       std::move(bin_minima), std::move(bin_maxima), std::move(bin_heights),
-      std::move(bin_distinct_count), total_count);*/
+      std::move(bin_distinct_counts), total_count, domain);
 }
 
 template <typename T>
@@ -199,14 +208,14 @@ std::string GDYHistogram<T>::name() const {
 
 template <typename T>
 std::shared_ptr<AbstractHistogram<T>> GDYHistogram<T>::clone() const {
-  // The new histogram needs a copy of the data
-  auto bin_minima_copy = _bin_minima;
-  auto bin_maxima_copy = _bin_maxima;
-  auto bin_heights_copy = _bin_heights;
+    // The new histogram needs a copy of the data
+    auto bin_minima_copy = _bin_minima;
+    auto bin_maxima_copy = _bin_maxima;
+    auto bin_heights_copy = _bin_heights;
 
-  return std::make_shared<GDYHistogram<T>>(std::move(bin_minima_copy), std::move(bin_maxima_copy),
-                                                          std::move(bin_heights_copy), _distinct_count_per_bin,
-                                                          _bin_count_with_extra_value);
+    return std::make_shared<GDYHistogram<T>>(std::move(bin_minima_copy), std::move(bin_maxima_copy),
+                                             std::move(bin_heights_copy), std::move(_distinct_count_per_bin),
+                                             total_count(), _domain);
 }
 
 template <typename T>
@@ -258,7 +267,7 @@ HistogramCountType GDYHistogram<T>::bin_height(const BinID index) const {
 template <typename T>
 HistogramCountType GDYHistogram<T>::bin_distinct_count(const BinID index) const {
   DebugAssert(index < bin_count(), "Index is not a valid bin.");
-  return HistogramCountType{_distinct_count_per_bin + (index < _bin_count_with_extra_value ? 1 : 0)};
+  return _distinct_count_per_bin[index];
 }
 
 template <typename T>
