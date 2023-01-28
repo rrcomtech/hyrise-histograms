@@ -122,48 +122,45 @@ std::pair<std::vector<error_increase>, std::vector<error_decrease>> calculate_er
         }
     }
 
-    auto curr_barrier = uint32_t{0};
-    for (auto val_ind = uint32_t{0}; val_ind < value_distribution.size(); ++val_ind) {
-        if (val_ind == barrier_indexes[curr_barrier]) {
-            auto current_error = static_cast<float>(std::abs(bin_minima[curr_barrier + 1] - bin_minima[curr_barrier]));
-            auto new_error = static_cast<float>(std::abs(bin_maxima[curr_barrier + 1] - bin_minima[curr_barrier]));
-            error_increase ei;
-            ei.barrier_index = curr_barrier;
-            // Error increase: Error of new bin (if barrier removed) - error of old bin (if barrier not removed).
-            ei.error_increase = static_cast<float>(new_error - current_error);
+    for (auto curr_barrier : barrier_indexes) {
+        auto current_error = static_cast<float>(std::abs(bin_minima[curr_barrier + 1] - bin_minima[curr_barrier]));
+        auto new_error = static_cast<float>(std::abs(bin_maxima[curr_barrier + 1] - bin_minima[curr_barrier]));
+        error_increase ei;
+        ei.barrier_index = curr_barrier;
+        // Error increase: Error of new bin (if barrier removed) - error of old bin (if barrier not removed).
+        ei.error_increase = static_cast<float>(new_error - current_error);
 
-            // Evaluate ideal positioning for new barrier.
-            auto val_partition_index = val_ind;
-            const auto next_barrier_index = std::min(
-                barrier_indexes[curr_barrier + 1],
-                static_cast<uint32_t>(value_distribution.size())
-            );
+        // Evaluate ideal positioning for new barrier.
+        auto val_partition_index = curr_barrier;
+        const auto next_barrier_index = std::min(
+            barrier_indexes[curr_barrier + 1],
+            static_cast<uint32_t>(value_distribution.size())
+        );
 
-            error_decrease ed;
-            ed.ideal_barrier_index = 0;
-            ed.error_decrease = 0;
-            while (val_partition_index < next_barrier_index) {
-                // Calculate for each index, how the error would be influenced.
-                const auto& [partition_value, partition_count] = value_distribution[val_partition_index];
+        error_decrease ed;
+        ed.ideal_barrier_index = 0;
+        ed.error_decrease = 0;
+        while (val_partition_index < next_barrier_index) {
+            // Calculate for each index, how the error would be influenced.
+            const auto& [partition_value, partition_count] = value_distribution[val_partition_index];
 
-                const auto curr_error = static_cast<float>(std::abs(bin_maxima[curr_barrier + 1] - bin_minima[curr_barrier]));
-                const auto new_left_error = static_cast<float>(std::abs(partition_value - bin_minima[curr_barrier]));
-                const auto new_right_error = static_cast<float>(std::abs(bin_maxima[curr_barrier + 1] - partition_value));
+            const auto curr_error = static_cast<float>(std::abs(bin_maxima[curr_barrier + 1] - bin_minima[curr_barrier]));
+            const auto new_left_error = static_cast<float>(std::abs(partition_value - bin_minima[curr_barrier]));
+            const auto new_right_error = static_cast<float>(std::abs(bin_maxima[curr_barrier + 1] - partition_value));
 
-                const auto error_decrease = static_cast<float>(curr_error - (new_left_error + new_right_error));
+            const auto error_decrease = static_cast<float>(curr_error - (new_left_error + new_right_error));
 
-                if (error_decrease > ed.error_decrease) {
-                    ed.error_decrease = error_decrease;
-                    ed.ideal_barrier_index = val_partition_index;
-                }
-
-                ++val_partition_index;
+            if (error_decrease > ed.error_decrease) {
+                ed.error_decrease = error_decrease;
+                ed.ideal_barrier_index = val_partition_index;
             }
-            ++curr_barrier;
 
-            error_decreases[curr_barrier] = ed;
-            error_increases[curr_barrier] = ei;
+            ++val_partition_index;
         }
+        ++curr_barrier;
+
+        error_decreases[curr_barrier] = ed;
+        error_increases[curr_barrier] = ei;
     }
 
     // Sort error increases and decreases by error increase.
@@ -223,7 +220,7 @@ std::shared_ptr<GDYHistogram<T>> GDYHistogram<T>::from_column(
    * This was written by GH Copilot. The student, who was supposed to write this, was too lazy
    * (the last sentence was suggested by Copilot ...).
    */
-  while (error_increases[0].error_increase > error_decreases[0].error_decrease) {
+  while (error_increases[0].error_increase < error_decreases[0].error_decrease) {
     // 3.1. Remove barrier with largest error increase.
     auto largest_error_increase = error_increases[0];
     barrier_indexes.erase(barrier_indexes.begin() + largest_error_increase.barrier_index);
