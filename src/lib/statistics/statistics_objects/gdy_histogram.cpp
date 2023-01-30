@@ -91,21 +91,51 @@ GDYHistogram<T>::GDYHistogram(std::vector<T>&& bin_minima, std::vector<T>&& bin_
       _domain(domain) {
   Assert(_bin_minima.size() == _bin_maxima.size(), "Must have the same number of lower as upper bin edges.");
   Assert(_bin_minima.size() == _bin_heights.size(), "Must have the same number of edges and heights.");
-  Assert(_bin_count_with_extra_value < _bin_minima.size(), "Cannot have more bins with extra value than bins.");
 
   AbstractHistogram<T>::_assert_bin_validity();
 
   _total_count = std::accumulate(_bin_heights.cbegin(), _bin_heights.cend(), HistogramCountType{0});
 }
 
+/**
+ * Calculates for each barrier the error according to GDY partitioning.
+ *
+ * Idea:
+ *      Move a barrier to a position, so that the error is decreased as much as possible.
+ *      Therefore, we need to know which barrier removal would lead to the smallest error increase
+ *      and which barrier insertion would lead to the largest error decrease.
+ *      Once calculated, we can move the barrier accordingly. This is done as long as there would
+ *      be an error decrease.
+ *
+ * Note:
+ *      This algorithm is a greedy algorithm. It does not guarantee to find the optimal solution.
+ *      Also, an initial partitioning is required. This is done by the caller. Here, one can use
+ *      other histograms (e.g. EquiHeight, EquiWidth, EqualDistinctCount) or a random partitioning.
+ *      Author of GDY Paper: "The greedy boundary modiﬁcation operations matter for the ﬁnal result
+ *      more than the choice of an intial partitioning" (Halim et al., 01/2009).
+ *
+ * @tparam T
+ *          The type of the histogram domain. TODO: Also support strings.
+ * @param value_distribution
+ *          The value distribution of the column. Pairs of type (value, count).
+ *          Access via value_distribution[i].first and value_distribution[i].second.
+ * @param barrier_indexes
+ *          The predefined barrier indexed. A barrier at index i means a barrier
+ *          between value_distribution[i] and value_distribution[i+1].
+ * @return
+ *          A pair of vectors. The first vector contains the error increase for each barrier
+ *          in case they would be removed.
+ *          The second vector contains the error decrease and the ideal barriers where to insert
+ *          a new barrier.
+ */
 template <typename T>
 std::pair<std::vector<error_increase>, std::vector<error_decrease>> calculate_error_changes(
         std::vector<std::pair<T, HistogramCountType>> value_distribution, std::vector<uint32_t> barrier_indexes
     ) {
     const auto barrier_count = barrier_indexes.size();
 
-    std::vector<error_increase> error_increases(barrier_count);
-    std::vector<error_decrease> error_decreases(barrier_count);
+    std::vector<error_increase> error_increases(0);
+    std::vector<error_decrease> error_decreases(0);
 
     /*
      *  Set current minima and maxima.
@@ -122,33 +152,47 @@ std::pair<std::vector<error_increase>, std::vector<error_decrease>> calculate_er
         }
     }
 
-    for (auto curr_barrier : barrier_indexes) {
-        auto current_error = static_cast<float>(std::abs(bin_minima[curr_barrier + 1] - bin_minima[curr_barrier]));
-        auto new_error = static_cast<float>(std::abs(bin_maxima[curr_barrier + 1] - bin_minima[curr_barrier]));
+    for (auto ind = uint32_t{0}; ind < barrier_count; ++ind) {
+        const auto curr_barrier = barrier_indexes[barrier_ind];
+        const auto current_error = static_cast<float>(std::abs(bin_maxima[ind] - bin_minima[ind]));
+        const auto current_error_of_next_bin = static_cast<float>(
+            std::abs(bin_maxima[ind + 1] - bin_minima[ind + 1])
+        );
+        /*
+         * The error increase can be viewed in comparison to two different bins.
+         * It feels more natural to use the smaller error increase.
+         */
+        const auto total_current_error = std::pow(std::max(current_error, current_error_of_next_bin), 2);
+        auto new_error = std::pow(static_cast<float>(std::abs(bin_maxima[ind + 1] - bin_minima[ind])), 2);
         error_increase ei;
         ei.barrier_index = curr_barrier;
         // Error increase: Error of new bin (if barrier removed) - error of old bin (if barrier not removed).
-        ei.error_increase = static_cast<float>(new_error - current_error);
+        ei.error_increase = static_cast<float>(new_error - total_current_error);
 
         // Evaluate ideal positioning for new barrier.
         auto val_partition_index = curr_barrier;
-        const auto next_barrier_index = std::min(
-            barrier_indexes[curr_barrier + 1],
-            static_cast<uint32_t>(value_distribution.size())
-        );
+
+        auto next_barrier_index = uint32_t{0};
+        if (curr_barrier + 1 < barrier_indexes.size()) {
+            next_barrier_index = barrier_indexes[curr_barrier + 1];
+        } else {
+            next_barrier_index = value_distribution.size() - 1;
+        }
 
         error_decrease ed;
         ed.ideal_barrier_index = 0;
         ed.error_decrease = 0;
-        while (val_partition_index < next_barrier_index) {
+        while ((val_partition_index+1) < next_barrier_index) {
             // Calculate for each index, how the error would be influenced.
             const auto& [partition_value, partition_count] = value_distribution[val_partition_index];
 
-            const auto curr_error = static_cast<float>(std::abs(bin_maxima[curr_barrier + 1] - bin_minima[curr_barrier]));
-            const auto new_left_error = static_cast<float>(std::abs(partition_value - bin_minima[curr_barrier]));
-            const auto new_right_error = static_cast<float>(std::abs(bin_maxima[curr_barrier + 1] - partition_value));
+            const auto curr_error = static_cast<float>(std::abs(bin_maxima[ind + 1] - bin_minima[ind]));
+            const auto new_left_error = static_cast<float>(std::abs(partition_value - bin_minima[ind]));
+            const auto new_right_error = static_cast<float>(std::abs(bin_maxima[ind + 1] - partition_value));
 
-            const auto error_decrease = static_cast<float>(curr_error - (new_left_error + new_right_error));
+            const auto error_decrease = static_cast<float>(
+                std::pow(curr_error, 2) - (std::pow(new_left_error, 2) + std::pow(new_right_error, 2))
+            );
 
             if (error_decrease > ed.error_decrease) {
                 ed.error_decrease = error_decrease;
@@ -157,10 +201,23 @@ std::pair<std::vector<error_increase>, std::vector<error_decrease>> calculate_er
 
             ++val_partition_index;
         }
-        ++curr_barrier;
 
-        error_decreases[curr_barrier] = ed;
-        error_increases[curr_barrier] = ei;
+        auto ei_contained = false;
+        auto ed_contained = false;
+        for (auto error_inc : error_increases) {
+            if (error_inc.barrier_index == ei.barrier_index) {
+                ei_contained = true;
+                break;
+            }
+        }
+        for (auto error_dec : error_decreases) {
+            if (error_dec.ideal_barrier_index == ed.ideal_barrier_index) {
+                ed_contained = true;
+                break;
+            }
+        }
+        if (!ei_contained) error_increases.emplace_back(ei);
+        if (!ed_contained) error_decreases.emplace_back(ed);
     }
 
     // Sort error increases and decreases by error increase.
@@ -201,8 +258,10 @@ std::shared_ptr<GDYHistogram<T>> GDYHistogram<T>::from_column(
   //auto histogram = EqualDistinctCountHistogram<T>::from_column(table, column_id, max_bin_count, domain);
 
   // As an initial partitioning, we use the values 1 to max_bin_count.
-  for (auto i = uint32_t{0}; i < max_bin_count - 1; ++i) {
-    barrier_indexes[i] = i;
+  const auto initialHistogram = EqualDistinctCountHistogram<T>::from_column(table, column_id, max_bin_count, domain);
+
+  for (auto i = 0u; i < max_bin_count - 1; ++i) {
+    barrier_indexes[i] = initialHistogram->bin_minimum(i + 1);
   }
 
   // 2. Calculate errors for removing barriers and for adding an ideal partitioning.
