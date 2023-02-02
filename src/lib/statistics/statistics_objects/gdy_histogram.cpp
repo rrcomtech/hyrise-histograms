@@ -209,7 +209,6 @@ std::pair<std::vector<error_increase>, std::vector<error_decrease>> calculate_er
             if (error_decrease > ed.error_decrease) {
                 ed.error_decrease = error_decrease;
                 ed.ideal_barrier_index = val_index;
-
             }
 
             ++val_index;
@@ -251,8 +250,24 @@ std::shared_ptr<GDYHistogram<T>> GDYHistogram<T>::from_column(
   }
 
   auto binCount = max_bin_count;
-  if (binCount > value_distribution.size()) {
+  if (max_bin_count > value_distribution.size()) {
     binCount = value_distribution.size();
+  }
+
+  // Trivial Histogram.
+  if (value_distribution.size() == 1) {
+      std::vector<T> bin_minima(binCount);
+      bin_minima[0] = value_distribution[0].first;
+      std::vector<T> bin_maxima(binCount);
+      bin_maxima[0] = value_distribution[0].first;
+      std::vector<HistogramCountType> bin_heights(binCount);
+      bin_heights[0] = value_distribution[0].second;
+      std::vector<HistogramCountType> bin_distinct_counts(binCount);
+      bin_distinct_counts[0] = 1;
+
+      return std::make_shared<GDYHistogram<T>>(
+              std::move(bin_minima), std::move(bin_maxima), std::move(bin_heights),
+              std::move(bin_distinct_counts), total_count, domain);
   }
 
 
@@ -286,13 +301,17 @@ std::shared_ptr<GDYHistogram<T>> GDYHistogram<T>::from_column(
   // -------          Construct Histogram             -------
   // --------------------------------------------------------
 
+  auto retries = uint32_t{0};
   /*
    * This was written by GH Copilot. The student, who was supposed to write this, was too lazy
    * (the last sentence was suggested by Copilot ...).
    */
-  while (error_decreases.size() > 0 && error_increases[0].error_increase < error_decreases[0].error_decrease) {
+  while (error_decreases.size() > 0 && error_increases[0].error_increase < error_decreases[0].error_decrease && retries < total_count) {
+
     auto largest_error_increase = error_increases[0];
     auto largest_error_decrease = error_decreases[0];
+
+    Assert(largest_error_decrease.ideal_barrier_index != largest_error_increase.barrier_index, "Barrier cannot be replaced to itself.");
 
     // Replace barrier with better one.
     barrier_indexes[largest_error_increase.barrier_index] = largest_error_decrease.ideal_barrier_index;
@@ -302,6 +321,8 @@ std::shared_ptr<GDYHistogram<T>> GDYHistogram<T>::from_column(
     populated_errors = calculate_error_changes(value_distribution, barrier_indexes);
     error_increases = populated_errors.first;
     error_decreases = populated_errors.second;
+
+    ++retries;
   }
 
   std::vector<T> bin_minima(binCount);
@@ -311,6 +332,7 @@ std::shared_ptr<GDYHistogram<T>> GDYHistogram<T>::from_column(
 
   // Populate bin_minima & bin_maxima.
   auto bin_id = BinID{0};
+  bin_minima[bin_id] = value_distribution[0].first;
   for (auto val_ind = uint32_t{0}; val_ind < value_distribution.size() - 1; ++val_ind) {
     if (val_ind == barrier_indexes[bin_id]) {
       bin_maxima[bin_id] = value_distribution[val_ind].first;
