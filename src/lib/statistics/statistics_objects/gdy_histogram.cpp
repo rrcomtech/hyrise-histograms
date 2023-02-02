@@ -306,7 +306,7 @@ std::shared_ptr<GDYHistogram<T>> GDYHistogram<T>::from_column(
    * This was written by GH Copilot. The student, who was supposed to write this, was too lazy
    * (the last sentence was suggested by Copilot ...).
    */
-  while (error_decreases.size() > 0 && error_increases[0].error_increase < error_decreases[0].error_decrease && retries < total_count) {
+  while (error_decreases.size() > 0 && error_increases[0].error_increase < error_decreases[0].error_decrease && static_cast<float>(retries) < total_count) {
 
     auto largest_error_increase = error_increases[0];
     auto largest_error_decrease = error_decreases[0];
