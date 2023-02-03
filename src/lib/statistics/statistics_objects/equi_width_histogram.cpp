@@ -252,8 +252,8 @@ HistogramCountType EquiWidthHistogram<T>::bin_distinct_count(const BinID index) 
   return _bin_distinct_counts[index];
 }
 
-template class EquiWidthHistogram<int>;
-template class EquiWidthHistogram<long>;
+template class EquiWidthHistogram<int32_t>;
+template class EquiWidthHistogram<int64_t>;
 template class EquiWidthHistogram<float>;
 template class EquiWidthHistogram<double>;
  

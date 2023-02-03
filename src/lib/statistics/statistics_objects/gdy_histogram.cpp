@@ -424,8 +424,8 @@ HistogramCountType GDYHistogram<T>::total_distinct_count() const {
   return _total_distinct_count;
 }
 
-template class GDYHistogram<int>;
-template class GDYHistogram<long>;
+template class GDYHistogram<int32_t>;
+template class GDYHistogram<int64_t>;
 template class GDYHistogram<float>;
 template class GDYHistogram<double>;
 
