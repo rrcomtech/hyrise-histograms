@@ -138,7 +138,7 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
   std::sort(distances.begin(), distances.end(), sortDistance);
   std::reverse(distances.begin(), distances.end()); // Order is not important, but we want to resize later on.
 
-  distances.resize(std::floor(bin_count/2));
+  distances.resize(static_cast<uint32_t>(std::floor(static_cast<float>(bin_count)/2)));
 
   // Initialize the resulting data structures.
   std::vector<T> bin_minima(max_bin_count);
