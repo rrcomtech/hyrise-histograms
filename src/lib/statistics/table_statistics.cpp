@@ -14,6 +14,7 @@
 #include "statistics/statistics_objects/equi_height_histogram.hpp"
 #include "statistics/statistics_objects/equi_width_histogram.hpp"
 #include "statistics/statistics_objects/max_diff_fr_histogram.hpp"
+#include "statistics/statistics_objects/gdy_histogram.hpp"
 #include "storage/table.hpp"
 #include "utils/assert.hpp"
 
@@ -47,16 +48,16 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
 
         // The type of Histogram, that should be used. Set it in the Environment Variable by:
         // export HISTOGRAM=<type>
-        const auto HISTORAM_TYPE = std::getenv("HISTOGRAM");
+        const auto HISTOGRAM_TYPE = std::getenv("HISTOGRAM");
 
         auto histogram_name = "";
 
         const auto start = std::chrono::steady_clock::now();
-        if (HISTORAM_TYPE) {
-            if (strcmp(HISTORAM_TYPE, "EquiHeightHistogram") == 0) {
+        if (HISTOGRAM_TYPE) {
+            if (strcmp(HISTOGRAM_TYPE, "EquiHeightHistogram") == 0) {
                 histogram_name = "EquiHeightHistogram";
                 histogram = EquiHeightHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
-            } else if (strcmp(HISTORAM_TYPE, "EquiWidthHistogram") == 0) {
+            } else if (strcmp(HISTOGRAM_TYPE, "EquiWidthHistogram") == 0) {
               // EquiWidth cannot handle strings well. Therefore, EquiHeight will be used in that case.
               if constexpr (std::is_same_v<ColumnDataType, pmr_string>) {
                 histogram_name = "EquiHeightHistogram";
@@ -65,13 +66,21 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
                 histogram_name = "EquiWidthHistogram";
                 histogram = EquiWidthHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
               }
-            } else if (strcmp(HISTORAM_TYPE, "EqualDistinctCountHistogram") == 0) {
+            } else if (strcmp(HISTOGRAM_TYPE, "EqualDistinctCountHistogram") == 0) {
                 histogram_name = "EqualDistinctCountHistogram";
                 histogram = EqualDistinctCountHistogram<ColumnDataType>::from_column(table, column_id,
                                                                                      histogram_bin_count);
-            } else if (strcmp(HISTORAM_TYPE, "MaxDiffFrequencyHistogram") == 0) {
+            } else if (strcmp(HISTOGRAM_TYPE, "MaxDiffFrequencyHistogram") == 0) {
                 histogram_name = "MaxDiffFrequencyHistogram";
                 histogram = MaxDiffFrHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
+            } else if (strcmp(HISTOGRAM_TYPE, "GDYHistogram") == 0) {
+                if constexpr (std::is_same_v<ColumnDataType, pmr_string>) {
+                    histogram_name = "EquiHeightHistogram";
+                    histogram = EquiHeightHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
+                } else {
+                    histogram_name = "GDYHistogram";
+                    histogram = GDYHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
+                }
             } else {
               Fail("Unknown Histogram specified!");
             }
