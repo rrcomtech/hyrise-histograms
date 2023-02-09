@@ -256,13 +256,13 @@ std::shared_ptr<GDYHistogram<T>> GDYHistogram<T>::from_column(
 
   // Trivial Histogram.
   if (value_distribution.size() == 1) {
-      std::vector<T> bin_minima(binCount);
+      std::vector<T> bin_minima(1);
       bin_minima[0] = value_distribution[0].first;
-      std::vector<T> bin_maxima(binCount);
+      std::vector<T> bin_maxima(1);
       bin_maxima[0] = value_distribution[0].first;
-      std::vector<HistogramCountType> bin_heights(binCount);
+      std::vector<HistogramCountType> bin_heights(1);
       bin_heights[0] = value_distribution[0].second;
-      std::vector<HistogramCountType> bin_distinct_counts(binCount);
+      std::vector<HistogramCountType> bin_distinct_counts(1);
       bin_distinct_counts[0] = 1;
 
       return std::make_shared<GDYHistogram<T>>(

@@ -104,7 +104,6 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
         }
 
         if (histogram) {
-          std::remove("histograms.txt");
           std::ofstream out;
           out.open("histograms.txt", std::ios_base::app);
           out << histogram_name << ", " << histogram->total_count() << " Values, " << histogram->bin_count() << " Bins\n";
