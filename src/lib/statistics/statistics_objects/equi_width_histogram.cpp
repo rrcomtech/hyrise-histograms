@@ -127,8 +127,8 @@ std::shared_ptr<EquiWidthHistogram<T>> EquiWidthHistogram<T>::from_column(const 
   }
 
   for (auto bin_index = BinID{0}; bin_index < bin_count; ++bin_index) {
-    bin_minima[bin_index] = min_value + bin_index * bin_width;
-    bin_maxima[bin_index] = min_value + bin_index * bin_width + bin_width;
+    bin_minima[bin_index] = static_cast<T>(static_cast<double>(min_value) + static_cast<double>(bin_index) * static_cast<double>(bin_width));
+    bin_maxima[bin_index] = static_cast<T>(static_cast<double>(min_value) + static_cast<double>(bin_index) * static_cast<double>(bin_width + bin_width));
   }
 
   BinID bin_index;
@@ -147,15 +147,8 @@ std::shared_ptr<EquiWidthHistogram<T>> EquiWidthHistogram<T>::from_column(const 
 
     bin_heights[bin_index] += value_distribution[value_index].second;
     ++bin_distinct_counts[bin_index];
-    
-    if (bin_maxima[bin_index] < bin_minima[bin_index]) {
-      std::cout << "\n\n\n\n\nSetting wrond bin!\n" << std::endl;
-      std::cout << "value: " << value << "\n min_value: " << min_value << "\nmax_value: " << max_value << "\nbin_width: " << bin_width << std::endl;
-      std::cout << "value - min_value: " << value_from_min_value << "\nbin_index: " << bin_index << "\nbin_count: " << bin_count << std::endl;
-      std::cout << "bin_min: " << bin_minima[bin_index] << " bin_max: " << bin_maxima[bin_index] << std::endl;
-      Fail("Invalid Bin in EquiWidth Construction!");
-    }
 
+    Assert(bin_maxima[bin_index] < bin_minima[bin_index], "Invalid Bin in EquiWidth Construction!");
   }
 
   return std::make_shared<EquiWidthHistogram<T>>(std::move(bin_minima), std::move(bin_maxima), std::move(bin_heights), std::move(bin_distinct_counts), total_count);
