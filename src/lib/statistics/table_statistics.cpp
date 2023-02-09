@@ -104,9 +104,9 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
         }
 
         if (histogram) {
-          std::remove("histograms.csv");
+          std::remove("histograms.txt");
           std::ofstream out;
-          out.open("histograms.csv", std::ios_base::app);
+          out.open("histograms.txt", std::ios_base::app);
           out << histogram_name << ", " << histogram->total_count() << " Values, " << histogram->bin_count() << " Bins\n";
           for (auto i = BinID{0}; i < histogram->bin_count(); i++) {
             out << "Bin " << i << ": " << histogram->bin_minimum(i) << " - " << histogram->bin_maximum(i) << ", "  << histogram->bin_height(i) << " Values, " << histogram->bin_distinct_count(i) << " Distinct Values\n";
