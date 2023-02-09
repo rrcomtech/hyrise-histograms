@@ -115,11 +115,8 @@ std::shared_ptr<EquiWidthHistogram<T>> EquiWidthHistogram<T>::from_column(const 
   auto bin_width = (static_cast<double>(max_value) - static_cast<double>(min_value)) / static_cast<double>(bin_count);
 
   // Initialize the resulting data structures.
-  std::vector<T> bin_minima(bin_count, max_value);
-  std::vector<T> bin_maxima(bin_count, min_value);
-
-  std::vector<bool> minimum_set(bin_count, false);
-  std::vector<bool> maximum_set(bin_count, false);
+  std::vector<T> bin_minima(bin_count);
+  std::vector<T> bin_maxima(bin_count);
 
   std::vector<HistogramCountType> bin_heights(bin_count, 0);
   std::vector<HistogramCountType> bin_distinct_counts(bin_count, 0);
@@ -127,6 +124,11 @@ std::shared_ptr<EquiWidthHistogram<T>> EquiWidthHistogram<T>::from_column(const 
   if (bin_width == 0) {
     Assert(min_value == max_value, "Invalid bin_width without reason!");
     ++bin_width;  
+  }
+
+  for (auto bin_index = BinID{0}; bin_index < bin_count; ++bin_index) {
+    bin_minima[bin_index] = min_value + bin_index * bin_width;
+    bin_maxima[bin_index] = min_value + bin_index * bin_width + bin_width;
   }
 
   BinID bin_index;
@@ -141,20 +143,10 @@ std::shared_ptr<EquiWidthHistogram<T>> EquiWidthHistogram<T>::from_column(const 
       bin_index = static_cast<uint32_t>(std::floor(static_cast<double>(value_from_min_value) / bin_width));
     }
 
-
     Assert(bin_index < bin_minima.size(), "bin_index out of range!");
 
     bin_heights[bin_index] += value_distribution[value_index].second;
     ++bin_distinct_counts[bin_index];
-
-    if (bin_minima[bin_index] > value) {
-      bin_minima[bin_index] = value;
-      minimum_set[bin_index] = true;
-    }
-    if (bin_maxima[bin_index] < value) {
-      bin_maxima[bin_index] = value;
-      maximum_set[bin_index] = true;
-    }
     
     if (bin_maxima[bin_index] < bin_minima[bin_index]) {
       std::cout << "\n\n\n\n\nSetting wrond bin!\n" << std::endl;
@@ -164,15 +156,6 @@ std::shared_ptr<EquiWidthHistogram<T>> EquiWidthHistogram<T>::from_column(const 
       Fail("Invalid Bin in EquiWidth Construction!");
     }
 
-  }
-
-  for (auto index = size_t{0}; index < maximum_set.size(); ++index) {
-    if (!minimum_set[index]) {
-      bin_minima[index] = bin_maxima.at(index - 1);
-    }
-    if (!maximum_set[index]) {
-      bin_maxima[index] = bin_minima.at(index);
-    }
   }
 
   return std::make_shared<EquiWidthHistogram<T>>(std::move(bin_minima), std::move(bin_maxima), std::move(bin_heights), std::move(bin_distinct_counts), total_count);
