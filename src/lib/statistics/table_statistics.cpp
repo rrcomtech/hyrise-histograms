@@ -104,6 +104,15 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
         }
 
         if (histogram) {
+          std::ofstream out;
+          out.open("histograms.csv", std::ios_base::app);
+          out << histogram_name << ", " << histogram->total_count() << " Values, " << histogram->bin_count() << " Bins\n";
+          for (auto i = BinID{0}; i < histogram->bin_count(); i++) {
+            out << "Bin " << i << ": " << histogram->bin_minimum(i) << " - " << histogram->bin_maximum(i) << ", "  << histogram->bin_height(i) << " Values, " << histogram->bin_distinct_count(i) << " Distinct Values\n";
+          }
+          out << "\n";
+          out.close();
+
           output_column_statistics->set_statistics_object(histogram);
 
           // Use the insight that the histogram will only contain non-null values to generate the NullValueRatio
