@@ -51,7 +51,7 @@ std::pair<SQLPipelineStatus, std::shared_ptr<const Table>> BenchmarkSQLExecutor:
 
     auto visitor = [&](const auto& node) {
       if (node->type () == OperatorType::TableScan) {
-        if (node->left_input()->type() == OperatorType::GetTable) {
+        if (node->left_input()->type() == OperatorType::GetTable && node->left_input()->lqp_node) {
           const auto table_scan_op = std::dynamic_pointer_cast<const TableScan>(node);
           const auto& table_scan_performance_data = table_scan_op->performance_data;
           const auto& get_table_performance_data = node->left_input()->performance_data;
@@ -67,7 +67,7 @@ std::pair<SQLPipelineStatus, std::shared_ptr<const Table>> BenchmarkSQLExecutor:
           Hyrise::get().cardinality_statistics += std::to_string(cardinality_estimator.estimate_cardinality(node->left_input()->lqp_node)) + ",";
           Hyrise::get().cardinality_statistics += std::to_string(cardinality_estimator.estimate_cardinality(table_scan_op->lqp_node)) + "\n";
         } else if (node->left_input()->type() == OperatorType::Validate) {
-            if (node->left_input()->left_input()->type() == OperatorType::GetTable) {
+            if (node->left_input()->left_input()->type() == OperatorType::GetTable && node->left_input()->lqp_node) {
             const auto table_scan_op = std::dynamic_pointer_cast<const TableScan>(node);
             const auto& table_scan_performance_data = table_scan_op->performance_data;
             const auto& get_table_performance_data = node->left_input()->performance_data;
@@ -85,7 +85,7 @@ std::pair<SQLPipelineStatus, std::shared_ptr<const Table>> BenchmarkSQLExecutor:
           }
         }
       } else if (node->type () == OperatorType::Aggregate) {
-        if (node->left_input()->type() == OperatorType::GetTable) {
+        if (node->left_input()->type() == OperatorType::GetTable && node->left_input()->lqp_node) {
           const auto aggregate_op = std::dynamic_pointer_cast<const AggregateHash>(node);
           const auto& aggregate_performance_data = aggregate_op->performance_data;
           const auto& get_table_performance_data = node->left_input()->performance_data;
@@ -101,7 +101,7 @@ std::pair<SQLPipelineStatus, std::shared_ptr<const Table>> BenchmarkSQLExecutor:
           Hyrise::get().cardinality_statistics += std::to_string(cardinality_estimator.estimate_cardinality(node->left_input()->lqp_node)) + ",";
           Hyrise::get().cardinality_statistics += std::to_string(cardinality_estimator.estimate_cardinality(aggregate_op->lqp_node)) + "\n";
         } else if (node->left_input()->type() == OperatorType::Validate) {
-          if (node->left_input()->left_input()->type() == OperatorType::GetTable) {
+          if (node->left_input()->left_input()->type() == OperatorType::GetTable && node->left_input()->lqp_node) {
             const auto aggregate_op = std::dynamic_pointer_cast<const AggregateHash>(node);
             const auto& aggregate_performance_data = aggregate_op->performance_data;
             const auto& get_table_performance_data = node->left_input()->performance_data;
@@ -119,7 +119,7 @@ std::pair<SQLPipelineStatus, std::shared_ptr<const Table>> BenchmarkSQLExecutor:
           }
         }
       } else if (node->type () == OperatorType::JoinHash) {
-        if (node->left_input()->type() == OperatorType::GetTable) {
+        if (node->left_input()->type() == OperatorType::GetTable && node->left_input()->lqp_node) {
           const auto aggregate_op = std::dynamic_pointer_cast<const JoinHash>(node);
           const auto& aggregate_performance_data = aggregate_op->performance_data;
           const auto& get_table_performance_data = node->left_input()->performance_data;
@@ -135,7 +135,7 @@ std::pair<SQLPipelineStatus, std::shared_ptr<const Table>> BenchmarkSQLExecutor:
           Hyrise::get().cardinality_statistics += std::to_string(cardinality_estimator.estimate_cardinality(node->left_input()->lqp_node)) + ",";
           Hyrise::get().cardinality_statistics += std::to_string(cardinality_estimator.estimate_cardinality(aggregate_op->lqp_node)) + "\n";
         } else if (node->left_input()->type() == OperatorType::Validate) {
-          if (node->left_input()->left_input()->type() == OperatorType::GetTable) {
+          if (node->left_input()->left_input()->type() == OperatorType::GetTable && node->left_input()->lqp_node) {
             const auto aggregate_op = std::dynamic_pointer_cast<const JoinHash>(node);
           const auto& aggregate_performance_data = aggregate_op->performance_data;
           const auto& get_table_performance_data = node->left_input()->performance_data;
