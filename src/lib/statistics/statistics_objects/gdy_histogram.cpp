@@ -91,6 +91,7 @@ GDYHistogram<T>::GDYHistogram(std::vector<T>&& bin_minima, std::vector<T>&& bin_
       _domain(domain) {
   Assert(_bin_minima.size() == _bin_maxima.size(), "Must have the same number of lower as upper bin edges.");
   Assert(_bin_minima.size() == _bin_heights.size(), "Must have the same number of edges and heights.");
+  Assert(_distinct_count_per_bin.size() == _bin_heights.size(), "Must have the same number of distinct counts and heights.");
 
   AbstractHistogram<T>::_assert_bin_validity();
 
@@ -356,9 +357,10 @@ std::shared_ptr<AbstractHistogram<T>> GDYHistogram<T>::clone() const {
     auto bin_minima_copy = _bin_minima;
     auto bin_maxima_copy = _bin_maxima;
     auto bin_heights_copy = _bin_heights;
+    auto bin_distinct_counts = _distinct_count_per_bin;
 
     return std::make_shared<GDYHistogram<T>>(std::move(bin_minima_copy), std::move(bin_maxima_copy),
-                                             std::move(bin_heights_copy), std::move(_distinct_count_per_bin),
+                                             std::move(bin_heights_copy), std::move(bin_distinct_counts),
                                              total_count(), _domain);
 }
 
