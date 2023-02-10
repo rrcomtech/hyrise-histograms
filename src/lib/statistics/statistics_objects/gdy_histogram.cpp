@@ -348,7 +348,7 @@ std::shared_ptr<GDYHistogram<T>> GDYHistogram<T>::from_column(
 
 template <typename T>
 std::string GDYHistogram<T>::name() const {
-  return "EqualDistinctCount";
+  return "GDYHistogram";
 }
 
 template <typename T>
@@ -357,10 +357,14 @@ std::shared_ptr<AbstractHistogram<T>> GDYHistogram<T>::clone() const {
     auto bin_minima_copy = _bin_minima;
     auto bin_maxima_copy = _bin_maxima;
     auto bin_heights_copy = _bin_heights;
-    auto bin_distinct_counts = _distinct_count_per_bin;
+    auto bin_distinct_counts_copy = _distinct_count_per_bin;
+
+    Assert(_bin_minima.size() == _bin_maxima.size(), "CLONING: Must have the same number of lower as upper bin edges.");
+    Assert(_bin_minima.size() == _bin_heights.size(), "CLONING: Must have the same number of edges and heights.");
+    Assert(_distinct_count_per_bin.size() == _bin_heights.size(), "CLONING: Must have the same number of distinct counts and heights.");
 
     return std::make_shared<GDYHistogram<T>>(std::move(bin_minima_copy), std::move(bin_maxima_copy),
-                                             std::move(bin_heights_copy), std::move(bin_distinct_counts),
+                                             std::move(bin_heights_copy), std::move(bin_distinct_counts_copy),
                                              total_count(), _domain);
 }
 
@@ -413,7 +417,11 @@ HistogramCountType GDYHistogram<T>::bin_height(const BinID index) const {
 template <typename T>
 HistogramCountType GDYHistogram<T>::bin_distinct_count(const BinID index) const {
   DebugAssert(index < bin_count(), "Index is not a valid bin.");
-  return _distinct_count_per_bin[index];
+  if (bin_count() == 1) {
+    return 1;
+  }
+
+  return _distinct_count_per_bin.at(index);
 }
 
 template <typename T>
