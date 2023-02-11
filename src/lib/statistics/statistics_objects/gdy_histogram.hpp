@@ -93,7 +93,7 @@ class GDYHistogram : public AbstractHistogram<T> {
   std::vector<HistogramCountType> _bin_heights;
 
   // Number of distinct values per bin.
-  std::vector<HistogramCountType>&& _distinct_count_per_bin;
+  std::vector<HistogramCountType> _distinct_count_per_bin;
 
   // The first bin_count_with_extra_value bins have an additional distinct value.
   BinID _bin_count_with_extra_value;
