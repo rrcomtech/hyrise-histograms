@@ -115,7 +115,8 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
 
           std::ofstream out;
           out.open("histograms.csv", std::ios_base::app);
-          out << "TABLE_NAME,COLUMN_NAME,HISTOGRAM_TYPE,BIN_ID,MIN,MAX,HEIGHT,DISTINCT_COUNT";
+          // Put this in the top of the file.
+          // out << "TABLE_NAME,COLUMN_NAME,HISTOGRAM_TYPE,BIN_ID,MIN,MAX,HEIGHT,DISTINCT_COUNT\n";
           for (auto bin_id = BinID{0}; bin_id < histogram->bin_count(); ++bin_id) {
             out << tableName << "," << table.column_name(column_id) << "," << histogram_name << "," << bin_id << ","
                 << histogram->bin_minimum(bin_id) << "," << histogram->bin_maximum(bin_id) << ","
