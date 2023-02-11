@@ -139,21 +139,31 @@ std::pair<std::vector<error_increase>, std::vector<error_decrease>> calculate_er
     std::vector<error_decrease> error_decreases(0);
 
     /*
-     *  Set current minima and maxima.
-     */
+      -------------------------------------   
+      |  Sets current minima and maxima.  |
+      -------------------------------------
+    */
     std::vector<T> bin_minima(barrier_count + 1);
     std::vector<T> bin_maxima(barrier_count + 1);
     bin_minima[0] = value_distribution[0].first;
     bin_maxima[bin_maxima.size() - 1] = value_distribution[value_distribution.size() - 1].first;
-    auto barrier_ind = uint32_t{0};
-    for (auto val_ind = uint32_t{0}; val_ind < value_distribution.size() - 2; ++val_ind) {
-        if (val_ind == barrier_indexes[barrier_ind]) {
-            bin_maxima[barrier_ind] = value_distribution[val_ind].first;
-            bin_minima[barrier_ind + 1] = value_distribution[val_ind + 1].first;
-            ++barrier_ind;
-        }
+    { // barrier_ind has to count outside each iteration, but should ONLY be used inside the loop. 
+      // Therefore, we use a block.
+      auto barrier_ind = uint32_t{0};
+      for (auto val_ind = uint32_t{0}; val_ind < value_distribution.size() - 2; ++val_ind) {
+          if (val_ind == barrier_indexes[barrier_ind]) {
+              bin_maxima[barrier_ind] = value_distribution[val_ind].first;
+              bin_minima[barrier_ind + 1] = value_distribution[val_ind + 1].first;
+              ++barrier_ind;
+          }
+      }
     }
 
+    /*
+      -----------------------
+      |  Error Calculation  |
+      -----------------------
+    */
     for (auto ind = uint32_t{0}; ind < barrier_count; ++ind) {
 
         /*
@@ -162,18 +172,21 @@ std::pair<std::vector<error_increase>, std::vector<error_decrease>> calculate_er
           -----------------------------------------------------
         */
         const auto curr_barrier = barrier_indexes[ind];
-        const auto current_error = static_cast<float>(bin_maxima[ind] - bin_minima[ind]);
-        const auto current_error_of_next_bin = static_cast<float>(
-            bin_maxima[ind + 1] - bin_minima[ind + 1]
-        );
-
-        const auto total_current_error = std::pow(std::max(current_error, current_error_of_next_bin), 2);
-        auto new_error = std::pow(static_cast<float>(bin_maxima[ind + 1] - bin_minima[ind]), 2);
         error_increase ei;
         ei.barrier_index = curr_barrier;
-        // Error increase: Error of new bin (if barrier removed) - error of old bin (if barrier not removed).
-        ei.error_increase = static_cast<float>(new_error - total_current_error);
-        error_increases.emplace_back(ei);
+        {
+          const auto current_error = static_cast<float>(bin_maxima[ind] - bin_minima[ind]);
+          const auto current_error_of_next_bin = static_cast<float>(
+              bin_maxima[ind + 1] - bin_minima[ind + 1]
+          );
+
+          const auto total_current_error = std::pow(std::max(current_error, current_error_of_next_bin), 2);
+          auto new_error = std::pow(static_cast<float>(bin_maxima[ind + 1] - bin_minima[ind]), 2);
+
+          // Error increase: Error of new bin (if barrier removed) - error of old bin (if barrier not removed).
+          ei.error_increase = static_cast<float>(std::sqrt(new_error - total_current_error));
+          error_increases.emplace_back(ei);
+        }
 
         /*
           -----------------------------------------------------
@@ -183,36 +196,32 @@ std::pair<std::vector<error_increase>, std::vector<error_decrease>> calculate_er
         error_decrease ed;
         ed.ideal_barrier_index = value_distribution.size() + 1; // Set to invalid value.
         ed.error_decrease = 0;
+        {
+          // Find next barrier. Might also be the last value, if there is no next barrier.
+          auto next_barrier_position = (curr_barrier + 1 < barrier_indexes.size()) ? barrier_indexes[curr_barrier + 1] : value_distribution.size() - 1;
 
-        // Find next barrier. Might also be the last value, if there is no next barrier.
-        auto next_barrier_index = uint32_t{0};
-        if (barrier_ind + 1 < barrier_indexes.size()) {
-            next_barrier_index = barrier_indexes[barrier_ind + 1];
-        } else {
-            next_barrier_index = value_distribution.size() - 1;
-        }
+          // Start looking at the value after the current barrier.
+          auto val_position = barrier_indexes[curr_barrier] + 1;
 
-        // Start looking at the value after the current barrier.
-        auto val_index = curr_barrier + 1;
+          while (val_position < next_barrier_position) {
+              // Calculate for each index, how the error would be influenced.
+              const auto& [value, frequency] = value_distribution[val_position];
 
-        while (val_index < next_barrier_index - 1) {
-            // Calculate for each index, how the error would be influenced.
-            const auto& [partition_value, partition_count] = value_distribution[val_index];
+              const auto curr_error = static_cast<float>(bin_maxima[ind+1] - bin_minima[ind+1]);
+              const auto new_left_error = static_cast<float>(value - bin_minima[ind+1]);
+              const auto new_right_error = static_cast<float>(bin_maxima[ind + 1] - value);
 
-            const auto curr_error = static_cast<float>(bin_maxima[ind + 1] - bin_minima[ind]);
-            const auto new_left_error = static_cast<float>(partition_value - bin_minima[ind]);
-            const auto new_right_error = static_cast<float>(bin_maxima[ind + 1] - partition_value);
+              const auto error_decrease = static_cast<float>(std::sqrt(
+                  std::pow(curr_error, 2) - std::pow(std::max(new_left_error, new_right_error), 2)
+              ));
 
-            const auto error_decrease = static_cast<float>(
-                std::pow(curr_error, 2) - (std::pow(new_left_error, 2) + std::pow(new_right_error, 2))
-            );
+              if (error_decrease > ed.error_decrease) {
+                  ed.error_decrease = error_decrease;
+                  ed.ideal_barrier_index = val_position;
+              }
 
-            if (error_decrease > ed.error_decrease) {
-                ed.error_decrease = error_decrease;
-                ed.ideal_barrier_index = val_index;
-            }
-
-            ++val_index;
+              ++val_position;
+          }
         }
 
         if (ed.ideal_barrier_index != value_distribution.size() + 1 && ed.error_decrease > 0) {

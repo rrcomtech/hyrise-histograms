@@ -166,7 +166,8 @@ set(
     lib/statistics/statistics_objects/equal_distinct_count_histogram_test.cpp
     lib/statistics/statistics_objects/equi_height_histogram_test.cpp
     lib/statistics/statistics_objects/equi_width_histogram_test.cpp
-        lib/statistics/statistics_objects/max_diff_fr_histogram_test.cpp
+    lib/statistics/statistics_objects/max_diff_fr_histogram_test.cpp
+    lib/statistics/statistics_objects/gdy_histogram_test.cpp
     lib/statistics/statistics_objects/generic_histogram_test.cpp
     lib/statistics/statistics_objects/min_max_filter_test.cpp
     lib/statistics/statistics_objects/range_filter_test.cpp
