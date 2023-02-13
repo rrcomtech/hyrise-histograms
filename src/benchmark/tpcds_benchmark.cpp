@@ -7,6 +7,7 @@
 #include "cli_config_parser.hpp"
 #include "cxxopts.hpp"
 #include "file_based_benchmark_item_runner.hpp"
+#include "hyrise.hpp"
 #include "tpcds/tpcds_table_generator.hpp"
 #include "utils/assert.hpp"
 #include "utils/sqlite_add_indices.hpp"
