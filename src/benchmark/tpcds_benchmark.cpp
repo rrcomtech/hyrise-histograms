@@ -37,6 +37,7 @@ const std::unordered_set<std::string> filename_blacklist() {
 int main(int argc, char* argv[]) {
   auto cli_options = BenchmarkRunner::get_basic_cli_options("TPC-DS Benchmark");
 
+  Hyrise::get().benchmark_type = "TPC-DS";
   // clang-format off
   cli_options.add_options()
     ("s,scale", "Database scale factor (10 ~ 10GB)", cxxopts::value<int32_t>()->default_value("10"));
