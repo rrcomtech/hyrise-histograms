@@ -164,24 +164,23 @@ std::pair<std::vector<error_increase>, std::vector<error_decrease>> calculate_er
       |  Error Calculation  |
       -----------------------
     */
-    for (auto ind = uint32_t{0}; ind < barrier_count; ++ind) {
+    for (auto barrier_index = uint32_t{0}; barrier_index < barrier_count; ++barrier_index) {
 
         /*
           -----------------------------------------------------
           |  Calculate error increase for removing a barrier  |
           -----------------------------------------------------
         */
-        const auto curr_barrier = barrier_indexes[ind];
         error_increase ei;
-        ei.barrier_index = curr_barrier;
+        ei.barrier_index = barrier_index;
         {
-          const auto current_error = static_cast<float>(bin_maxima[ind] - bin_minima[ind]);
+          const auto current_error = static_cast<float>(bin_maxima[barrier_index] - bin_minima[barrier_index]);
           const auto current_error_of_next_bin = static_cast<float>(
-              bin_maxima[ind + 1] - bin_minima[ind + 1]
+              bin_maxima[barrier_index + 1] - bin_minima[barrier_index + 1]
           );
 
           const auto total_current_error = std::pow(std::max(current_error, current_error_of_next_bin), 2);
-          auto new_error = std::pow(static_cast<float>(bin_maxima[ind + 1] - bin_minima[ind]), 2);
+          auto new_error = std::pow(static_cast<float>(bin_maxima[barrier_index + 1] - bin_minima[barrier_index]), 2);
 
           // Error increase: Error of new bin (if barrier removed) - error of old bin (if barrier not removed).
           ei.error_increase = static_cast<float>(std::sqrt(new_error - total_current_error));
@@ -197,19 +196,22 @@ std::pair<std::vector<error_increase>, std::vector<error_decrease>> calculate_er
         ed.ideal_barrier_index = value_distribution.size() + 1; // Set to invalid value.
         ed.error_decrease = 0;
         {
+          const auto barrier_position = barrier_indexes[barrier_index];
           // Find next barrier. Might also be the last value, if there is no next barrier.
-          auto next_barrier_position = (curr_barrier + 1 < barrier_indexes.size()) ? barrier_indexes[curr_barrier + 1] : value_distribution.size() - 1;
+          auto next_barrier_position = ((barrier_position + 1) < barrier_indexes.size()) 
+                                        ? barrier_indexes[barrier_index + 1] 
+                                        : value_distribution.size() - 1;
 
           // Start looking at the value after the current barrier.
-          auto val_position = barrier_indexes[curr_barrier] + 1;
+          auto val_position = barrier_position + 1;
 
           while (val_position < next_barrier_position) {
               // Calculate for each index, how the error would be influenced.
               const auto& [value, frequency] = value_distribution[val_position];
 
-              const auto curr_error = static_cast<float>(bin_maxima[ind+1] - bin_minima[ind+1]);
-              const auto new_left_error = static_cast<float>(value - bin_minima[ind+1]);
-              const auto new_right_error = static_cast<float>(bin_maxima[ind + 1] - value);
+              const auto curr_error = static_cast<float>(bin_maxima[barrier_index+1] - bin_minima[barrier_index+1]);
+              const auto new_left_error = static_cast<float>(value - bin_minima[barrier_index+1]);
+              const auto new_right_error = static_cast<float>(bin_maxima[barrier_index + 1] - value);
 
               const auto error_decrease = static_cast<float>(std::sqrt(
                   std::pow(curr_error, 2) - std::pow(std::max(new_left_error, new_right_error), 2)
@@ -219,7 +221,6 @@ std::pair<std::vector<error_increase>, std::vector<error_decrease>> calculate_er
                   ed.error_decrease = error_decrease;
                   ed.ideal_barrier_index = val_position;
               }
-
               ++val_position;
           }
         }
@@ -305,20 +306,15 @@ std::shared_ptr<GDYHistogram<T>> GDYHistogram<T>::from_column(
   // --------------------------------------------------------
 
   auto retries = uint32_t{0};
-  /*
-   * This was written by GH Copilot. The student, who was supposed to write this, was too lazy
-   * (the last sentence was suggested by Copilot ...).
-   */
   while (error_decreases.size() > 0 && error_increases[0].error_increase < error_decreases[0].error_decrease && static_cast<float>(retries) < total_count) {
-
     auto largest_error_increase = error_increases[0];
     auto largest_error_decrease = error_decreases[0];
 
-    Assert(largest_error_decrease.ideal_barrier_index != largest_error_increase.barrier_index, "Barrier cannot be replaced to itself.");
+    Assert(barrier_indexes[largest_error_increase.barrier_index] != largest_error_decrease.ideal_barrier_index, "Barrier cannot be repositioned to itself.");
 
     // Replace barrier with better one.
     barrier_indexes[largest_error_increase.barrier_index] = largest_error_decrease.ideal_barrier_index;
-    // Sort barrier indexes, since after the last one, they are not anymore in order.
+    // Sort barrier indexes, since after the last exchange, they are not anymore in order.
     std::sort(barrier_indexes.begin(), barrier_indexes.end());
 
     populated_errors = calculate_error_changes(value_distribution, barrier_indexes);
