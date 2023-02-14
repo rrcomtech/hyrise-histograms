@@ -282,7 +282,8 @@ void StorageManager::export_all_histograms(std::string file_name) {
 
         const auto statistics_object = std::dynamic_pointer_cast<AttributeStatistics<ColumnDataType>>(column_statistics[column_index]);
         const auto histogram = statistics_object->histogram;
-        const auto histogram_name = histogram->name();
+        if (histogram) {
+          const auto histogram_name = histogram->name();
 
         const auto column_data_type = table_item.second.get()->column_data_type(column_index);
         const auto column_name = table_item.second.get()->column_name(column_index);
@@ -291,6 +292,7 @@ void StorageManager::export_all_histograms(std::string file_name) {
           out << table_item.first << "," << column_name << "," << column_data_type << "," << histogram_name
               << "," << bin_id << "," << histogram->bin_minimum(bin_id) << "," << histogram->bin_maximum(bin_id)
               << "," << histogram->bin_height(bin_id) << "," << histogram->bin_distinct_count(bin_id) << "\n";
+        }
         }
       });
     }
