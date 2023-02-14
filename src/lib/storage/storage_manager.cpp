@@ -4,6 +4,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <fstream>
 
 #include "hyrise.hpp"
 #include "import_export/file_type.hpp"
@@ -15,6 +16,7 @@
 #include "statistics/table_statistics.hpp"
 #include "utils/assert.hpp"
 #include "utils/meta_table_manager.hpp"
+#include "statistics/attribute_statistics.hpp"
 
 namespace hyrise {
 
@@ -208,6 +210,8 @@ void StorageManager::export_all_tables_as_csv(const std::string& path) {
   auto tasks = std::vector<std::shared_ptr<AbstractTask>>{};
   tasks.reserve(_tables.size());
 
+  export_all_histograms();
+
   for (const auto& table_item : _tables) {
     if (!table_item.second) {
       continue;
@@ -258,6 +262,42 @@ std::ostream& operator<<(std::ostream& stream, const StorageManager& storage_man
   }
 
   return stream;
+}
+
+void StorageManager::export_all_histograms() {
+  std::ofstream out;
+  out.open("histograms.csv", std::ios_base::app);
+  out << "TABLE_NAME,COLUMN_NAME,COLUMN_DATA_TYPE,HISTOGRAM_TYPE,BIN_ID,MIN,MAX,HEIGHT,DISTINCT_COUNT\n";
+
+  for (const auto& table_item : _tables) {
+    if (!table_item.second) {
+      continue;
+    }
+
+    const auto statistics = table_item.second->table_statistics();
+    const auto column_statistics = statistics->column_statistics;
+
+    for (auto column_index = ColumnID{0}; column_index < column_statistics.size(); ++column_index) {
+      const auto column_data_type = column_statistics[column_index]->data_type;
+      resolve_data_type(column_data_type, [&](auto type) {
+        using ColumnDataType = typename decltype(type)::type;
+
+        const auto statistics_object = std::dynamic_pointer_cast<AttributeStatistics<ColumnDataType>>(column_statistics[column_index]);
+        const auto histogram = statistics_object->histogram;
+        const auto histogram_name = histogram->name();
+
+        const auto column_data_type = table_item.second.get()->column_data_type(column_index);
+        const auto column_name = table_item.second.get()->column_name(column_index);
+
+        for (auto bin_id = BinID{0}; bin_id < histogram->bin_count(); ++bin_id) {
+          out << table_item.first << "," << column_name << "," << column_data_type << "," << histogram_name
+              << "," << bin_id << "," << histogram->bin_minimum(bin_id) << "," << histogram->bin_maximum(bin_id)
+              << "," << histogram->bin_height(bin_id) << "," << histogram->bin_distinct_count(bin_id) << "\n";
+        }
+      });
+    }
+  }
+  out.close();
 }
 
 }  // namespace hyrise

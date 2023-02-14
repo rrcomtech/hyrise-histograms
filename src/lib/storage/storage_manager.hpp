@@ -59,6 +59,7 @@ class StorageManager : public Noncopyable {
 
   // For debugging purposes mostly, dump all tables as csv
   void export_all_tables_as_csv(const std::string& path);
+  void export_all_histograms();
 
  protected:
   StorageManager() = default;
