@@ -210,8 +210,6 @@ void StorageManager::export_all_tables_as_csv(const std::string& path) {
   auto tasks = std::vector<std::shared_ptr<AbstractTask>>{};
   tasks.reserve(_tables.size());
 
-  export_all_histograms();
-
   for (const auto& table_item : _tables) {
     if (!table_item.second) {
       continue;
@@ -264,9 +262,9 @@ std::ostream& operator<<(std::ostream& stream, const StorageManager& storage_man
   return stream;
 }
 
-void StorageManager::export_all_histograms() {
+void StorageManager::export_all_histograms(std::string file_name) {
   std::ofstream out;
-  out.open("histograms.csv", std::ios_base::app);
+  out.open(file_name, std::ios_base::app);
   out << "TABLE_NAME,COLUMN_NAME,COLUMN_DATA_TYPE,HISTOGRAM_TYPE,BIN_ID,MIN,MAX,HEIGHT,DISTINCT_COUNT\n";
 
   for (const auto& table_item : _tables) {
