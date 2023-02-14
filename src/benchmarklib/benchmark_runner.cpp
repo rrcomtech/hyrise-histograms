@@ -186,7 +186,6 @@ void BenchmarkRunner::run() {
   }
 
   const auto histograms_file = "histograms.csv";
-  std::remove(histograms_file);
   Hyrise::get().storage_manager.export_all_histograms(histograms_file);
 
   if (Hyrise::get().scheduler()) {
