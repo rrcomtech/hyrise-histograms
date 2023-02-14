@@ -185,9 +185,6 @@ void BenchmarkRunner::run() {
     Assert(!any_verification_failed, "Verification failed");
   }
 
-  const auto histograms_file = "histograms.csv";
-  Hyrise::get().storage_manager.export_all_histograms(histograms_file);
-
   if (Hyrise::get().scheduler()) {
     Hyrise::get().scheduler()->finish();
     Hyrise::get().set_scheduler(std::make_shared<ImmediateExecutionScheduler>());
@@ -196,6 +193,13 @@ void BenchmarkRunner::run() {
   // Stop the thread that tracks the system utilization
   track_system_utilization = false;
   system_utilization_tracker.join();
+
+  auto histograms_file = std::string("histograms.csv");
+  const auto HISTOGRAM_TYPE = std::getenv("HISTOGRAM");
+  if (HISTOGRAM_TYPE) {
+    histograms_file = std::string("histograms_" + std::string(HISTOGRAM_TYPE) + ".csv");
+  }
+  Hyrise::get().storage_manager.export_all_histograms(histograms_file);
 }
 
 void BenchmarkRunner::_benchmark_shuffled() {
