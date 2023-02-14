@@ -174,7 +174,10 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
 
       if (ind != value_distribution.size() - 1) {
         value = value_distribution[ind + 1];
-        ++bucket_index;
+
+        if (bucket_index < bin_count - 1) {
+          ++bucket_index;
+        }
 
         bin_minima[bucket_index] = value.first;
         bin_maxima[bucket_index] = value.first;
