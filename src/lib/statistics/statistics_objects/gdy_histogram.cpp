@@ -198,7 +198,7 @@ std::pair<std::vector<error_increase>, std::vector<error_decrease>> calculate_er
         {
           const auto barrier_position = barrier_indexes[barrier_index];
           // Find next barrier. Might also be the last value, if there is no next barrier.
-          auto next_barrier_position = ((barrier_position + 1) < barrier_indexes.size()) 
+          auto next_barrier_position = ((barrier_index + 1) < barrier_indexes.size())
                                         ? barrier_indexes[barrier_index + 1] 
                                         : value_distribution.size() - 1;
 
