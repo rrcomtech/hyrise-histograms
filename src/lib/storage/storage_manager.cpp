@@ -285,14 +285,27 @@ void StorageManager::export_all_histograms(std::string file_name) {
         if (histogram) {
           const auto histogram_name = histogram->name();
 
-        const auto column_data_type = table_item.second.get()->column_data_type(column_index);
-        const auto column_name = table_item.second.get()->column_name(column_index);
+          const auto column_data_type = table_item.second.get()->column_data_type(column_index);
+          const auto column_name = table_item.second.get()->column_name(column_index);
 
-        for (auto bin_id = BinID{0}; bin_id < histogram->bin_count(); ++bin_id) {
-          out << table_item.first << "," << column_name << "," << column_data_type << "," << histogram_name
-              << "," << bin_id << "," << histogram->bin_minimum(bin_id) << "," << histogram->bin_maximum(bin_id)
-              << "," << histogram->bin_height(bin_id) << "," << histogram->bin_distinct_count(bin_id) << "\n";
-        }
+          for (auto bin_id = BinID{0}; bin_id < histogram->bin_count(); ++bin_id) {
+
+            auto bin_minimum = histogram->bin_minimum(bin_id);
+            auto bin_maximum = histogram->bin_maximum(bin_id);
+
+            if constexpr (std::is_same_v<ColumnDataType, pmr_string>) {
+              std::replace(bin_minimum.begin(), bin_minimum.end(), ',', ';');
+              std::replace(bin_maximum.begin(), bin_maximum.end(), ',', ';');
+              out << table_item.first << "," << column_name << "," << column_data_type << "," << histogram_name
+                  << "," << bin_id << ",'" << bin_minimum << "','" << bin_maximum << "',"
+                  << histogram->bin_height(bin_id) << "," << histogram->bin_distinct_count(bin_id) << "\n";
+            } else {
+              out << table_item.first << "," << column_name << "," << column_data_type << "," << histogram_name
+                  << "," << bin_id << "," << bin_minimum << "," << bin_maximum << ","
+                  << histogram->bin_height(bin_id) << "," << histogram->bin_distinct_count(bin_id) << "\n";
+            }
+
+          }
         }
       });
     }
