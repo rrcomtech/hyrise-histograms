@@ -95,11 +95,14 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
         const std::string help_text(" construction took ");
         PerformanceWarning(buf + help_text + std::to_string(elapsed.count()) + " s");
 
+        // Header is added in the constructor of the benchmark runner.
         const auto build_time_file = std::getenv("BUILD_TIME");
         if (build_time_file) {
           std::ofstream out;
           out.open(build_time_file, std::ios_base::app);
-          out << histogram_name << "," << elapsed.count() << "\n";
+          out << histogram_name << "," << column_data_type << "," << column_id << "," 
+              << histogram->total_count() << "," << histogram->bin_count() << "," 
+              << elapsed.count() << "\n";
           out.close();
         }
 
