@@ -84,8 +84,8 @@ get_tpcc_data() {
 for hist in ${histograms[@]}; do
   get_tpch_data $hist
   get_job_data $hist
-  #get_tpcds_data $hist
-  #get_tpcc_data $hist
+  get_tpcds_data $hist
+  get_tpcc_data $hist
 done
 
 mv $build_times_filename ../jupyter/data
