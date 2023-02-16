@@ -100,8 +100,8 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
         if (build_time_file) {
           std::ofstream out;
           out.open(build_time_file, std::ios_base::app);
-          out << histogram_name << "," << column_data_type << "," << column_id << "," 
-              << histogram->total_count() << "," << histogram->bin_count() << "," 
+          out << histogram_name << "," << column_data_type << "," << column_id << ","
+              << histogram->total_count() << "," << histogram->bin_count() << ","
               << elapsed.count() << "\n";
           out.close();
         }
