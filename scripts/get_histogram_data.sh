@@ -6,7 +6,7 @@ build_times_filename="build_times.csv"
 curr_date=$(date +"%Y-%m-%d-%T")
 
 repitions=1
-scale_factor=0.01
+scale_factor=10
 
 results_folder="$(pwd)/../cmake-build-debug/results"
 mkdir $results_folder
