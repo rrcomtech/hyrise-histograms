@@ -33,6 +33,15 @@ BenchmarkRunner::BenchmarkRunner(const BenchmarkConfig& config,
       _benchmark_item_runner(std::move(benchmark_item_runner)),
       _table_generator(std::move(table_generator)),
       _context(context) {
+  const auto BUILD_TIMES_FILE = std::getenv("BUILD_TIME");
+  if (BUILD_TIMES_FILE) {
+    std::remove(BUILD_TIMES_FILE);
+    std::ofstream obuild_times_file;
+    obuild_times_file.open(BUILD_TIMES_FILE, std::ios::app);
+    obuild_times_file << "HISTOGRAM_NAME,COLUMN_DATA_TYPE,COLUMN_ID,TOTAL_COUNT,BIN_COUNT,BUILD_TIME\n";
+    obuild_times_file.close();
+  }
+
   Hyrise::get().default_pqp_cache = std::make_shared<SQLPhysicalPlanCache>();
   Hyrise::get().default_lqp_cache = std::make_shared<SQLLogicalPlanCache>();
 
