@@ -1,54 +1,91 @@
 #!/usr/bin/env bash
 
-###########################################################################
-#
-# Builds TPCH with all available Histograms and fetches the data.
-#
-# Dependencies of this script:
-#     1. Execute in scripts folder (I was too lazy to remove that dependency).
-#     2. The build directory needs to called "cmake-build-debug".
-#     3. The build of Hyrise needs to be done and finished.
-#     4. The jupyter data needs to be stored in jupyter/data/.
-#
-# Resulting data will be of name <executed-binary>-<histogram>-cardinalities-<timestamp>.csv
-#
-###########################################################################
-
-histograms=("EquiHeightHistogram" "EquiWidthHistogram" "EqualDistinctCountHistogram" "MaxDiffFrequencyHistogram")
-
-if [[ $# -lt 2 ]]; then
-  echo "Usage: ./get_histogram_data.sh benchmark_binary args (dont forget to put brackets around the args"
-  exit 1
-fi
+histograms=("EquiHeightHistogram" "EquiWidthHistogram" "EqualDistinctCountHistogram" "MaxDiffFrequencyHistogram GDYHistogram")
 
 build_times_filename="build_times.csv"
+curr_date=$(date +"%Y-%m-%d-%T")
 
-get_histogram_data () {
-  curr_date=$(date +"%Y-%m-%d-%T")
-  echo $curr_date
+repitions=1
+scale_factor=0.01
 
-  args="${*:3}"
-  histogram=$2
-  binary=$1
+results_folder="$(pwd)/../cmake-build-debug/results"
+mkdir $results_folder
 
-  cardinalities_filename="$binary-$histogram-cardinalities-$curr_date.csv"
+cd ../cmake-build-debug/
+ninja 
+cd ../scripts
 
-  echo "Measuring $histogram ($binary $args) ..."
+setup_env() {
+  histogram=$1
+  benchmark_name=$2
+
+  cardinalities_filename="$benchmark_name-$histogram-cardinalities-$curr_date.csv"
+  extended_build_times_filename="$benchmark_name-$build_times_filename"
+
+  echo "Measuring $benchmark_name with $histogram ..."
   export HISTOGRAM="$histogram"
   export CARDINALITIES="$cardinalities_filename"
-  export BUILD_TIME="$build_times_filename"
+  export BUILD_TIME="$extended_build_times_filename"
+
+  mkdir "$results_folder/$benchmark_name/"
+}
+
+get_tpch_data() {
+  benchmark_name="tpch"
+  setup_env $1 $benchmark_name
 
   cd ../cmake-build-debug/
-  #ninja
 
-  ./$binary $args
+  ./hyriseBenchmarkTPCH -r $repitions -s $scale_factor
 
-  mv $cardinalities_filename ../jupyter/data
+  mv $cardinalities_filename "$results_folder/$benchmark_name/"
+  mv $extended_build_times_filename "$results_folder/$benchmark_name/"
+}
+
+get_job_data() {
+  benchmark_name="job"
+  setup_env $1 $benchmark_name
+
+  cd ../
+
+  ./cmake-build-debug/hyriseBenchmarkJoinOrder
+
+  mv $cardinalities_filename "$results_folder/$benchmark_name/"
+  mv $extended_build_times_filename "$results_folder/$benchmark_name/"
+
+  # Just to be in an expected state for the next benchmark.
+  cd scripts
+}
+
+get_tpcds_data() {
+  benchmark_name="tpcds"
+  setup_env $1 $benchmark_name
+
+  cd ../cmake-build-debug/
+
+  ./hyriseBenchmarkTPCDS -r $repitions -s $scale_factor
+
+  mv $cardinalities_filename "$results_folder/$benchmark_name/"
+  mv $extended_build_times_filename "$results_folder/$benchmark_name/"
+}
+
+get_tpcc_data() {
+  benchmark_name="tpcc"
+  setup_env $1 $benchmark_name
+
+  cd ../cmake-build-debug/
+
+  ./hyriseBenchmarkTPCC -r $repitions -s $scale_factor
+
+  mv $cardinalities_filename "$results_folder/$benchmark_name/"
+  mv $extended_build_times_filename "$results_folder/$benchmark_name/"
 }
 
 for hist in ${histograms[@]}; do
-  get_histogram_data $1 $hist $2
+  get_tpch_data $hist
+  get_job_data $hist
+  #get_tpcds_data $hist
+  #get_tpcc_data $hist
 done
 
 mv $build_times_filename ../jupyter/data
-
