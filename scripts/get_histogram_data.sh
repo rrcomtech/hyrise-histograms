@@ -87,5 +87,3 @@ for hist in ${histograms[@]}; do
   get_tpcds_data $hist
   get_tpcc_data $hist
 done
-
-mv $build_times_filename ../jupyter/data
