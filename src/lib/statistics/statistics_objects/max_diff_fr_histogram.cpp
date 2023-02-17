@@ -121,6 +121,23 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
     total_count += value_freq.second;
   }
 
+  // Trivial Histogram.
+  if (value_distribution.size() == 1) {
+      std::vector<T> bin_minima(1);
+      bin_minima[0] = value_distribution[0].first;
+      std::vector<T> bin_maxima(1);
+      bin_maxima[0] = value_distribution[0].first;
+      std::vector<HistogramCountType> bin_heights(1);
+      bin_heights[0] = value_distribution[0].second;
+      std::vector<HistogramCountType> bin_distinct_counts(1);
+      bin_distinct_counts[0] = 1;
+
+      return std::make_shared<MaxDiffFrHistogram<T>>(std::move(bin_minima), 
+          std::move(bin_maxima), 
+          std::move(bin_heights), 
+          std::move(bin_distinct_counts), total_count);
+  }
+
   // Find the number of bins.
   auto bin_count = max_bin_count;
   if (static_cast<BinID>(value_distribution.size()) < max_bin_count) {
@@ -138,7 +155,7 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
   std::sort(distances.begin(), distances.end(), sortDistance);
   std::reverse(distances.begin(), distances.end()); // Order is not important, but we want to resize later on.
 
-  distances.resize(bin_count / 2);
+  distances.resize(bin_count / 2 - 1);
 
   // Initialize the resulting data structures.
   std::vector<T> bin_minima(max_bin_count);
@@ -151,47 +168,27 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
   bin_maxima[0] = value_distribution[0].first;
   bin_heights[0] = value_distribution[0].second;
   bin_distinct_counts[0] = 1;
-  for (auto ind = uint32_t{1}; ind < value_distribution.size(); ++ind) {
-    auto value = value_distribution[ind];
+  // Check if first 
+  auto last_index_contained = false;
+  for (const auto dist : distances) last_index_contained = last_index_contained || (dist.index == 0);
 
-    // Finds, whether the current index is contained in the MaxDiffs or not.
+  for (auto value_index = uint32_t{1}; value_index < value_distribution.size(); ++value_index) {
+    const auto& [value, frequency] = value_distribution[value_index];
+    Assert(bucket_index < max_bin_count, "MaxDiff: Too many buckets used.");
+
+    // Check if current index is one of the nlargest indexes.
     auto index_contained = false;
-    for (auto dist : distances) {
-      if ((dist.index + 1) == ind) index_contained = true;
-    }
+    for (const auto dist : distances) index_contained = index_contained || (dist.index == value_index);
 
-    /*
-     * When do we go to the next buckets? ==> Iff two adjacent indexes are not in the same group.
-     *      (Group = ["MaxDiff", "NotMaxDiff"])
-     */
-    if (index_contained) {
+    if (index_contained != last_index_contained) {
       ++bucket_index;
-      Assert(bucket_index < max_bin_count, "Bucket Index became too large (Bin Count: " + std::to_string(max_bin_count) + ", Bucket Index: " + std::to_string(bucket_index));
-      bin_minima[bucket_index] = value.first;
-      bin_maxima[bucket_index] = value.first;
-      bin_distinct_counts[bucket_index] += 1;
-      bin_heights[bucket_index] += value.second;
-
-      if (ind != value_distribution.size() - 1) {
-        value = value_distribution[ind + 1];
-
-        if (bucket_index < bin_count - 1) {
-          ++bucket_index;
-        }
-
-        bin_minima[bucket_index] = value.first;
-        bin_maxima[bucket_index] = value.first;
-        bin_distinct_counts[bucket_index] += 1;
-        bin_heights[bucket_index] += value.second;
-
-        ++ind;
-      }
-    } else {
-      bin_maxima[bucket_index] = value.first;
-      bin_distinct_counts[bucket_index] += 1;
-      bin_heights[bucket_index] += value.second;
+      bin_minima[bucket_index] = value;
     }
 
+    bin_maxima[bucket_index] = value;
+    bin_heights[bucket_index] += frequency;
+    ++bin_distinct_counts[bucket_index];
+    last_index_contained = index_contained;
   }
 
   // Cleans up all buckets, that has not been used so far.
