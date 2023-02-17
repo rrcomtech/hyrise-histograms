@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-histograms=("EquiHeightHistogram" "EquiWidthHistogram" "EqualDistinctCountHistogram" "MaxDiffFrequencyHistogram GDYHistogram")
+histograms=("EquiHeightHistogram" "EquiWidthHistogram" "EqualDistinctCountHistogram" "MaxDiffFrequencyHistogram" "GDYHistogram")
 
 build_times_filename="build_times.csv"
 curr_date=$(date +"%Y-%m-%d-%T")
