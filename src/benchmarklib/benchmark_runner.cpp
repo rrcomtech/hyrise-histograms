@@ -40,7 +40,7 @@ BenchmarkRunner::BenchmarkRunner(const BenchmarkConfig& config,
       obuild_times_file.open(BUILD_TIMES_FILE, std::ios::app);
       obuild_times_file << "HISTOGRAM_NAME,COLUMN_DATA_TYPE,COLUMN_ID,TOTAL_COUNT,BIN_COUNT,BUILD_TIME\n";
       obuild_times_file.close();
-    };
+    }
   }
 
   Hyrise::get().default_pqp_cache = std::make_shared<SQLPhysicalPlanCache>();
