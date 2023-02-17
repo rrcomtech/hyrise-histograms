@@ -20,7 +20,7 @@ setup_env() {
   benchmark_name=$2
 
   cardinalities_filename="$benchmark_name-$histogram-cardinalities-$curr_date.csv"
-  extended_build_times_filename="$benchmark_name-$build_times_filename"
+  extended_build_times_filename="$benchmark_name-$histogram-$build_times_filename"
 
   echo "Measuring $benchmark_name with $histogram ..."
   export HISTOGRAM="$histogram"
