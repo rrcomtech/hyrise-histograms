@@ -137,6 +137,7 @@ bool CsvParser::_find_fields_in_chunk(std::string_view csv_content, const Table&
   size_t from = 0;
   unsigned int rows = 0;
   unsigned int field_count = 1;
+  (void)field_count;
   bool in_quotes = false;
   while (rows < table.target_chunk_size()) {
     // Find either of row separator, column delimiter, quote identifier
