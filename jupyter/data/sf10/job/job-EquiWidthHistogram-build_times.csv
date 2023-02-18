@@ -1,0 +1,14 @@
+HISTOGRAM_NAME,COLUMN_DATA_TYPE,COLUMN_ID,TOTAL_COUNT,BIN_COUNT,BUILD_TIME
+EquiWidthHistogram,int,0,4,4,0.00253832
+EquiHeightHistogram,string,1,4,4,0.00125569
+EquiHeightHistogram,string,1,12,5,0.000385695
+EquiWidthHistogram,int,0,12,5,0.000416973
+EquiWidthHistogram,int,3,29997,14,0.0155008
+EquiWidthHistogram,int,1,29997,14,0.0298397
+EquiWidthHistogram,int,0,29997,14,0.0342631
+EquiWidthHistogram,int,2,29997,14,0.0361624
+EquiWidthHistogram,int,3,29997,14,0.00329528
+EquiWidthHistogram,int,0,29997,14,0.0052372
+EquiWidthHistogram,int,1,29997,14,0.00453115
+EquiWidthHistogram,int,2,29997,14,0.00483419
+EquiWidthHistogram,int,2,1.38004e+06,5,0.0118192

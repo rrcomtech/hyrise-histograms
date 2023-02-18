@@ -1,0 +1,7 @@
+benchmark,histogram,query,operator_count,operator_type,real_input,real_output,estimated_input,estimated_output
+,GDYHistogram,,0,TableScan,10,1,10.000000,1.000000
+,GDYHistogram,,1,TableScan,10,1,10.000000,1.000000
+,GDYHistogram,,2,TableScan,100,10,100.000000,10.000000
+,GDYHistogram,,3,TableScan,100,10,100.000000,10.000000
+,GDYHistogram,,4,TableScan,65535,30000,65535.000000,0.000000
+,GDYHistogram,,5,TableScan,65535,30000,65535.000000,0.000000

@@ -1,0 +1,6 @@
+HISTOGRAM_NAME,COLUMN_DATA_TYPE,COLUMN_ID,TOTAL_COUNT,BIN_COUNT,BUILD_TIME
+MaxDiffFrequencyHistogram,string,1,4,3,0.00234323
+MaxDiffFrequencyHistogram,int,0,4,3,0.00147596
+MaxDiffFrequencyHistogram,int,1,29997,7,0.00171959
+MaxDiffFrequencyHistogram,int,0,29997,3,0.00246661
+MaxDiffFrequencyHistogram,string,1,12,3,0.00181272

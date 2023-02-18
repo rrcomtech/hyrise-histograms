@@ -1,0 +1,5 @@
+HISTOGRAM_NAME,COLUMN_DATA_TYPE,COLUMN_ID,TOTAL_COUNT,BIN_COUNT,BUILD_TIME
+EquiHeightHistogram,int,0,4,4,0.0015252
+EquiHeightHistogram,int,3,29997,14,0.000418459
+EquiHeightHistogram,string,1,4,4,0.00664315
+EquiHeightHistogram,int,0,29997,14,0.0108528
