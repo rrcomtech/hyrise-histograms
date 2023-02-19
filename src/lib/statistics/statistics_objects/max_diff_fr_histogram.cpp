@@ -97,7 +97,11 @@ struct ValueDistance {
 };
 
 bool sortDistance (ValueDistance el1, ValueDistance el2) {
-  return (el1.distance < el2.distance);
+  return (el1.distance > el2.distance);
+}
+
+bool sort_distances_per_index (ValueDistance el1, ValueDistance el2) {
+  return (el1.index < el2.index);
 }
 
 template <typename T>
@@ -110,6 +114,7 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
   // Compute the value distribution. Basically, counting how many times each value appears in
   // the column.
   const auto value_distribution = value_distribution_from_column(table, column_id, domain);
+  const auto value_distribution_size = value_distribution.size();
 
   if (value_distribution.empty()) {
     return nullptr;
@@ -122,7 +127,7 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
   }
 
   // Trivial Histogram.
-  if (value_distribution.size() == 1) {
+  if (value_distribution_size == 1) {
       std::vector<T> bin_minima(1);
       bin_minima[0] = value_distribution[0].first;
       std::vector<T> bin_maxima(1);
@@ -153,65 +158,36 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
   }
 
   std::sort(distances.begin(), distances.end(), sortDistance);
-  std::reverse(distances.begin(), distances.end()); // Order is not important, but we want to resize later on.
+  distances.resize(bin_count - 1);
+  std::sort(distances.begin(), distances.end(), sort_distances_per_index);
 
-  distances.resize(bin_count / 2 - 1);
+  std::vector<T> bin_minima(bin_count);
+  std::vector<T> bin_maxima(bin_count);
+  std::vector<HistogramCountType> bin_heights(bin_count, 0);
+  std::vector<HistogramCountType> bin_distinct_counts(bin_count, 0);
 
-  // Initialize the resulting data structures.
-  std::vector<T> bin_minima(max_bin_count);
-  std::vector<T> bin_maxima(max_bin_count);
-  std::vector<HistogramCountType> bin_heights(max_bin_count, 0);
-  std::vector<HistogramCountType> bin_distinct_counts(max_bin_count, 0);
-
-  auto bucket_index = uint32_t{0};
   bin_minima[0] = value_distribution[0].first;
-  bin_maxima[0] = value_distribution[0].first;
-  bin_heights[0] = value_distribution[0].second;
-  bin_distinct_counts[0] = 1;
-  // Check if first 
-  auto last_index_contained = false;
-  for (const auto dist : distances) last_index_contained = last_index_contained || (dist.index == 0);
+  bin_maxima[bin_count - 1] = value_distribution[value_distribution_size - 1].first;
 
-  for (auto value_index = uint32_t{1}; value_index < value_distribution.size(); ++value_index) {
-    const auto& [value, frequency] = value_distribution[value_index];
-    Assert(bucket_index < max_bin_count, "MaxDiff: Too many buckets used.");
-
-    // Check if current index is one of the nlargest indexes.
-    auto index_contained = false;
-    for (const auto dist : distances) index_contained = index_contained || (dist.index == value_index);
-
-    if (index_contained != last_index_contained) {
-      ++bucket_index;
-      bin_minima[bucket_index] = value;
+  for (auto bin_index = BinID{0}; bin_index < bin_count; ++bin_index) {
+    if (bin_index > 0) {
+      bin_minima[bin_index] = value_distribution[distances[bin_index - 1].index].first;
     }
-
-    bin_maxima[bucket_index] = value;
-    bin_heights[bucket_index] += frequency;
-    ++bin_distinct_counts[bucket_index];
-    last_index_contained = index_contained;
+    if (bin_index < bin_count - 1) {
+      bin_maxima[bin_index] = value_distribution[distances[bin_index].index].first;
+    }
   }
 
-  // Cleans up all buckets, that has not been used so far.
-  auto usedBuckets = 0;
-  for (const auto height : bin_heights) {
-    if (height > 0) ++usedBuckets;
+  auto bin_index = BinID{0};
+  for (auto value_index = BinID{0}; bin_index < value_distribution_size; ++bin_index) {
+    while (!(bin_minima[bin_index] <= value_distribution[value_index].first && bin_maxima[bin_index] >= value_distribution[value_index].first)) {
+      ++bin_index;
+    }
+    bin_heights.at(bin_index) += value_distribution[value_index].second;
+    ++bin_distinct_counts[bin_index];
   }
 
-  // Initialize the resulting data structures.
-  std::vector<T> actual_bin_minima(usedBuckets);
-  std::vector<T> actual_bin_maxima(usedBuckets);
-  std::vector<HistogramCountType> actual_bin_heights(usedBuckets, 0);
-  std::vector<HistogramCountType> actual_bin_distinct_counts(usedBuckets, 0);
-  for (auto ind = 0; ind < usedBuckets; ++ind) {
-    actual_bin_minima[ind] = bin_minima[ind];
-    actual_bin_maxima[ind] = bin_maxima[ind];
-    actual_bin_heights[ind] = bin_heights[ind];
-    actual_bin_distinct_counts[ind] = bin_distinct_counts[ind];
-
-    Assert(actual_bin_maxima[ind] >= actual_bin_minima[ind], "Invalid Bin Slice");
-  }
-
-  return std::make_shared<MaxDiffFrHistogram<T>>(std::move(actual_bin_minima), std::move(actual_bin_maxima), std::move(actual_bin_heights), std::move(actual_bin_distinct_counts), total_count);
+  return std::make_shared<MaxDiffFrHistogram<T>>(std::move(bin_minima), std::move(bin_maxima), std::move(bin_heights), std::move(bin_distinct_counts), total_count);
 }
 
 template <typename T>
