@@ -180,7 +180,7 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
 
   auto bin_index = BinID{0};
   for (auto value_index = BinID{0}; value_index < value_distribution_size; ++value_index) {
-    while (!(bin_minima[bin_index] <= value_distribution[value_index].first && bin_maxima[bin_index] >= value_distribution[value_index].first)) {
+    while (!((bin_minima[bin_index] <= value_distribution[value_index].first && bin_maxima[bin_index] > value_distribution[value_index].first) || bin_minima[bin_index] == value_distribution[value_index].first || value_index == value_distribution_size - 1)) {
       ++bin_index;
     }
     bin_heights.at(bin_index) += value_distribution[value_index].second;
