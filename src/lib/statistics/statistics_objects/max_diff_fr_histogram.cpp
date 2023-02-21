@@ -83,7 +83,12 @@ MaxDiffFrHistogram<T>::MaxDiffFrHistogram(std::vector<T>&& bin_minima, std::vect
       _bin_maxima(std::move(bin_maxima)),
       _bin_heights(std::move(bin_height)),
       _bin_distinct_counts(std::move(bin_distinct_counts)),
-      _total_count{total_count} {}
+      _total_count{total_count} {
+
+        for (const auto& distinct_count : _bin_distinct_counts) {
+          _total_distinct_count += distinct_count;
+        }
+      }
 
 template <typename T>
 std::string MaxDiffFrHistogram<T>::name() const {
@@ -250,7 +255,7 @@ BinID MaxDiffFrHistogram<T>::_next_bin_for_value(const T& value) const {
 
 template <typename T>
 HistogramCountType MaxDiffFrHistogram<T>::total_distinct_count() const {
-  return _total_count;
+  return _total_distinct_count;
 }
 
 template <typename T>
