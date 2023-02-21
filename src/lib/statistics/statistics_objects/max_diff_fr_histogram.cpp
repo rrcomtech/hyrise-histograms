@@ -119,7 +119,6 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
   // Compute the value distribution. Basically, counting how many times each value appears in
   // the column.
   const auto value_distribution = value_distribution_from_column(table, column_id, domain);
-  const auto value_distribution_size = value_distribution.size();
 
   if (value_distribution.empty()) {
     return nullptr;
@@ -132,7 +131,7 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
   }
 
   // Trivial Histogram.
-  if (value_distribution_size == 1) {
+  if (value_distribution.size() == 1) {
       std::vector<T> bin_minima(1);
       bin_minima[0] = value_distribution[0].first;
       std::vector<T> bin_maxima(1);
@@ -172,23 +171,27 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
   std::vector<HistogramCountType> bin_distinct_counts(bin_count, 0);
 
   bin_minima[0] = value_distribution[0].first;
-  bin_maxima[bin_count - 1] = value_distribution[value_distribution_size - 1].first;
+  bin_maxima[bin_count - 1] = value_distribution[value_distribution.size() - 1].first;
 
   for (auto bin_index = BinID{0}; bin_index < bin_count; ++bin_index) {
     if (bin_index > 0) {
-      bin_minima[bin_index] = value_distribution[distances[bin_index - 1].index].first;
+      // Index of the next barrier position.
+      const auto value_position = distances[bin_index - 1].index + 1;
+      bin_minima[bin_index] = value_distribution[value_position].first;
     }
     if (bin_index < bin_count - 1) {
-      bin_maxima[bin_index] = value_distribution[distances[bin_index].index].first;
+      const auto value_position = distances[bin_index].index;
+      bin_maxima[bin_index] = value_distribution[value_position].first;
     }
   }
 
   auto bin_index = BinID{0};
-  for (auto value_index = BinID{0}; value_index < value_distribution_size; ++value_index) {
-    while (!((bin_minima[bin_index] <= value_distribution[value_index].first && bin_maxima[bin_index] > value_distribution[value_index].first) || bin_minima[bin_index] == value_distribution[value_index].first || value_index == value_distribution_size - 1)) {
-      ++bin_index;
-    }
-    bin_heights.at(bin_index) += value_distribution[value_index].second;
+  for (auto value_index = uint32_t{0}; value_index < value_distribution.size(); ++value_index) {
+    const auto& [value, frequency] = value_distribution[value_index];
+
+    while (value > bin_maxima[bin_index]) ++bin_index;
+
+    bin_heights.at(bin_index) += frequency;
     ++bin_distinct_counts[bin_index];
   }
 
