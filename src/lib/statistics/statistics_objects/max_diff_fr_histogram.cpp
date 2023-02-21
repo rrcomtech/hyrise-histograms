@@ -175,7 +175,7 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
 
   for (auto bin_index = BinID{0}; bin_index < bin_count; ++bin_index) {
     if (bin_index > 0) {
-      // Index of the next barrier position.
+      // Not continous assumption.
       const auto value_position = distances[bin_index - 1].index + 1;
       bin_minima[bin_index] = value_distribution[value_position].first;
     }
@@ -186,10 +186,10 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
   }
 
   auto bin_index = BinID{0};
-  for (auto value_index = uint32_t{0}; value_index < value_distribution.size(); ++value_index) {
-    const auto& [value, frequency] = value_distribution[value_index];
-
-    while (value > bin_maxima[bin_index]) ++bin_index;
+  for (const auto& [value, frequency] : value_distribution) {
+    while (value > bin_maxima[bin_index]) {
+      ++bin_index;
+    }
 
     bin_heights.at(bin_index) += frequency;
     ++bin_distinct_counts[bin_index];
