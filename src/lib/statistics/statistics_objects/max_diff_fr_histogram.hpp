@@ -20,7 +20,7 @@ class MaxDiffFrHistogram : public AbstractHistogram<T> {
 
   MaxDiffFrHistogram(std::vector<T>&& bin_minima, std::vector<T>&& bin_maxima,
                       std::vector<HistogramCountType>&& bin_height, std::vector<HistogramCountType>&& bin_distinct_counts, const HistogramCountType total_count,
-                      const HistogramDomain<T>& domain = {});
+                      const HistogramCountType total_distinct_count, const HistogramDomain<T>& domain = {});
 
   static std::shared_ptr<MaxDiffFrHistogram<T>> from_column(const Table& table, const ColumnID column_id,
                                                              const BinID max_bin_count,

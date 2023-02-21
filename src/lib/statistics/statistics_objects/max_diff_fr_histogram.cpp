@@ -77,18 +77,14 @@ namespace hyrise {
 template <typename T>
 MaxDiffFrHistogram<T>::MaxDiffFrHistogram(std::vector<T>&& bin_minima, std::vector<T>&& bin_maxima,
                                             std::vector<HistogramCountType>&& bin_height, std::vector<HistogramCountType>&& bin_distinct_counts,
-                                            const HistogramCountType total_count, const HistogramDomain<T>& domain)
+                                            const HistogramCountType total_count, const HistogramCountType total_distinct_count, const HistogramDomain<T>& domain)
     : AbstractHistogram<T>(domain),
     _bin_minima(std::move(bin_minima)),
-      _bin_maxima(std::move(bin_maxima)),
-      _bin_heights(std::move(bin_height)),
-      _bin_distinct_counts(std::move(bin_distinct_counts)),
-      _total_count{total_count} {
-
-        for (const auto& distinct_count : _bin_distinct_counts) {
-          _total_distinct_count += distinct_count;
-        }
-      }
+    _bin_maxima(std::move(bin_maxima)),
+    _bin_heights(std::move(bin_height)),
+    _bin_distinct_counts(std::move(bin_distinct_counts)),
+    _total_count{total_count},
+    _total_distinct_count{total_distinct_count} {}
 
 template <typename T>
 std::string MaxDiffFrHistogram<T>::name() const {
@@ -144,7 +140,7 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
       return std::make_shared<MaxDiffFrHistogram<T>>(std::move(bin_minima), 
           std::move(bin_maxima), 
           std::move(bin_heights), 
-          std::move(bin_distinct_counts), total_count);
+          std::move(bin_distinct_counts), total_count, HistogramCountType{1});
   }
 
   // Find the number of bins.
@@ -187,15 +183,19 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
 
   auto bin_index = BinID{0};
   for (const auto& [value, frequency] : value_distribution) {
+    bool whilst = true;
     while (value > bin_maxima[bin_index]) {
       ++bin_index;
+      Assert(whilst, "Peng!");
+      whilst = false;
     }
+
 
     bin_heights.at(bin_index) += frequency;
     ++bin_distinct_counts[bin_index];
   }
 
-  return std::make_shared<MaxDiffFrHistogram<T>>(std::move(bin_minima), std::move(bin_maxima), std::move(bin_heights), std::move(bin_distinct_counts), total_count);
+  return std::make_shared<MaxDiffFrHistogram<T>>(std::move(bin_minima), std::move(bin_maxima), std::move(bin_heights), std::move(bin_distinct_counts), total_count, value_distribution.size());
 }
 
 template <typename T>
@@ -212,7 +212,7 @@ std::shared_ptr<AbstractHistogram<T>> MaxDiffFrHistogram<T>::clone() const {
   auto bin_distinct_counts_copy = _bin_distinct_counts;
 
   return std::make_shared<MaxDiffFrHistogram<T>>(std::move(bin_minima_copy), std::move(bin_maxima_copy),
-                                                  std::move(bin_heights_copy), std::move(bin_distinct_counts_copy), _total_count);
+                                                  std::move(bin_heights_copy), std::move(bin_distinct_counts_copy), _total_count, _total_distinct_count);
 }
 
 template <typename T>

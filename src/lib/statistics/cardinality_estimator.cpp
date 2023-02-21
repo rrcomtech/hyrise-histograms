@@ -561,7 +561,6 @@ std::shared_ptr<TableStatistics> CardinalityEstimator::estimate_operator_scan_pr
    */
 
   auto selectivity = Selectivity{1};
-  Assert(!std::isnan(selectivity), "Unexpected selectivity:.");
 
   const auto left_column_id = predicate.column_id;
   auto right_column_id = std::optional<ColumnID>{};
@@ -590,7 +589,6 @@ std::shared_ptr<TableStatistics> CardinalityEstimator::estimate_operator_scan_pr
 
       if (null_value_ratio) {
         selectivity = is_not_null ? 1 - *null_value_ratio : *null_value_ratio;
-        Assert(!std::isnan(selectivity), "Unexpected selectivity:.");
 
         // All that remains of the column we scanned on are exclusively NULL values or exclusively non-NULL values
         const auto column_statistics = std::make_shared<AttributeStatistics<ColumnDataType>>();
@@ -600,7 +598,6 @@ std::shared_ptr<TableStatistics> CardinalityEstimator::estimate_operator_scan_pr
         // If there is no null-value ratio available, assume a selectivity of 1, for both IS NULL and IS NOT NULL, as no
         // magic number makes real sense here.
         selectivity = PLACEHOLDER_SELECTIVITY_ALL;
-        Assert(!std::isnan(selectivity), "Unexpected selectivity:.");
         return;
       }
     } else {
@@ -609,7 +606,6 @@ std::shared_ptr<TableStatistics> CardinalityEstimator::estimate_operator_scan_pr
       // sense here.
       if (!scan_statistics_object) {
         selectivity = PLACEHOLDER_SELECTIVITY_ALL;
-        Assert(!std::isnan(selectivity), "Unexpected selectivity:.");
         return;
       }
 
@@ -626,14 +622,12 @@ std::shared_ptr<TableStatistics> CardinalityEstimator::estimate_operator_scan_pr
           // Also, as split_at_bin_bounds is not yet supported for strings, we cannot properly estimate string
           // comparisons, either.
           selectivity = PLACEHOLDER_SELECTIVITY_ALL;
-          Assert(!std::isnan(selectivity), "Unexpected selectivity:.");
           return;
         }
 
         if (predicate.predicate_condition != PredicateCondition::Equals) {
           // TODO(anyone) CardinalityEstimator cannot handle non-equi column-to-column scans right now
           selectivity = PLACEHOLDER_SELECTIVITY_ALL;
-          Assert(!std::isnan(selectivity), "Unexpected selectivity:.");
           return;
         }
 
@@ -646,7 +640,6 @@ std::shared_ptr<TableStatistics> CardinalityEstimator::estimate_operator_scan_pr
           // Can only use histograms to estimate column-to-column scans right now
           // TODO(anyone) extend to other statistics objects
           selectivity = PLACEHOLDER_SELECTIVITY_ALL;
-          Assert(!std::isnan(selectivity), "Unexpected selectivity:.");
           return;
         }
 
@@ -658,13 +651,11 @@ std::shared_ptr<TableStatistics> CardinalityEstimator::estimate_operator_scan_pr
         if (!column_vs_column_histogram) {
           // No overlapping bins: No rows selected
           selectivity = 0.0f;
-          Assert(!std::isnan(selectivity), "Unexpected selectivity:.");
           return;
         }
 
         const auto cardinality = column_vs_column_histogram->total_count();
         selectivity = input_table_statistics->row_count == 0 ? 0.0f : cardinality / input_table_statistics->row_count;
-        Assert(!std::isnan(selectivity), "Unexpected selectivity:.");
 
         /**
          * Write out the AttributeStatistics of the scanned columns
@@ -684,14 +675,12 @@ std::shared_ptr<TableStatistics> CardinalityEstimator::estimate_operator_scan_pr
             const auto total_distinct_count =
                 std::max(scan_statistics_object->total_distinct_count(), HistogramCountType{1.0f});
             selectivity = total_distinct_count > 0 ? 1.0f / total_distinct_count : 0.0f;
-            Assert(!std::isnan(selectivity), "Unexpected selectivity:.");
           } break;
 
           case PredicateCondition::NotEquals: {
             const auto total_distinct_count =
                 std::max(scan_statistics_object->total_distinct_count(), HistogramCountType{1.0f});
             selectivity = total_distinct_count > 0 ? (total_distinct_count - 1.0f) / total_distinct_count : 0.0f;
-            Assert(!std::isnan(selectivity), "Unexpected selectivity:.");
           } break;
 
           case PredicateCondition::LessThan:
@@ -709,7 +698,6 @@ std::shared_ptr<TableStatistics> CardinalityEstimator::estimate_operator_scan_pr
             // Lacking better options, assume a "magic" selectivity for >, >=, <, <=, ... Any number would be equally
             // right and wrong here. In some examples, this seemed like a good guess ¯\_(ツ)_/¯
             selectivity = PLACEHOLDER_SELECTIVITY_MEDIUM;
-            Assert(!std::isnan(selectivity), "Unexpected selectivity:.");
             break;
 
           case PredicateCondition::IsNull:
@@ -727,7 +715,6 @@ std::shared_ptr<TableStatistics> CardinalityEstimator::estimate_operator_scan_pr
         if (variant_is_null(value_variant)) {
           // A predicate `<column> <condition> NULL` always has a selectivity of 0
           selectivity = 0.0f;
-          Assert(!std::isnan(selectivity), "Unexpected selectivity:.");
           return;
         }
 
@@ -735,14 +722,12 @@ std::shared_ptr<TableStatistics> CardinalityEstimator::estimate_operator_scan_pr
           // Lacking better options, assume a "magic" selectivity for LIKE. Any number would be equally
           // right and wrong here. In some examples, this seemed like a good guess ¯\_(ツ)_/¯
           selectivity = PLACEHOLDER_SELECTIVITY_LOW;
-          Assert(!std::isnan(selectivity), "Unexpected selectivity:.");
           return;
         }
         if (predicate.predicate_condition == PredicateCondition::NotLike) {
           // Lacking better options, assume a "magic" selectivity for NOT LIKE. Any number would be equally
           // right and wrong here. In some examples, this seemed like a good guess ¯\_(ツ)_/¯
           selectivity = PLACEHOLDER_SELECTIVITY_HIGH;
-          Assert(!std::isnan(selectivity), "Unexpected selectivity:.");
           return;
         }
 
@@ -752,7 +737,6 @@ std::shared_ptr<TableStatistics> CardinalityEstimator::estimate_operator_scan_pr
             // Lacking better options, assume a "magic" selectivity for `BETWEEN ... AND ?`. Any number would be equally
             // right and wrong here. In some examples, this seemed like a good guess ¯\_(ツ)_/¯
             selectivity = PLACEHOLDER_SELECTIVITY_MEDIUM;
-            Assert(!std::isnan(selectivity), "Unexpected selectivity:.");
             return;
           }
 
@@ -763,7 +747,6 @@ std::shared_ptr<TableStatistics> CardinalityEstimator::estimate_operator_scan_pr
             scan_statistics_object->sliced(predicate.predicate_condition, value_variant, value2_variant);
         if (!sliced_statistics_object) {
           selectivity = 0.0f;
-          Assert(!std::isnan(selectivity), "Unexpected selectivity:.");
           return;
         }
 
@@ -771,13 +754,10 @@ std::shared_ptr<TableStatistics> CardinalityEstimator::estimate_operator_scan_pr
         const auto sliced_histogram =
             std::dynamic_pointer_cast<AbstractHistogram<ColumnDataType>>(sliced_statistics_object);
         DebugAssert(sliced_histogram, "Expected slicing of a Histogram to return either nullptr or a Histogram");
-        if (input_table_statistics->row_count == 0 || sliced_histogram->total_count() == 0.0f || std::isnan(sliced_histogram->total_count())) {
+        if (input_table_statistics->row_count == 0 || sliced_histogram->total_count() == 0.0f) {
           selectivity = 0.0f;
-          Assert(!std::isnan(selectivity), "Unexpected selectivity:.");
         } else {
           selectivity = sliced_histogram->total_count() / input_table_statistics->row_count;
-          std::cout << sliced_histogram->total_count() << "+++" << input_table_statistics->row_count << std::endl;
-          Assert(!std::isnan(selectivity), "Unexpected selectivity::");
         }
 
         const auto column_statistics = std::make_shared<AttributeStatistics<ColumnDataType>>();
