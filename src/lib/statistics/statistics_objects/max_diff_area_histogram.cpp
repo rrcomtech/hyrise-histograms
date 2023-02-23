@@ -138,11 +138,15 @@ std::shared_ptr<MaxDiffAreaHistogram<T>> MaxDiffAreaHistogram<T>::from_column(co
     bin_count = static_cast<BinID>(value_distribution.size());
   }
 
+  // Poosala (Section 5.3): a_i = f_i * s_i (spread * frequency)
   std::vector<ValueDistance> distances(static_cast<int>(value_distribution.size() - 1));
   for (auto ind = uint32_t{0}; ind < value_distribution.size() - 1; ++ind) {
+    const auto spread = std::abs(value_distribution[ind].first - mean);
+    const auto area = spread * value_distribution[ind].second;
+
     struct ValueDistance val_dist;
     val_dist.index = ind;
-    val_dist.distance = std::abs(value_distribution[ind].first - mean);
+    val_dist.distance = area;
     distances[ind] = val_dist;
   }
 

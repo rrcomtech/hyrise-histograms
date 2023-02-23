@@ -36,7 +36,7 @@ get_tpch_data() {
 
   cd ../cmake-build-debug/
 
-  ./hyriseBenchmarkTPCH -r $repitions -s $scale_factor
+  ./hyriseBenchmarkTPCH -r $repitions -s $scale_factor --scheduler
 
   mv $cardinalities_filename "$results_folder/$benchmark_name/"
   mv $extended_build_times_filename "$results_folder/$benchmark_name/"
@@ -46,9 +46,11 @@ get_job_data() {
   benchmark_name="job"
   setup_env $1 $benchmark_name
 
+  pwd
+
   cd ../
 
-  ./cmake-build-debug/hyriseBenchmarkJoinOrder
+  ./cmake-build-debug/hyriseBenchmarkJoinOrder --scheduler
 
   mv $cardinalities_filename "$results_folder/$benchmark_name/"
   mv $extended_build_times_filename "$results_folder/$benchmark_name/"
@@ -63,7 +65,7 @@ get_tpcds_data() {
 
   cd ../cmake-build-debug/
 
-  ./hyriseBenchmarkTPCDS -r $repitions -s $scale_factor
+  ./hyriseBenchmarkTPCDS -r $repitions -s $scale_factor --scheduler
 
   mv $cardinalities_filename "$results_folder/$benchmark_name/"
   mv $extended_build_times_filename "$results_folder/$benchmark_name/"
