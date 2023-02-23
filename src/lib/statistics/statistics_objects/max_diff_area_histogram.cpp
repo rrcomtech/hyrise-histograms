@@ -1,4 +1,4 @@
-#include "max_diff_fr_histogram.hpp"
+#include "max_diff_area_histogram.hpp"
 
 #include <cmath>
 #include <memory>
@@ -75,7 +75,7 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column(con
 namespace hyrise {
 
 template <typename T>
-MaxDiffFrHistogram<T>::MaxDiffFrHistogram(std::vector<T>&& bin_minima, std::vector<T>&& bin_maxima,
+MaxDiffAreaHistogram<T>::MaxDiffAreaHistogram(std::vector<T>&& bin_minima, std::vector<T>&& bin_maxima,
                                             std::vector<HistogramCountType>&& bin_height, std::vector<HistogramCountType>&& bin_distinct_counts,
                                             const HistogramCountType total_count, const HistogramCountType total_distinct_count, const HistogramDomain<T>& domain)
     : AbstractHistogram<T>(domain),
@@ -87,12 +87,12 @@ MaxDiffFrHistogram<T>::MaxDiffFrHistogram(std::vector<T>&& bin_minima, std::vect
     _total_distinct_count{total_distinct_count} {}
 
 template <typename T>
-std::string MaxDiffFrHistogram<T>::name() const {
-  return "MaxDiffFr";
+std::string MaxDiffAreaHistogram<T>::name() const {
+  return "MaxDiffArea";
 }
 
 template <typename T>
-std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const Table& table,
+std::shared_ptr<MaxDiffAreaHistogram<T>> MaxDiffAreaHistogram<T>::from_column(const Table& table,
                                                                             const ColumnID column_id,
                                                                             const BinID max_bin_count,
                                                                             const HistogramDomain<T>& domain) {
@@ -108,9 +108,12 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
 
   // Get the total number of values present in the Histogram.
   auto total_count = HistogramCountType{0};
-  for (const auto& value_freq : value_distribution) {
-    total_count += value_freq.second;
+  auto sum = float{0};
+  for (const auto& val : value_distribution) {
+    total_count += val.second;
+    sum += static_cast<float>(val.first);
   }
+  const auto mean = sum / value_distribution.size();
 
   // Trivial Histogram.
   if (value_distribution.size() == 1) {
@@ -123,7 +126,7 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
       std::vector<HistogramCountType> bin_distinct_counts(1);
       bin_distinct_counts[0] = 1;
 
-      return std::make_shared<MaxDiffFrHistogram<T>>(std::move(bin_minima), 
+      return std::make_shared<MaxDiffAreaHistogram<T>>(std::move(bin_minima), 
           std::move(bin_maxima), 
           std::move(bin_heights), 
           std::move(bin_distinct_counts), total_count, HistogramCountType{1});
@@ -135,17 +138,17 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
     bin_count = static_cast<BinID>(value_distribution.size());
   }
 
-  std::vector<ValueFrDistance> distances(static_cast<int>(value_distribution.size() - 1));
+  std::vector<ValueDistance> distances(static_cast<int>(value_distribution.size() - 1));
   for (auto ind = uint32_t{0}; ind < value_distribution.size() - 1; ++ind) {
-    struct ValueFrDistance val_dist;
+    struct ValueDistance val_dist;
     val_dist.index = ind;
-    val_dist.distance = std::abs(value_distribution[ind].second - value_distribution[ind + 1].second);
+    val_dist.distance = std::abs(value_distribution[ind].first - mean);
     distances[ind] = val_dist;
   }
 
-  std::sort(distances.begin(), distances.end(), MaxDiffFrHistogram::sortDistance);
+  std::sort(distances.begin(), distances.end(), MaxDiffAreaHistogram::sortDistance);
   distances.resize(bin_count - 1);
-  std::sort(distances.begin(), distances.end(), MaxDiffFrHistogram::sort_distances_per_index);
+  std::sort(distances.begin(), distances.end(), MaxDiffAreaHistogram::sort_distances_per_index);
 
   std::vector<T> bin_minima(bin_count);
   std::vector<T> bin_maxima(bin_count);
@@ -176,53 +179,52 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
       whilst = false;
     }
 
-
     bin_heights.at(bin_index) += frequency;
     ++bin_distinct_counts[bin_index];
   }
 
-  return std::make_shared<MaxDiffFrHistogram<T>>(std::move(bin_minima), std::move(bin_maxima), std::move(bin_heights), std::move(bin_distinct_counts), total_count, value_distribution.size());
+  return std::make_shared<MaxDiffAreaHistogram<T>>(std::move(bin_minima), std::move(bin_maxima), std::move(bin_heights), std::move(bin_distinct_counts), total_count, value_distribution.size());
 }
 
 template <typename T>
-HistogramCountType MaxDiffFrHistogram<T>::total_count() const {
+HistogramCountType MaxDiffAreaHistogram<T>::total_count() const {
   return _total_count;
 }
 
 template <typename T>
-std::shared_ptr<AbstractHistogram<T>> MaxDiffFrHistogram<T>::clone() const {
+std::shared_ptr<AbstractHistogram<T>> MaxDiffAreaHistogram<T>::clone() const {
   // The new histogram needs a copy of the data
   auto bin_minima_copy = _bin_minima;
   auto bin_maxima_copy = _bin_maxima;
   auto bin_heights_copy = _bin_heights;
   auto bin_distinct_counts_copy = _bin_distinct_counts;
 
-  return std::make_shared<MaxDiffFrHistogram<T>>(std::move(bin_minima_copy), std::move(bin_maxima_copy),
+  return std::make_shared<MaxDiffAreaHistogram<T>>(std::move(bin_minima_copy), std::move(bin_maxima_copy),
                                                   std::move(bin_heights_copy), std::move(bin_distinct_counts_copy), _total_count, _total_distinct_count);
 }
 
 template <typename T>
-BinID MaxDiffFrHistogram<T>::bin_count() const {
+BinID MaxDiffAreaHistogram<T>::bin_count() const {
   return _bin_maxima.size();
 }
 
 template <typename T>
-const T& MaxDiffFrHistogram<T>::bin_minimum(BinID index) const {
+const T& MaxDiffAreaHistogram<T>::bin_minimum(BinID index) const {
   return _bin_minima[index];
 }
 
 template <typename T>
-const T& MaxDiffFrHistogram<T>::bin_maximum(BinID index) const {
+const T& MaxDiffAreaHistogram<T>::bin_maximum(BinID index) const {
   return _bin_maxima[index];
 }
 
 template <typename T>
-HistogramCountType MaxDiffFrHistogram<T>::bin_height(const BinID index) const {
+HistogramCountType MaxDiffAreaHistogram<T>::bin_height(const BinID index) const {
   return _bin_heights[index];
 }
 
 template <typename T>
-BinID MaxDiffFrHistogram<T>::_bin_for_value(const T& value) const {
+BinID MaxDiffAreaHistogram<T>::_bin_for_value(const T& value) const {
   for (auto index = size_t{0}; index < this->bin_count() - 1; ++index) {
     if (bin_minimum(index + 1) > value) {
       return index;
@@ -233,7 +235,7 @@ BinID MaxDiffFrHistogram<T>::_bin_for_value(const T& value) const {
 }
 
 template <typename T>
-BinID MaxDiffFrHistogram<T>::_next_bin_for_value(const T& value) const {
+BinID MaxDiffAreaHistogram<T>::_next_bin_for_value(const T& value) const {
   const auto bin_for_value = this->_bin_for_value(value);
   // If value is in last bin, return first bin.
   if (bin_for_value == bin_count() - 1) {
@@ -243,16 +245,19 @@ BinID MaxDiffFrHistogram<T>::_next_bin_for_value(const T& value) const {
 }
 
 template <typename T>
-HistogramCountType MaxDiffFrHistogram<T>::total_distinct_count() const {
+HistogramCountType MaxDiffAreaHistogram<T>::total_distinct_count() const {
   return _total_distinct_count;
 }
 
 template <typename T>
-HistogramCountType MaxDiffFrHistogram<T>::bin_distinct_count(const BinID index) const {
+HistogramCountType MaxDiffAreaHistogram<T>::bin_distinct_count(const BinID index) const {
   DebugAssert(index < bin_count(), "Index is not a valid bin.");
   return _bin_distinct_counts[index];
 }
 
-EXPLICITLY_INSTANTIATE_DATA_TYPES(MaxDiffFrHistogram);
+template class MaxDiffAreaHistogram<int32_t>;
+template class MaxDiffAreaHistogram<int64_t>;
+template class MaxDiffAreaHistogram<float>;
+template class MaxDiffAreaHistogram<double>;
 
 }  // namespace hyrise

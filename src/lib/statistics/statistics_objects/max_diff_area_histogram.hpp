@@ -13,23 +13,22 @@
 
 namespace hyrise {
 
-struct ValueFrDistance {
+struct ValueDistance {
   // The distance between the index-th and index+1-th element.
   uint32_t index;
   float distance;
 };
 
-
 template <typename T>
-class MaxDiffFrHistogram : public AbstractHistogram<T> {
+class MaxDiffAreaHistogram : public AbstractHistogram<T> {
  public:
   using AbstractHistogram<T>::AbstractHistogram;
 
-  MaxDiffFrHistogram(std::vector<T>&& bin_minima, std::vector<T>&& bin_maxima,
+  MaxDiffAreaHistogram(std::vector<T>&& bin_minima, std::vector<T>&& bin_maxima,
                       std::vector<HistogramCountType>&& bin_height, std::vector<HistogramCountType>&& bin_distinct_counts, const HistogramCountType total_count,
                       const HistogramCountType total_distinct_count, const HistogramDomain<T>& domain = {});
 
-  static std::shared_ptr<MaxDiffFrHistogram<T>> from_column(const Table& table, const ColumnID column_id,
+  static std::shared_ptr<MaxDiffAreaHistogram<T>> from_column(const Table& table, const ColumnID column_id,
                                                              const BinID max_bin_count,
                                                              const HistogramDomain<T>& domain = {});
 
@@ -45,16 +44,15 @@ class MaxDiffFrHistogram : public AbstractHistogram<T> {
   HistogramCountType bin_height(const BinID index) const override;
   HistogramCountType bin_distinct_count(const BinID index) const override;
 
-  bool operator==(const MaxDiffFrHistogram<T>& rhs) const;
+  bool operator==(const MaxDiffAreaHistogram<T>& rhs) const;
 
-  static bool sortDistance (ValueFrDistance el1, ValueFrDistance el2) {
+  static bool sortDistance (ValueDistance el1, ValueDistance el2) {
     return (el1.distance > el2.distance);
   }
 
-  static bool sort_distances_per_index (ValueFrDistance el1, ValueFrDistance el2) {
+  static bool sort_distances_per_index (ValueDistance el1, ValueDistance el2) {
     return (el1.index < el2.index);
   }
-
 
  protected:
   BinID _bin_for_value(const T& value) const override;
@@ -84,11 +82,11 @@ class MaxDiffFrHistogram : public AbstractHistogram<T> {
 
 // For gtest
 template <typename T>
-std::ostream& operator<<(std::ostream& stream, const MaxDiffFrHistogram<T>& histogram) {
+std::ostream& operator<<(std::ostream& stream, const MaxDiffAreaHistogram<T>& histogram) {
   stream << histogram.description() << std::endl;
   return stream;
 }
 
-// EXPLICITLY_DECLARE_DATA_TYPES(MaxDiffFrHistogram);
+// EXPLICITLY_DECLARE_DATA_TYPES(MaxDiffAreaHistogram);
 
 }  // namespace hyrise

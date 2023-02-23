@@ -14,6 +14,7 @@
 #include "statistics/statistics_objects/equi_height_histogram.hpp"
 #include "statistics/statistics_objects/equi_width_histogram.hpp"
 #include "statistics/statistics_objects/max_diff_fr_histogram.hpp"
+#include "statistics/statistics_objects/max_diff_area_histogram.hpp"
 #include "statistics/statistics_objects/gdy_histogram.hpp"
 #include "storage/table.hpp"
 #include "utils/assert.hpp"
@@ -80,6 +81,14 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
                 } else {
                     histogram_name = "GDYHistogram";
                     histogram = GDYHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
+                }
+            } else if (strcmp(HISTOGRAM_TYPE, "MaxDiffAreaHistogram") == 0) {
+                if constexpr (std::is_same_v<ColumnDataType, pmr_string>) {
+                    histogram_name = "MaxDiffAreaHistogram";
+                    histogram = MaxDiffFrHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
+                } else {
+                    histogram_name = "GDYHistogram";
+                    histogram = MaxDiffAreaHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
                 }
             } else {
               Fail("Unknown Histogram specified!");

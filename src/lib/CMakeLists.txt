@@ -410,6 +410,8 @@ set(
     statistics/statistics_objects/equi_width_histogram.hpp
     statistics/statistics_objects/max_diff_fr_histogram.cpp
     statistics/statistics_objects/max_diff_fr_histogram.hpp
+    statistics/statistics_objects/max_diff_area_histogram.cpp
+    statistics/statistics_objects/max_diff_area_histogram.hpp
     statistics/statistics_objects/gdy_histogram.cpp
     statistics/statistics_objects/gdy_histogram.hpp
     statistics/statistics_objects/generic_histogram.cpp
