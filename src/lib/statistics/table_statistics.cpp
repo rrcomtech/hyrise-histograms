@@ -84,10 +84,10 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
                 }
             } else if (strcmp(HISTOGRAM_TYPE, "MaxDiffAreaHistogram") == 0) {
                 if constexpr (std::is_same_v<ColumnDataType, pmr_string>) {
-                    histogram_name = "MaxDiffAreaHistogram";
+                    histogram_name = "MaxDiffFrequencyHistogram";
                     histogram = MaxDiffFrHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
                 } else {
-                    histogram_name = "GDYHistogram";
+                    histogram_name = "MaxDiffAreaHistogram";
                     histogram = MaxDiffAreaHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
                 }
             } else {
@@ -107,7 +107,7 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
         // Header: "HISTOGRAM_NAME,COLUMN_DATA_TYPE,COLUMN_ID,TOTAL_COUNT,BIN_COUNT,BUILD_TIME\n";
         // (see benchmark_runner constructor)
         const auto build_time_file = std::getenv("BUILD_TIME");
-        if (build_time_file) {
+        if (build_time_file && histogram) {
           std::ofstream out;
           out.open(build_time_file, std::ios_base::app);
           out << histogram_name << "," << column_data_type << "," << column_id << ","
