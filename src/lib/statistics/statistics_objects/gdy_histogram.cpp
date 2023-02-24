@@ -289,9 +289,12 @@ std::shared_ptr<GDYHistogram<T>> GDYHistogram<T>::from_column(
   std::vector<error_decrease> error_decreases(binCount - 1);
 
   // 1. Generate random histogram (aka value distribution partitioning).
-  //auto histogram = EqualDistinctCountHistogram<T>::from_column(table, column_id, max_bin_count, domain);
-  for (auto i = 0u; i < binCount - 1; ++i) {
-    barrier_indexes[i] = i;
+  const auto histogram = EqualDistinctCountHistogram<T>::from_column(table, column_id, binCount, domain);
+  auto val_index = uint32_t{0};
+  for (auto i = 0u; i < (binCount - 1); ++i) {
+    val_index += histogram->bin_distinct_count(i);
+    barrier_indexes[i] = val_index;
+    std::cout << "Barrier Index " << i << ": " << val_index << std::endl; 
   }
 
   // 2. Calculate errors for removing barriers and for adding an ideal partitioning.
