@@ -142,7 +142,7 @@ std::shared_ptr<MaxDiffAreaHistogram<T>> MaxDiffAreaHistogram<T>::from_column(co
 
     auto area = float{frequency};
     if (ind != value_distribution.size() - 1) {
-      const auto spread = static_cast<float>(value_distribution[ind].first) - value;
+      const auto spread = static_cast<float>(value_distribution[ind].first - value);
       area = frequency * spread;
     }
 
