@@ -13,7 +13,7 @@
 #include "generic_histogram.hpp"
 #include "resolve_type.hpp"
 #include "storage/segment_iterate.hpp"
-#include "statistics/statistics_objects/equal_distinct_count_histogram.hpp"
+#include "statistics/statistics_objects/equi_height_histogram.hpp"
 
 namespace {
 
@@ -135,6 +135,7 @@ std::pair<std::vector<error_increase>, std::vector<error_decrease>> calculate_er
     ) {
     const auto barrier_count = barrier_indexes.size();
 
+    // Put these initially without elements. They will be emplaced back.
     std::vector<error_increase> error_increases(0);
     std::vector<error_decrease> error_decreases(0);
 
@@ -147,15 +148,17 @@ std::pair<std::vector<error_increase>, std::vector<error_decrease>> calculate_er
     std::vector<T> bin_maxima(barrier_count + 1);
     bin_minima[0] = value_distribution[0].first;
     bin_maxima[bin_maxima.size() - 1] = value_distribution[value_distribution.size() - 1].first;
-    { // barrier_ind has to count outside each iteration, but should ONLY be used inside the loop. 
-      // Therefore, we use a block.
-      auto barrier_ind = uint32_t{0};
-      for (auto val_ind = uint32_t{0}; val_ind < value_distribution.size() - 2; ++val_ind) {
-          if (val_ind == barrier_indexes[barrier_ind]) {
-              bin_maxima[barrier_ind] = value_distribution[val_ind].first;
-              bin_minima[barrier_ind + 1] = value_distribution[val_ind + 1].first;
-              ++barrier_ind;
+    {
+      auto bin_id = uint32_t{0};
+      for (auto val_ind = uint32_t{0}; val_ind < value_distribution.size(); ++val_ind) {
+        const auto& [value, frequency] = value_distribution[val_ind];
+        if (val_ind + 1 == barrier_indexes[bin_id]) {
+          bin_maxima[bin_id] = value;
+          if (bin_id < barrier_count) {
+            ++bin_id;
+            bin_minima[bin_id] = value_distribution[val_ind + 1].first;
           }
+        }
       }
     }
 
@@ -249,7 +252,6 @@ std::shared_ptr<GDYHistogram<T>> GDYHistogram<T>::from_column(
     const Table& table, const ColumnID column_id, const BinID max_bin_count, const HistogramDomain<T>& domain) {
 
   Assert(max_bin_count > 0, "max_bin_count must be greater than zero ");
-
   auto value_distribution = value_distribution_from_column(table, column_id, domain);
   auto total_count = float{0};
   for (const auto& [value, count] : value_distribution) {
@@ -289,12 +291,12 @@ std::shared_ptr<GDYHistogram<T>> GDYHistogram<T>::from_column(
   std::vector<error_decrease> error_decreases(binCount - 1);
 
   // 1. Generate random histogram (aka value distribution partitioning).
-  const auto histogram = EqualDistinctCountHistogram<T>::from_column(table, column_id, binCount, domain);
+  const auto histogram = EquiHeightHistogram<T>::from_column(table, column_id, binCount, domain);
   auto val_index = uint32_t{0};
   for (auto i = 0u; i < (binCount - 1); ++i) {
     val_index += histogram->bin_distinct_count(i);
     barrier_indexes[i] = val_index;
-    std::cout << "Barrier Index " << i << ": " << val_index << std::endl; 
+    Assert(val_index < value_distribution.size(), "Barrier index became too large.");
   }
 
   // 2. Calculate errors for removing barriers and for adding an ideal partitioning.
@@ -332,26 +334,27 @@ std::shared_ptr<GDYHistogram<T>> GDYHistogram<T>::from_column(
   std::vector<HistogramCountType> bin_heights(binCount);
   std::vector<HistogramCountType> bin_distinct_counts(binCount);
 
-  // Populate bin_minima & bin_maxima.
-  auto bin_id = BinID{0};
-  bin_minima[bin_id] = value_distribution[0].first;
-  for (auto val_ind = uint32_t{0}; val_ind < value_distribution.size() - 1; ++val_ind) {
-    if (val_ind == barrier_indexes[bin_id]) {
-      bin_maxima[bin_id] = value_distribution[val_ind].first;
-      ++bin_id;
-      bin_minima[bin_id] = value_distribution[val_ind + 1].first;
-    }
-    bin_heights[bin_id] += value_distribution[val_ind].second;
-    ++bin_distinct_counts[bin_id];
-  }
-  // Last value is not yet counted in.
-  bin_maxima[binCount - 1] = value_distribution.back().first;
-  bin_heights[binCount - 1] += value_distribution.back().second;
-  ++bin_distinct_counts[binCount - 1];
+  bin_minima[0] = value_distribution[0].first;
+  bin_maxima[bin_maxima.size() - 1] = value_distribution[value_distribution.size() - 1].first;
+  { 
+    auto bin_id = uint32_t{0};
+    for (auto val_ind = uint32_t{0}; val_ind < value_distribution.size(); ++val_ind) {
+      const auto& [value, frequency] = value_distribution[val_ind];
 
-  return std::make_shared<GDYHistogram<T>>(
-      std::move(bin_minima), std::move(bin_maxima), std::move(bin_heights),
-      std::move(bin_distinct_counts), total_count, domain);
+      bin_heights[bin_id] += frequency;
+      bin_distinct_counts[bin_id] += 1;
+      if (val_ind + 1 == barrier_indexes[bin_id]) {
+        bin_maxima[bin_id] = value;
+        if (bin_id < binCount - 1) {
+          ++bin_id;
+          bin_minima[bin_id] = value_distribution[val_ind + 1].first;
+        }
+      }
+    }
+    Assert(bin_id == binCount - 1, "Loop did not catch all buckets.");
+  }
+
+  return std::make_shared<GDYHistogram<T>>(std::move(bin_minima), std::move(bin_maxima), std::move(bin_heights), std::move(bin_distinct_counts), total_count, domain);
 }
 
 template <typename T>
