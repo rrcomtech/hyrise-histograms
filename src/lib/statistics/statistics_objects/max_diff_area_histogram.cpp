@@ -108,12 +108,9 @@ std::shared_ptr<MaxDiffAreaHistogram<T>> MaxDiffAreaHistogram<T>::from_column(co
 
   // Get the total number of values present in the Histogram.
   auto total_count = HistogramCountType{0};
-  auto sum = float{0};
   for (const auto& val : value_distribution) {
     total_count += val.second;
-    sum += static_cast<float>(val.first);
   }
-  const auto mean = sum / static_cast<float>(value_distribution.size());
 
   // Trivial Histogram.
   if (value_distribution.size() == 1) {
@@ -141,8 +138,13 @@ std::shared_ptr<MaxDiffAreaHistogram<T>> MaxDiffAreaHistogram<T>::from_column(co
   // Poosala (Section 5.3): a_i = f_i * s_i (spread * frequency)
   std::vector<ValueDistance> distances(static_cast<size_t>(value_distribution.size() - 1));
   for (auto ind = uint32_t{0}; ind < value_distribution.size() - 1; ++ind) {
-    const auto spread = std::abs(static_cast<float>(value_distribution[ind].first) - mean);
-    const auto area = spread * value_distribution[ind].second;
+    const auto& [value, frequency] = value_distribution[ind];
+
+    auto area = float{frequency};
+    if (ind != value_distribution.size() - 1) {
+      const auto spread = static_cast<float>(value_distribution[ind].first) - value;
+      area = frequency * spread;
+    }
 
     struct ValueDistance val_dist;
     val_dist.index = ind;
