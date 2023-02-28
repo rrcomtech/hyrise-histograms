@@ -106,10 +106,9 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
     return nullptr;
   }
 
-  // Get the total number of values present in the Histogram.
   auto total_count = HistogramCountType{0};
-  for (const auto& value_freq : value_distribution) {
-    total_count += value_freq.second;
+  for (const auto& [value, count] : value_distribution) {
+    total_count += count;
   }
 
   // Find the number of bins.
@@ -128,67 +127,35 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
   std::vector<HistogramCountType> bin_distinct_counts(bin_count, 0);
 
   // The index to loop over the different values.
-  auto value_distribution_index = size_t{0};
+  auto bin_id = BinID{0};
 
-  /*
-  // Print the value distribution.
-  for (const auto v : value_distribution) {
-    std::cout << v.first << ": " << v.second << "x" << std::endl;
-  }
-  */
-  
+  bin_minima[bin_id] = value_distribution[0].first;
+  for (auto val_index = uint32_t{0}; val_index < value_distribution.size(); ++val_index) {
+    const auto& [value, frequency] = value_distribution[val_index];
+    total_count += frequency;
 
-  for (auto bin_id = BinID{0}; bin_id < bin_count; ++bin_id) { 
-    auto space_left_in_bin = values_per_bin;
-
-    auto val_count = value_distribution[value_distribution_index].second;
-    auto val = value_distribution[value_distribution_index].first;
-
-    // Set minimum & maximum. Minimum will stay. Maximum might be overwritten in the future.
-    bin_minima[bin_id] = value_distribution[value_distribution_index].first;
-    bin_maxima[bin_id] = value_distribution[value_distribution_index].first;
-
-    // Go over the rest of the values and fill this bin.
-    while ((space_left_in_bin > 0 || bin_id == bin_count - 1) && value_distribution_index < value_distribution.size()) {
-      val_count = value_distribution[value_distribution_index].second;
-      val = value_distribution[value_distribution_index].first;
-
-      auto values_left = value_distribution.size() - (value_distribution_index + 1);
-      auto bins_left = bin_count - (bin_id + 1);
-
-      if (values_left < bins_left) {
-        space_left_in_bin = 0;
-      } else {
-        // If the value does not fit into Bin, but the Bin holds already values, the next Bin will hold the value.
-        // Only the last Bin will have to take in all the left values.
-        if (val_count > space_left_in_bin && bin_heights[bin_id] != 0 && bin_id != bin_count - 1) {
-          // Skip to next bin.
-          space_left_in_bin = 0;
-        } else {
-          // Add value to current bin.
-          space_left_in_bin -= val_count;
-
-          bin_maxima[bin_id] = val;
-          bin_heights[bin_id] += val_count;
-          ++bin_distinct_counts[bin_id];
-
-          ++value_distribution_index;
-        }
-      }
+    if (bin_id == bin_count - 1) {
+      // Last bin takes everything.
+      bin_minima[bin_id] = value;
+      bin_maxima[bin_id] = value;
+      bin_heights[bin_id] += frequency;
+      bin_distinct_counts[bin_id] = 1;
+      continue;
     }
-  }  
 
-  /*
-  // Print the calculated bins.
-  for (unsigned int i = 0; i < bin_count; ++i) {
-    std::cout << "### Bin " << (i+1) << " ###" << std::endl;
-    std::cout << "Minimum: " << bin_minima[i] << std::endl;
-    std::cout << "Maximum: " << bin_maxima[i] << std::endl;
-    std::cout << bin_heights[i] << " Values." << std::endl;
-    std::cout << bin_distinct_counts[i] << " Distinct Values." << std::endl;
+    auto 
+    if (bin_id )
+
+    if (bin_heights[bin_id] + frequency > values_per_bin && bin_heights[bin_id] > 0) {
+      bin_minima[bin_id] = value;
+      ++bin_id;
+      continue;
+    }
+    
+    bin_maxima[bin_id] = value;
+    bin_heights[bin_id] += frequency;
+    bin_distinct_counts[bin_id] += 1;
   }
-  */
-  
 
   return std::make_shared<EquiHeightHistogram<T>>(std::move(bin_minima), std::move(bin_maxima), std::move(bin_heights), std::move(bin_distinct_counts), total_count);
 }
