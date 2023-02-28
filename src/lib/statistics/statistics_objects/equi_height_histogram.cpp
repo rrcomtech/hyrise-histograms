@@ -139,12 +139,21 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
       bin_minima[bin_id] = value;
       bin_maxima[bin_id] = value;
       bin_heights[bin_id] += frequency;
-      bin_distinct_counts[bin_id] = 1;
+      ++bin_distinct_counts[bin_id];
       continue;
     }
 
-    auto 
-    if (bin_id )
+    auto values_left = (value_distribution.size() - 1) - val_index;
+    auto bins_left = (bin_count - 1) - bin_id;
+    
+    if (values_left == bins_left) {
+      bin_minima[bin_id] = value;
+      bin_maxima[bin_id] = value;
+      bin_heights[bin_id] += frequency;
+      ++bin_distinct_counts[bin_id];
+      ++bin_id;
+      continue;
+    }
 
     if (bin_heights[bin_id] + frequency > values_per_bin && bin_heights[bin_id] > 0) {
       bin_minima[bin_id] = value;
@@ -154,7 +163,13 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
     
     bin_maxima[bin_id] = value;
     bin_heights[bin_id] += frequency;
-    bin_distinct_counts[bin_id] += 1;
+    ++bin_distinct_counts[bin_id];
+
+    if (bin_heights[bin_id] + frequency == values_per_bin) {
+      bin_minima[bin_id] = value;
+      ++bin_id;
+      continue;
+    }
   }
 
   return std::make_shared<EquiHeightHistogram<T>>(std::move(bin_minima), std::move(bin_maxima), std::move(bin_heights), std::move(bin_distinct_counts), total_count);
