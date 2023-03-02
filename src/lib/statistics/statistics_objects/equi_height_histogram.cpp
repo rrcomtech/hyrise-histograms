@@ -143,21 +143,15 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
       continue;
     }
 
-    auto values_left = (value_distribution.size() - 1) - val_index;
-    auto bins_left = (bin_count - 1) - bin_id;
-    
-    if (values_left == bins_left) {
+    // +1 since the indexes are 0-based.
+    const auto values_left = value_distribution.size() - (val_index + 1);
+    const auto bins_left = bin_count - (bin_id + 1);
+    if (bins_left == values_left) {
+      ++bin_id;
       bin_minima[bin_id] = value;
       bin_maxima[bin_id] = value;
       bin_heights[bin_id] += frequency;
       ++bin_distinct_counts[bin_id];
-      ++bin_id;
-      continue;
-    }
-
-    if (bin_heights[bin_id] + frequency > values_per_bin && bin_heights[bin_id] > 0) {
-      bin_minima[bin_id] = value;
-      ++bin_id;
       continue;
     }
     
