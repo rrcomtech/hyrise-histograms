@@ -130,13 +130,15 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
   auto bin_id = BinID{0};
 
   bin_minima[bin_id] = value_distribution[0].first;
-  for (auto val_index = uint32_t{0}; val_index < value_distribution.size(); ++val_index) {
+  bin_maxima[bin_count - 1] = value_distribution[value_distribution.size() - 1].first;
+  bin_heights[bin_count - 1] = value_distribution[value_distribution.size() - 1].second;
+  bin_distinct_counts[bin_count - 1] = 1;
+  for (auto val_index = uint32_t{0}; val_index < value_distribution.size() - 1; ++val_index) {
     const auto& [value, frequency] = value_distribution[val_index];
-    total_count += frequency;
+    const auto& [next_value, _] = value_distribution[val_index + 1];
 
     if (bin_id == bin_count - 1) {
       // Last bin takes everything.
-      bin_minima[bin_id] = value;
       bin_maxima[bin_id] = value;
       bin_heights[bin_id] += frequency;
       ++bin_distinct_counts[bin_id];
@@ -147,11 +149,11 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
     const auto values_left = value_distribution.size() - (val_index + 1);
     const auto bins_left = bin_count - (bin_id + 1);
     if (bins_left == values_left) {
-      ++bin_id;
-      bin_minima[bin_id] = value;
       bin_maxima[bin_id] = value;
       bin_heights[bin_id] += frequency;
       ++bin_distinct_counts[bin_id];
+      ++bin_id;
+      bin_minima[bin_id] = next_value;
       continue;
     }
     
@@ -159,9 +161,9 @@ std::shared_ptr<EquiHeightHistogram<T>> EquiHeightHistogram<T>::from_column(cons
     bin_heights[bin_id] += frequency;
     ++bin_distinct_counts[bin_id];
 
-    if (bin_heights[bin_id] + frequency == values_per_bin) {
-      bin_minima[bin_id] = value;
+    if (bin_heights[bin_id] + frequency > values_per_bin) {
       ++bin_id;
+      bin_minima[bin_id] = next_value;
       continue;
     }
   }
