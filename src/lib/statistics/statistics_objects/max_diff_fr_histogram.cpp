@@ -176,7 +176,6 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
       whilst = false;
     }
 
-
     bin_heights.at(bin_index) += frequency;
     ++bin_distinct_counts[bin_index];
   }
