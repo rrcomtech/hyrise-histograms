@@ -3,6 +3,7 @@
 #include <cmath>
 #include <memory>
 #include <numeric>
+#include <random>
 #include <string>
 #include <utility>
 #include <vector>
@@ -52,7 +53,80 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column(con
   auto value_distribution_map = ValueDistributionMap<T>{};
   const auto chunk_count = table.chunk_count();
 
-  for (auto chunk_id = ChunkID{0}; chunk_id < chunk_count; ++chunk_id) {
+  std::cout << "########## Chunk Count: " << chunk_count << " ##########" << std::endl;
+
+  auto chunks_to_process = std::vector<ChunkID>{};
+  if (chunk_count <= 20) {
+    chunks_to_process = std::vector<ChunkID>(chunk_count);
+    std::iota(std::begin(chunks_to_process), std::end(chunks_to_process), ChunkID{0});
+  } else {
+    // Always include the first and last two chunks.
+    const auto chunks_to_process_count = std::max(20u, std::min(1'000u, 4 + chunk_count / 10));
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(2, chunk_count - 3);
+
+    auto chunk_set = std::unordered_set<ChunkID>{ChunkID{0}, ChunkID{1}, ChunkID{chunk_count - 2}, ChunkID{chunk_count - 1}};
+
+    while (chunk_set.size() < chunks_to_process_count) {
+      chunk_set.emplace(dis(gen));
+    }
+
+    chunks_to_process = std::vector<ChunkID>(chunk_set.begin(), chunk_set.end());
+  }
+
+  for (auto chunk_id : chunks_to_process) {
+    const auto chunk = table.get_chunk(chunk_id);
+    if (!chunk) {
+      continue;
+    }
+
+    add_segment_to_value_distribution<T>(*chunk->get_segment(column_id), value_distribution_map, domain);
+  }
+
+  auto value_distribution =
+      std::vector<std::pair<T, HistogramCountType>>{value_distribution_map.begin(), value_distribution_map.end()};
+  value_distribution_map.clear();  // Maps can be large and sorting slow. Free space early.
+  boost::sort::pdqsort(value_distribution.begin(), value_distribution.end(),
+                       [&](const auto& lhs, const auto& rhs) { return lhs.first < rhs.first; });
+
+  return value_distribution;
+}
+
+template <typename T>
+std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column_multithreaded(const Table& table,
+                                                                             const ColumnID column_id,
+                                                                             const HistogramDomain<T>& domain,
+                                                                             const size_t thread_count) {
+  auto value_distribution_map = ValueDistributionMap<T>{};
+  const auto chunk_count = table.chunk_count();
+
+  std::cout << "########## Chunk Count: " << chunk_count << " ##########" << std::endl;
+
+  auto chunks_to_process = std::vector<ChunkID>{};
+  if (chunk_count <= 20) {
+    chunks_to_process = std::vector<ChunkID>(chunk_count);
+    std::iota(std::begin(chunks_to_process), std::end(chunks_to_process), ChunkID{0});
+  } else {
+    // Always include the first and last two chunks.
+    const auto chunks_to_process_count = std::max(20u, std::min(1'000u, 4 + chunk_count / 10));
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(2, chunk_count - 3);
+
+    chunks_to_process.emplace_back(ChunkID{0});
+    chunks_to_process.emplace_back(ChunkID{1});
+    chunks_to_process.emplace_back(ChunkID{chunk_count - 2});
+    chunks_to_process.emplace_back(ChunkID{chunk_count - 1});
+
+    while (chunks_to_process.size() < chunks_to_process_count) {
+      chunks_to_process.emplace_back(dis(gen));
+    }
+  }
+
+  for (auto chunk_id : chunks_to_process) {
     const auto chunk = table.get_chunk(chunk_id);
     if (!chunk) {
       continue;
