@@ -1,0 +1,7 @@
+benchmark,histogram,query,operator_count,operator_type,real_input,real_output,estimated_input,estimated_output
+,EquiWidthHistogram,,0,TableScan,10,1,10.000000,1.000000
+,EquiWidthHistogram,,1,TableScan,10,1,10.000000,1.000000
+,EquiWidthHistogram,,2,TableScan,100,10,100.000000,10.000000
+,EquiWidthHistogram,,3,TableScan,100,10,100.000000,10.000000
+,EquiWidthHistogram,,4,TableScan,65535,22,65535.000000,45.952518
+,EquiWidthHistogram,,5,TableScan,65535,22,65535.000000,21.845001
