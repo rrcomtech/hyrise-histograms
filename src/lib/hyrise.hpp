@@ -60,6 +60,7 @@ class Hyrise : public Singleton<Hyrise> {
   std::string cardinality_statistics = "";
   std::string current_benchmark = "";
   std::string benchmark_type = "";
+  std::string sampling_rate = "100";
   uint8_t current_operator = 0;
 
 

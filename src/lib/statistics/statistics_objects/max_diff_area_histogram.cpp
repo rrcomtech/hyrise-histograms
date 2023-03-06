@@ -12,6 +12,7 @@
 #include "boost/sort/sort.hpp"
 #include "tsl/robin_map.h"
 
+#include "hyrise.hpp"
 #include "generic_histogram.hpp"
 #include "resolve_type.hpp"
 #include "storage/segment_iterate.hpp"
@@ -81,12 +82,12 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column_sam
   std::cout << "########## Chunk Count: " << chunk_count << " ##########" << std::endl;
 
   auto chunks_to_process = std::vector<ChunkID>{};
-  if (chunk_count <= 20) {
+  if (chunk_count <= 100) {
     chunks_to_process = std::vector<ChunkID>(chunk_count);
     std::iota(std::begin(chunks_to_process), std::end(chunks_to_process), ChunkID{0});
   } else {
     // Always include the first and last two chunks.
-    const auto chunks_to_process_count = std::max(20u, std::min(1'000u, 4 + chunk_count / 10));
+    const auto chunks_to_process_count = chunk_count * (sampling_rate / 100);
 
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -243,8 +244,9 @@ std::shared_ptr<MaxDiffAreaHistogram<T>> MaxDiffAreaHistogram<T>::from_column(co
     Assert(threads > 0, "Invalid Thread Count.");
     value_distribution = value_distribution_from_column_multithreaded(table, column_id, domain, threads);
   } else if (sampling_rate) {
-    const auto rate = std::atoi(thread_count);
+    const auto rate = std::atoi(sampling_rate);
     Assert(rate > 0, "Invalid Thread Count.");
+    Hyrise::get().sampling_rate = std::to_string(rate);
     value_distribution = value_distribution_from_column_sampled(table, column_id, domain, rate);
   } else {
     value_distribution = value_distribution_from_column(table, column_id, domain);
