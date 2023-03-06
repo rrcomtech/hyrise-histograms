@@ -142,9 +142,12 @@ std::shared_ptr<MaxDiffAreaHistogram<T>> MaxDiffAreaHistogram<T>::from_column(co
 
     auto area = float{frequency};
     if (ind != value_distribution.size() - 1) {
-      const auto spread = static_cast<float>(value_distribution[ind].first - value);
-      area = frequency * spread;
+       if constexpr (!std::is_same_v<T, pmr_string>) {
+        const auto spread = static_cast<float>(value_distribution[ind + 1].first - value);
+        area = frequency * spread;
+       }
     }
+    std::cout << std::endl;
 
     struct ValueDistance val_dist;
     val_dist.index = ind;
@@ -261,9 +264,11 @@ HistogramCountType MaxDiffAreaHistogram<T>::bin_distinct_count(const BinID index
   return _bin_distinct_counts[index];
 }
 
-template class MaxDiffAreaHistogram<int32_t>;
-template class MaxDiffAreaHistogram<int64_t>;
-template class MaxDiffAreaHistogram<float>;
-template class MaxDiffAreaHistogram<double>;
+// template class MaxDiffAreaHistogram<int32_t>;
+// template class MaxDiffAreaHistogram<int64_t>;
+// template class MaxDiffAreaHistogram<float>;
+// template class MaxDiffAreaHistogram<double>;
+
+EXPLICITLY_INSTANTIATE_DATA_TYPES(MaxDiffAreaHistogram);
 
 }  // namespace hyrise
