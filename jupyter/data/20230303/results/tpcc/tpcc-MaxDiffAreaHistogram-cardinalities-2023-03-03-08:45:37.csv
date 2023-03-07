@@ -1,0 +1,7 @@
+benchmark,histogram,query,operator_count,operator_type,real_input,real_output,estimated_input,estimated_output
+,MaxDiffAreaHistogram,,0,TableScan,10,1,10.000000,1.000000
+,MaxDiffAreaHistogram,,1,TableScan,10,1,10.000000,1.000000
+,MaxDiffAreaHistogram,,2,TableScan,100,10,100.000000,10.000000
+,MaxDiffAreaHistogram,,3,TableScan,100,10,100.000000,10.000000
+,MaxDiffAreaHistogram,,4,TableScan,65535,22,65535.000000,48.318092
+,MaxDiffAreaHistogram,,5,TableScan,65535,22,65535.000000,21.845001
