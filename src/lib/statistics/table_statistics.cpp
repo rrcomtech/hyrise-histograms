@@ -61,7 +61,7 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
             } else if (strcmp(HISTOGRAM_TYPE, "EquiWidthHistogram") == 0) {
               // EquiWidth cannot handle strings well. Therefore, EquiHeight will be used in that case.
               if constexpr (std::is_same_v<ColumnDataType, pmr_string>) {
-                histogram_name = "EquiHeightHistogram";
+                histogram_name = "EqualDistinctCountHistogram";
                 histogram = EquiHeightHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
               } else {
                 histogram_name = "EquiWidthHistogram";
@@ -76,7 +76,7 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
                 histogram = MaxDiffFrHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
             } else if (strcmp(HISTOGRAM_TYPE, "GDYHistogram") == 0) {
                 if constexpr (std::is_same_v<ColumnDataType, pmr_string>) {
-                    histogram_name = "EquiHeightHistogram";
+                    histogram_name = "EqualDistinctCountHistogram";
                     histogram = EquiHeightHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
                 } else {
                     histogram_name = "GDYHistogram";
