@@ -297,7 +297,6 @@ std::shared_ptr<MaxDiffAreaHistogram<T>> MaxDiffAreaHistogram<T>::from_column(co
         area = frequency * spread;
        }
     }
-    std::cout << std::endl;
 
     struct ValueDistance val_dist;
     val_dist.index = ind;
