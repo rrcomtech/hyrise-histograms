@@ -150,6 +150,9 @@ class AbstractHistogram : public AbstractStatisticsObject {
    */
   std::vector<std::pair<T, T>> bin_bounds() const;
 
+  float estimate_sample_size(uint64_t number_of_values, uint32_t bucket_count,
+                             float gamma = 0.1, float relative_error = 0.2);
+
   /**
    * Returns the number of bins actually present in the histogram.
    * This number can be smaller than the number of bins requested when creating a histogram.

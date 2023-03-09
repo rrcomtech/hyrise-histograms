@@ -3,6 +3,7 @@
 #include <cmath>
 #include <memory>
 #include <numeric>
+#include <random>
 #include <string>
 #include <utility>
 #include <vector>
@@ -11,6 +12,7 @@
 #include "boost/sort/sort.hpp"
 #include "tsl/robin_map.h"
 
+#include "hyrise.hpp"
 #include "generic_histogram.hpp"
 #include "resolve_type.hpp"
 #include "storage/segment_iterate.hpp"
@@ -70,6 +72,141 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column(con
   return value_distribution;
 }
 
+template <typename T>
+std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column_sampled(const Table& table,
+                                                                             const ColumnID column_id,
+                                                                             const HistogramDomain<T>& domain, const size_t sampling_rate) {
+  auto value_distribution_map = ValueDistributionMap<T>{};
+  const auto chunk_count = table.chunk_count();
+
+  std::cout << "########## Chunk Count: " << chunk_count << " ##########" << std::endl;
+
+  auto chunks_to_process = std::vector<ChunkID>{};
+  if (chunk_count <= 100) {
+    chunks_to_process = std::vector<ChunkID>(chunk_count);
+    std::iota(std::begin(chunks_to_process), std::end(chunks_to_process), ChunkID{0});
+  } else {
+    // Always include the first and last two chunks.
+    const auto chunks_to_process_count = chunk_count * (sampling_rate / 100);
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(2, chunk_count - 3);
+
+    auto chunk_set = std::unordered_set<ChunkID>{ChunkID{0}, ChunkID{1}, ChunkID{chunk_count - 2}, ChunkID{chunk_count - 1}};
+
+    while (chunk_set.size() < chunks_to_process_count) {
+      chunk_set.emplace(dis(gen));
+    }
+
+    chunks_to_process = std::vector<ChunkID>(chunk_set.begin(), chunk_set.end());
+  }
+
+  for (auto chunk_id : chunks_to_process) {
+    const auto chunk = table.get_chunk(chunk_id);
+    if (!chunk) {
+      continue;
+    }
+
+    add_segment_to_value_distribution<T>(*chunk->get_segment(column_id), value_distribution_map, domain);
+  }
+
+  auto value_distribution =
+      std::vector<std::pair<T, HistogramCountType>>{value_distribution_map.begin(), value_distribution_map.end()};
+  value_distribution_map.clear();  // Maps can be large and sorting slow. Free space early.
+  boost::sort::pdqsort(value_distribution.begin(), value_distribution.end(),
+                       [&](const auto& lhs, const auto& rhs) { return lhs.first < rhs.first; });
+
+  return value_distribution;
+}
+
+template <typename T>
+void add_chunks_to_value_distribution(const Table& table, const std::vector<ChunkID>& chunk_ids, const ColumnID column_id, ValueDistributionMap<T>& value_distribution,
+                                       const HistogramDomain<T>& domain) {
+  for (auto chunk_id : chunk_ids) {
+    const auto chunk = table.get_chunk(chunk_id);
+    if (!chunk) {
+      continue;
+    }
+
+    add_segment_to_value_distribution<T>(*chunk->get_segment(column_id), value_distribution, domain);
+  }
+}
+
+template <typename T>
+std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column_multithreaded(const Table& table,
+                                                                             const ColumnID column_id,
+                                                                             const HistogramDomain<T>& domain,
+                                                                             size_t thread_count) {
+  auto value_distribution_map = ValueDistributionMap<T>{};
+  const auto chunk_count = table.chunk_count();
+  
+  if (chunk_count < thread_count) {
+    thread_count = chunk_count;
+  }
+
+  auto chunks_to_process = std::vector<ChunkID>{};
+  if (chunk_count <= 20) {
+    chunks_to_process = std::vector<ChunkID>(chunk_count);
+    std::iota(std::begin(chunks_to_process), std::end(chunks_to_process), ChunkID{0});
+  } else {
+    // Always include the first and last two chunks.
+    const auto chunks_to_process_count = std::max(20u, std::min(1'000u, 4 + chunk_count / 10));
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(2, chunk_count - 3);
+
+    chunks_to_process.emplace_back(ChunkID{0});
+    chunks_to_process.emplace_back(ChunkID{1});
+    chunks_to_process.emplace_back(ChunkID{chunk_count - 2});
+    chunks_to_process.emplace_back(ChunkID{chunk_count - 1});
+
+    while (chunks_to_process.size() < chunks_to_process_count) {
+      chunks_to_process.emplace_back(dis(gen));
+    }
+  }
+
+  auto chunks_to_process_batches = std::vector<std::vector<ChunkID>>(thread_count);
+  auto value_distribution_maps = std::vector<ValueDistributionMap<T>>(thread_count);
+  auto threads = std::vector<std::thread>(thread_count);
+
+  for (auto chunk_index = uint32_t{0}; chunk_index < chunks_to_process.size(); ++chunk_index) {
+    chunks_to_process_batches[chunk_index % thread_count].emplace_back(chunks_to_process[chunk_index]); 
+  }
+
+  for (auto index = uint32_t{0}; index < thread_count; ++index) {
+    threads[index] = std::thread(add_chunks_to_value_distribution<T>, std::ref(table), std::ref(chunks_to_process_batches[index]), column_id, std::ref(value_distribution_maps[index]), std::ref(domain));
+  }
+
+  auto value_distribution_with_duplicates = std::vector<std::pair<T, HistogramCountType>>{};
+  auto value_distribution = std::vector<std::pair<T, HistogramCountType>>{};
+
+  for (auto index = uint32_t{0}; index < thread_count; ++index) {
+    threads[index].join();
+    value_distribution_with_duplicates.insert(value_distribution_with_duplicates.end(), value_distribution_maps[index].begin(), value_distribution_maps[index].end());
+    value_distribution_maps[index].clear();
+  }
+
+  boost::sort::pdqsort(value_distribution_with_duplicates.begin(), value_distribution_with_duplicates.end(),
+                       [&](const auto& lhs, const auto& rhs) { return lhs.first < rhs.first; });
+
+  value_distribution.emplace_back(value_distribution_with_duplicates[0]);
+
+  const auto value_distribution_with_duplicates_size = value_distribution_with_duplicates.size();
+  for (auto index = size_t{1}; index < value_distribution_with_duplicates_size; ++index) {
+    const auto& entry = value_distribution_with_duplicates[index];
+
+    if (value_distribution.back().first == entry.first) {
+      value_distribution.back().second += entry.second;
+    } else {
+      value_distribution.emplace_back(entry);
+    }
+  }
+
+  return value_distribution;
+}
+
 }  // namespace
 
 namespace hyrise {
@@ -98,9 +235,22 @@ std::shared_ptr<MaxDiffAreaHistogram<T>> MaxDiffAreaHistogram<T>::from_column(co
                                                                             const HistogramDomain<T>& domain) {
   Assert(max_bin_count > 0, "max_bin_count must be greater than zero ");
 
-  // Compute the value distribution. Basically, counting how many times each value appears in
-  // the column.
-  const auto value_distribution = value_distribution_from_column(table, column_id, domain);
+  auto value_distribution = std::vector<std::pair<T, HistogramCountType>>{};
+
+  const auto thread_count = std::getenv("THREADCOUNT");
+  const auto sampling_rate = std::getenv("SAMPLINGRATE");
+  if (thread_count) {
+    const auto threads = std::atoi(thread_count);
+    Assert(threads > 0, "Invalid Thread Count.");
+    value_distribution = value_distribution_from_column_multithreaded(table, column_id, domain, threads);
+  } else if (sampling_rate) {
+    const auto rate = std::atoi(sampling_rate);
+    Assert(rate > 0, "Invalid Thread Count.");
+    Hyrise::get().sampling_rate = std::to_string(rate);
+    value_distribution = value_distribution_from_column_sampled(table, column_id, domain, rate);
+  } else {
+    value_distribution = value_distribution_from_column(table, column_id, domain);
+  }
 
   if (value_distribution.empty()) {
     return nullptr;
@@ -142,8 +292,10 @@ std::shared_ptr<MaxDiffAreaHistogram<T>> MaxDiffAreaHistogram<T>::from_column(co
 
     auto area = float{frequency};
     if (ind != value_distribution.size() - 1) {
-      const auto spread = static_cast<float>(value_distribution[ind].first - value);
-      area = frequency * spread;
+       if constexpr (!std::is_same_v<T, pmr_string>) {
+        const auto spread = static_cast<float>(value_distribution[ind + 1].first - value);
+        area = frequency * spread;
+       }
     }
 
     struct ValueDistance val_dist;
@@ -261,9 +413,11 @@ HistogramCountType MaxDiffAreaHistogram<T>::bin_distinct_count(const BinID index
   return _bin_distinct_counts[index];
 }
 
-template class MaxDiffAreaHistogram<int32_t>;
-template class MaxDiffAreaHistogram<int64_t>;
-template class MaxDiffAreaHistogram<float>;
-template class MaxDiffAreaHistogram<double>;
+// template class MaxDiffAreaHistogram<int32_t>;
+// template class MaxDiffAreaHistogram<int64_t>;
+// template class MaxDiffAreaHistogram<float>;
+// template class MaxDiffAreaHistogram<double>;
+
+EXPLICITLY_INSTANTIATE_DATA_TYPES(MaxDiffAreaHistogram);
 
 }  // namespace hyrise

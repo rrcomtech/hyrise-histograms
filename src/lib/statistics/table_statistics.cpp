@@ -83,13 +83,9 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
                     histogram = GDYHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
                 }
             } else if (strcmp(HISTOGRAM_TYPE, "MaxDiffAreaHistogram") == 0) {
-                if constexpr (std::is_same_v<ColumnDataType, pmr_string>) {
-                    histogram_name = "MaxDiffFrequencyHistogram";
-                    histogram = MaxDiffFrHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
-                } else {
-                    histogram_name = "MaxDiffAreaHistogram";
-                    histogram = MaxDiffAreaHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
-                }
+                  histogram_name = "MaxDiffAreaHistogram";
+                  histogram = MaxDiffAreaHistogram<ColumnDataType>::from_column(table, column_id, histogram_bin_count);
+
             } else {
               Fail("Unknown Histogram specified!");
             }
