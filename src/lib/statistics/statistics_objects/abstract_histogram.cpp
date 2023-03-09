@@ -889,25 +889,6 @@ Cardinality AbstractHistogram<T>::_scale_distinct_count(Cardinality value_count,
   return std::min(distinct_count, Cardinality{value_count * selectivity});
 }
 
-/*
-  This method is implemented following theorem 4 from 
-  "Random Sampling for Histogram Construction: How much is enough?" (Chaudhuri et al. 1998).
-
-  @param
-    gamma is ??? (defaults to 0.1).
-    relative_error is the relative error of the histogram (defaults to 0.2). In the paper denoted as delta.
-*/
-template <typename T>
-float AbstractHistogram<T>::estimate_sample_size(uint64_t number_of_values, uint32_t bucket_count,
-                                                 float gamma, float relative_error) {
-  const auto log_factor = 2 * static_cast<double>(number_of_values / gamma);
-  // log is the natural logarithm. See https://cplusplus.com/reference/cmath/log/.
-  const auto counter = 4 * pow(number_of_values, 2) * log(log_factor);
-  const auto denominator = bucket_count * pow(relative_error, 2);
-
-  return counter / denominator;
-}
-
 EXPLICITLY_INSTANTIATE_DATA_TYPES(AbstractHistogram);
 
 }  // namespace hyrise
