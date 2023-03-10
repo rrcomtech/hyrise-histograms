@@ -1,0 +1,4 @@
+benchmark,histogram,query,operator_count,operator_type,real_input,real_output,estimated_input,estimated_output
+,MaxDiffFrequencyHistogram,,0,TableScan,65535,22,65535.000000,48.318092
+,MaxDiffFrequencyHistogram,,1,TableScan,65535,22,65535.000000,21.845001
+,MaxDiffFrequencyHistogram,,2,TableScan,65535,25,0.000000,0.000000
