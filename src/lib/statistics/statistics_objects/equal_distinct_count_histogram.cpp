@@ -86,7 +86,8 @@ EqualDistinctCountHistogram<T>::EqualDistinctCountHistogram(std::vector<T>&& bin
       _bin_maxima(std::move(bin_maxima)),
       _bin_heights(std::move(bin_heights)),
       _distinct_count_per_bin(distinct_count_per_bin),
-      _bin_count_with_extra_value(bin_count_with_extra_value) {
+      _bin_count_with_extra_value(bin_count_with_extra_value),
+      _total_count(bin_count_with_extra_value) {
   Assert(_bin_minima.size() == _bin_maxima.size(), "Must have the same number of lower as upper bin edges.");
   Assert(_bin_minima.size() == _bin_heights.size(), "Must have the same number of edges and heights.");
   Assert(_distinct_count_per_bin > 0, "Cannot have bins with no distinct values.");
@@ -94,7 +95,6 @@ EqualDistinctCountHistogram<T>::EqualDistinctCountHistogram(std::vector<T>&& bin
 
   AbstractHistogram<T>::_assert_bin_validity();
 
-  _total_count = std::accumulate(_bin_heights.cbegin(), _bin_heights.cend(), HistogramCountType{0});
   _total_distinct_count = _distinct_count_per_bin * static_cast<HistogramCountType>(bin_count()) +
                           static_cast<HistogramCountType>(_bin_count_with_extra_value);
 }

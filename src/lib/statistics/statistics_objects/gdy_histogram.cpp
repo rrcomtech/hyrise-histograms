@@ -88,14 +88,13 @@ GDYHistogram<T>::GDYHistogram(std::vector<T>&& bin_minima, std::vector<T>&& bin_
       _bin_heights(std::move(bin_heights)),
       _distinct_count_per_bin(std::move(distinct_count_per_bin)),
       _bin_count_with_extra_value(bin_count_with_extra_value),
+      _total_count(bin_count_with_extra_value) ,
       _domain(domain) {
   Assert(_bin_minima.size() == _bin_maxima.size(), "Must have the same number of lower as upper bin edges.");
   Assert(_bin_minima.size() == _bin_heights.size(), "Must have the same number of edges and heights.");
   Assert(_distinct_count_per_bin.size() == _bin_heights.size(), "Must have the same number of distinct counts and heights.");
 
   AbstractHistogram<T>::_assert_bin_validity();
-
-  _total_count = std::accumulate(_bin_heights.cbegin(), _bin_heights.cend(), HistogramCountType{0});
 }
 
 /**
@@ -253,7 +252,7 @@ std::shared_ptr<GDYHistogram<T>> GDYHistogram<T>::from_column(
 
   Assert(max_bin_count > 0, "max_bin_count must be greater than zero ");
   auto value_distribution = value_distribution_from_column(table, column_id, domain);
-  auto total_count = float{0};
+  auto total_count = HistogramCountType{0};
   for (const auto& [value, count] : value_distribution) {
     total_count += count;
   }
