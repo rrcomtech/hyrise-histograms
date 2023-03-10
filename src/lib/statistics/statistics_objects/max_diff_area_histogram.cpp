@@ -75,7 +75,7 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column(con
 template <typename T>
 std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column_sampled(const Table& table,
                                                                              const ColumnID column_id,
-                                                                             const HistogramDomain<T>& domain, const size_t sampling_rate) {
+                                                                             const HistogramDomain<T>& domain, const uint32_t sampling_rate) {
   auto value_distribution_map = ValueDistributionMap<T>{};
   const auto chunk_count = table.chunk_count();
 
@@ -83,11 +83,13 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column_sam
 
   auto chunks_to_process = std::vector<ChunkID>{};
   if (chunk_count <= 100) {
+    std::cout << "########## Chunks Processed: " << chunk_count << " ##########" << std::endl;
     chunks_to_process = std::vector<ChunkID>(chunk_count);
     std::iota(std::begin(chunks_to_process), std::end(chunks_to_process), ChunkID{0});
   } else {
     // Always include the first and last two chunks.
-    const auto chunks_to_process_count = chunk_count * (sampling_rate / 100);
+    const auto chunks_to_process_count = std::max(100u, chunk_count * (sampling_rate / 100));
+    std::cout << "########## Chunks Processed: " << chunks_to_process_count << " ##########" << std::endl;
 
     std::random_device rd;
     std::mt19937 gen(rd());
