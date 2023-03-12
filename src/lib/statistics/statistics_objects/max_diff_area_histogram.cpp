@@ -248,7 +248,7 @@ std::shared_ptr<MaxDiffAreaHistogram<T>> MaxDiffAreaHistogram<T>::from_column(co
     value_distribution = value_distribution_from_column_multithreaded(table, column_id, domain, threads);
   } else if (sampling_rate) {
     const auto rate = std::atoi(sampling_rate);
-    Assert(rate > 0, "Invalid Thread Count.");
+    Assert(rate > 0, "Invalid Sampling Rate.");
     Hyrise::get().sampling_rate = std::to_string(rate);
     value_distribution = value_distribution_from_column_sampled(table, column_id, domain, rate);
   } else {
