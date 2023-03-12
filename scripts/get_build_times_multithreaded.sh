@@ -8,9 +8,9 @@ thread_count=$1
 repitions=1
 scale_factor=100
 
-cd ../cmake-build-release/
+cd ./cmake-build-release/
 ninja 
-cd ../scripts
+cd ..
 
 setup_env() {
   histogram=$1
