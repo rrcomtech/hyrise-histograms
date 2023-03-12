@@ -88,7 +88,8 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column_sam
     std::iota(std::begin(chunks_to_process), std::end(chunks_to_process), ChunkID{0});
   } else {
     // Always include the first and last two chunks.
-    const auto chunks_to_process_count = std::max(100u, chunk_count * (sampling_rate / 100));
+    const auto chunks_to_process_count = std::max(100u, static_cast<uint32_t>(static_cast<float>(chunk_count) * (static_cast<float>(sampling_rate) / 100)));
+    std::cout << "########## Sampling Rate: " << sampling_rate << " ##########" << std::endl;
     std::cout << "########## Chunks Processed: " << chunks_to_process_count << " ##########" << std::endl;
 
     std::random_device rd;
