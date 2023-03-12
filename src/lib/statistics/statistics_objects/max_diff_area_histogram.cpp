@@ -194,17 +194,19 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column_mul
   boost::sort::pdqsort(value_distribution_with_duplicates.begin(), value_distribution_with_duplicates.end(),
                        [&](const auto& lhs, const auto& rhs) { return lhs.first < rhs.first; });
 
-  value_distribution.emplace_back(value_distribution_with_duplicates[0]);
+  if (value_distribution_with_duplicates.size() > 0) {
+    value_distribution.emplace_back(value_distribution_with_duplicates[0]);
 
-  const auto value_distribution_with_duplicates_size = value_distribution_with_duplicates.size();
-  for (auto index = size_t{1}; index < value_distribution_with_duplicates_size; ++index) {
-    const auto& entry = value_distribution_with_duplicates[index];
+    const auto value_distribution_with_duplicates_size = value_distribution_with_duplicates.size();
+    for (auto index = size_t{1}; index < value_distribution_with_duplicates_size; ++index) {
+      const auto& entry = value_distribution_with_duplicates[index];
 
-    if (value_distribution.back().first == entry.first) {
-      value_distribution.back().second += entry.second;
-    } else {
-      value_distribution.emplace_back(entry);
-    }
+      if (value_distribution.back().first == entry.first) {
+        value_distribution.back().second += entry.second;
+      } else {
+        value_distribution.emplace_back(entry);
+      }
+  }
   }
 
   return value_distribution;
@@ -245,6 +247,7 @@ std::shared_ptr<MaxDiffAreaHistogram<T>> MaxDiffAreaHistogram<T>::from_column(co
   if (thread_count) {
     const auto threads = std::atoi(thread_count);
     Assert(threads > 0, "Invalid Thread Count.");
+    std::cout << "Thread Count:::::" << threads << std::endl;
     value_distribution = value_distribution_from_column_multithreaded(table, column_id, domain, threads);
   } else if (sampling_rate) {
     const auto rate = std::atoi(sampling_rate);

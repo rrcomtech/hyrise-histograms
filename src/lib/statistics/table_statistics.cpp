@@ -51,6 +51,14 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
         // export HISTOGRAM=<type>
         const auto HISTOGRAM_TYPE = std::getenv("HISTOGRAM");
 
+        int threads = 1;
+        auto thread_count = std::getenv("THREADCOUNT");
+        if (thread_count) {
+          threads = std::atoi(thread_count);
+          Assert(threads > 0, "Invalid Thread Count.");
+        } 
+
+
         auto histogram_name = "";
 
         const auto start = std::chrono::steady_clock::now();
@@ -100,7 +108,7 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
         const std::string help_text(" construction took ");
         PerformanceWarning(buf + help_text + std::to_string(elapsed.count()) + " s");
 
-        // Header: "HISTOGRAM_NAME,COLUMN_DATA_TYPE,COLUMN_ID,TOTAL_COUNT,BIN_COUNT,BUILD_TIME\n";
+        // Header: "HISTOGRAM_NAME,COLUMN_DATA_TYPE,COLUMN_ID,TOTAL_COUNT,BIN_COUNT,BUILD_TIME,THREAD_COUNT\n";
         // (see benchmark_runner constructor)
         const auto build_time_file = std::getenv("BUILD_TIME");
         if (build_time_file && histogram) {
@@ -108,7 +116,7 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
           out.open(build_time_file, std::ios_base::app);
           out << histogram_name << "," << column_data_type << "," << column_id << ","
               << histogram->total_count() << "," << histogram->bin_count() << ","
-              << elapsed.count() << "\n";
+              << elapsed.count() << "," << threads << "\n";
           out.close();
         }
 
