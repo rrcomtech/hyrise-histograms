@@ -4,6 +4,7 @@ histograms=("EquiHeightHistogram" "EquiWidthHistogram" "EqualDistinctCountHistog
 
 build_times_filename="build_times.csv"
 curr_date=$(date +"%Y-%m-%d-%T")
+sampling_rate=$1
 
 repitions=1
 scale_factor=10
@@ -23,9 +24,11 @@ setup_env() {
   extended_build_times_filename="$benchmark_name-$histogram-$build_times_filename"
 
   echo "Measuring $benchmark_name with $histogram ..."
+  echo "Sampling rate: $sampling_rate"
   export HISTOGRAM="$histogram"
   export CARDINALITIES="$cardinalities_filename"
   export BUILD_TIME="$extended_build_times_filename"
+  export SAMPLINGRATE="$sampling_rate"
 
   mkdir "$results_folder/$benchmark_name/"
 }
