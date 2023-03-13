@@ -116,7 +116,7 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
           out.open(build_time_file, std::ios_base::app);
           out << histogram_name << "," << column_data_type << "," << column_id << ","
               << histogram->total_count() << "," << histogram->bin_count() << ","
-              << elapsed.count() << "," << threads << "\n";
+              << elapsed.count() << "," << threads << std::getenv("SAMPLINGRATE") << "\n";
           out.close();
         }
 
