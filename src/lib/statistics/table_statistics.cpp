@@ -111,12 +111,17 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
         // Header: "HISTOGRAM_NAME,COLUMN_DATA_TYPE,COLUMN_ID,TOTAL_COUNT,BIN_COUNT,BUILD_TIME,THREAD_COUNT\n";
         // (see benchmark_runner constructor)
         const auto build_time_file = std::getenv("BUILD_TIME");
+        const auto sampling_rate = std::getenv("SAMPLINGRATE");
+        if (!sampling_rate) {
+          setenv("SAMPLINGRATE", std::string{"100"}.c_str(), 1);
+        }
+
         if (build_time_file && histogram) {
           std::ofstream out;
           out.open(build_time_file, std::ios_base::app);
           out << histogram_name << "," << column_data_type << "," << column_id << ","
               << histogram->total_count() << "," << histogram->bin_count() << ","
-              << elapsed.count() << "," << threads << std::getenv("SAMPLINGRATE") << "\n";
+              << elapsed.count() << "," << threads << "," << std::getenv("SAMPLINGRATE") << "\n";
           out.close();
         }
 

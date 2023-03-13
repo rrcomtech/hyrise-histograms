@@ -26,7 +26,7 @@ get_tpcds_data() {
   benchmark_name="tpcds"
   setup_env $1 $benchmark_name $2
 
-  ./cmake-build-release/hyriseBenchmarkTPCDS -r 1 -s 100 --scheduler
+  ./cmake-build-release/hyriseBenchmarkTPCDS -r 1 -s 10 --data_preparation_cores 1
 }
 
 get_tpcds_data $histogram 1
