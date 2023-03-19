@@ -93,16 +93,24 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column(con
 }
 
 template <typename T>
-void add_chunks_to_value_distribution(const Table& table, const std::vector<ChunkID>& chunk_ids, const ColumnID column_id, ValueDistributionMap<T>& value_distribution,
+void add_chunks_to_value_distribution(const Table& table, const std::vector<ChunkID>& chunk_ids, const ColumnID column_id, std::vector<std::pair<T, HistogramCountType>>& value_distribution,
                                        const HistogramDomain<T>& domain) {
+  auto value_distribution_map = ValueDistributionMap<T>{};
+
   for (auto chunk_id : chunk_ids) {
     const auto chunk = table.get_chunk(chunk_id);
     if (!chunk) {
       continue;
     }
 
-    add_segment_to_value_distribution<T>(*chunk->get_segment(column_id), value_distribution, domain);
+    add_segment_to_value_distribution<T>(*chunk->get_segment(column_id), value_distribution_map, domain);
   }
+
+  value_distribution =
+      std::vector<std::pair<T, HistogramCountType>>{value_distribution_map.begin(), value_distribution_map.end()};
+  value_distribution_map.clear();  // Maps can be large and sorting slow. Free space early.
+  boost::sort::pdqsort(value_distribution.begin(), value_distribution.end(),
+                       [&](const auto& lhs, const auto& rhs) { return lhs.first < rhs.first; });
 }
 
 template <typename T>
@@ -110,7 +118,6 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column_mul
                                                                              const ColumnID column_id,
                                                                              const HistogramDomain<T>& domain,
                                                                              size_t thread_count) {
-  auto value_distribution_map = ValueDistributionMap<T>{};
   const auto chunk_count = table.chunk_count();
 
   std::cout << "########## Chunk Count: " << chunk_count << " ##########" << std::endl;
@@ -124,7 +131,7 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column_mul
   std::iota(std::begin(chunks_to_process), std::end(chunks_to_process), ChunkID{0});
 
   auto chunks_to_process_batches = std::vector<std::vector<ChunkID>>(thread_count);
-  auto value_distribution_maps = std::vector<ValueDistributionMap<T>>(thread_count);
+  auto value_distribution_vectors = std::vector<std::vector<std::pair<T, HistogramCountType>>>(thread_count);
   auto threads = std::vector<std::thread>(thread_count);
 
   for (auto chunk_index = uint32_t{0}; chunk_index < chunks_to_process.size(); ++chunk_index) {
@@ -132,7 +139,7 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column_mul
   }
 
   for (auto index = uint32_t{0}; index < thread_count; ++index) {
-    threads[index] = std::thread(add_chunks_to_value_distribution<T>, std::ref(table), std::ref(chunks_to_process_batches[index]), column_id, std::ref(value_distribution_maps[index]), std::ref(domain));
+    threads[index] = std::thread(add_chunks_to_value_distribution<T>, std::ref(table), std::ref(chunks_to_process_batches[index]), column_id, std::ref(value_distribution_vectors[index]), std::ref(domain));
   }
 
   auto value_distribution_with_duplicates = std::vector<std::pair<T, HistogramCountType>>{};
@@ -143,10 +150,10 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column_mul
 
     const auto value_distribution_copy = value_distribution_with_duplicates;
     value_distribution_with_duplicates.clear();
-    value_distribution_with_duplicates.reserve(value_distribution_copy.size() + value_distribution_maps[index].size());
+    value_distribution_with_duplicates.reserve(value_distribution_copy.size() + value_distribution_vectors[index].size());
 
-    std::merge(value_distribution_copy.begin(), value_distribution_copy.end(), value_distribution_maps[index].begin(), value_distribution_maps[index].end(), value_distribution_with_duplicates.begin());
-    value_distribution_maps[index].clear();
+    std::merge(value_distribution_copy.begin(), value_distribution_copy.end(), value_distribution_vectors[index].begin(), value_distribution_vectors[index].end(), std::back_inserter(value_distribution_with_duplicates));
+    value_distribution_vectors[index].clear();
   }
 
 
