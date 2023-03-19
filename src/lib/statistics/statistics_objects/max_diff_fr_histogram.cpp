@@ -53,8 +53,6 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column(con
   auto value_distribution_map = ValueDistributionMap<T>{};
   const auto chunk_count = table.chunk_count();
 
-  std::cout << "########## Chunk Count: " << chunk_count << " ##########" << std::endl;
-
   auto chunks_to_process = std::vector<ChunkID>{};
   if (chunk_count <= 20) {
     chunks_to_process = std::vector<ChunkID>(chunk_count);
@@ -114,34 +112,16 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column_mul
                                                                              size_t thread_count) {
   auto value_distribution_map = ValueDistributionMap<T>{};
   const auto chunk_count = table.chunk_count();
-  
+
+  std::cout << "########## Chunk Count: " << chunk_count << " ##########" << std::endl;
+
   if (chunk_count < thread_count) {
     thread_count = chunk_count;
   }
 
-  std::cout << "########## Chunk Count: " << chunk_count << " ##########" << std::endl;
-
   auto chunks_to_process = std::vector<ChunkID>{};
-  if (chunk_count <= 20) {
-    chunks_to_process = std::vector<ChunkID>(chunk_count);
-    std::iota(std::begin(chunks_to_process), std::end(chunks_to_process), ChunkID{0});
-  } else {
-    // Always include the first and last two chunks.
-    const auto chunks_to_process_count = std::max(20u, std::min(1'000u, 4 + chunk_count / 10));
-
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(2, chunk_count - 3);
-
-    chunks_to_process.emplace_back(ChunkID{0});
-    chunks_to_process.emplace_back(ChunkID{1});
-    chunks_to_process.emplace_back(ChunkID{chunk_count - 2});
-    chunks_to_process.emplace_back(ChunkID{chunk_count - 1});
-
-    while (chunks_to_process.size() < chunks_to_process_count) {
-      chunks_to_process.emplace_back(dis(gen));
-    }
-  }
+  chunks_to_process = std::vector<ChunkID>(chunk_count);
+  std::iota(std::begin(chunks_to_process), std::end(chunks_to_process), ChunkID{0});
 
   auto chunks_to_process_batches = std::vector<std::vector<ChunkID>>(thread_count);
   auto value_distribution_maps = std::vector<ValueDistributionMap<T>>(thread_count);
@@ -160,23 +140,28 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column_mul
 
   for (auto index = uint32_t{0}; index < thread_count; ++index) {
     threads[index].join();
-    value_distribution_with_duplicates.insert(value_distribution_with_duplicates.end(), value_distribution_maps[index].begin(), value_distribution_maps[index].end());
+
+    const auto value_distribution_copy = value_distribution_with_duplicates;
+    value_distribution_with_duplicates.clear();
+    value_distribution_with_duplicates.reserve(value_distribution_copy.size() + value_distribution_maps[index].size());
+
+    std::merge(value_distribution_copy.begin(), value_distribution_copy.end(), value_distribution_maps[index].begin(), value_distribution_maps[index].end(), value_distribution_with_duplicates.begin());
     value_distribution_maps[index].clear();
   }
 
-  boost::sort::pdqsort(value_distribution_with_duplicates.begin(), value_distribution_with_duplicates.end(),
-                       [&](const auto& lhs, const auto& rhs) { return lhs.first < rhs.first; });
 
-  value_distribution.emplace_back(value_distribution_with_duplicates[0]);
+  if (value_distribution_with_duplicates.size() > 0) {
+    value_distribution.emplace_back(value_distribution_with_duplicates[0]);
 
-  const auto value_distribution_with_duplicates_size = value_distribution_with_duplicates.size();
-  for (auto index = size_t{1}; index < value_distribution_with_duplicates_size; ++index) {
-    const auto& entry = value_distribution_with_duplicates[index];
+    const auto value_distribution_with_duplicates_size = value_distribution_with_duplicates.size();
+    for (auto index = size_t{1}; index < value_distribution_with_duplicates_size; ++index) {
+      const auto& entry = value_distribution_with_duplicates[index];
 
-    if (value_distribution.back().first == entry.first) {
-      value_distribution.back().second += entry.second;
-    } else {
-      value_distribution.emplace_back(entry);
+      if (value_distribution.back().first == entry.first) {
+        value_distribution.back().second += entry.second;
+      } else {
+        value_distribution.emplace_back(entry);
+      }
     }
   }
 
@@ -211,9 +196,16 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
                                                                             const HistogramDomain<T>& domain) {
   Assert(max_bin_count > 0, "max_bin_count must be greater than zero ");
 
-  // Compute the value distribution. Basically, counting how many times each value appears in
-  // the column.
-  const auto value_distribution = value_distribution_from_column_multithreaded(table, column_id, domain, 5);
+  auto value_distribution = std::vector<std::pair<T, HistogramCountType>>{};
+  const auto thread_count = std::getenv("THREADCOUNT");
+
+  if (thread_count) {
+    const auto threads = std::atoi(thread_count);
+    Assert(threads > 0, "Invalid Thread Count.");
+    value_distribution = value_distribution_from_column_multithreaded(table, column_id, domain, threads);
+  } else {
+    value_distribution = value_distribution_from_column(table, column_id, domain);
+  }
 
   if (value_distribution.empty()) {
     return nullptr;
