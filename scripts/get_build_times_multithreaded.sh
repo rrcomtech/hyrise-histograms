@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-histogram="MaxDiffAreaHistogram"
+histogram="MaxDiffFrequencyHistogram"
 
 curr_date=$(date +"%Y-%m-%d-%T")
 
@@ -29,15 +29,9 @@ get_tpcds_data() {
   ./cmake-build-release/hyriseBenchmarkTPCDS -r 1 -s 10 --data_preparation_cores 1
 }
 
-get_tpcds_data $histogram 1
-get_tpcds_data $histogram 2
-get_tpcds_data $histogram 3
-get_tpcds_data $histogram 4
-get_tpcds_data $histogram 6
-
-thread_count=8
+thread_count=1
 while [ $thread_count -lt 65 ]
 do
   get_tpcds_data $histogram $thread_count
-  let thread_count=thread_count+4
+  let thread_count=thread_count+1
 done
