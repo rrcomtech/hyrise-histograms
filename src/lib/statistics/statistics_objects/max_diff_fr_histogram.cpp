@@ -94,7 +94,7 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column(con
 
 template <typename T>
 void add_chunks_to_value_distribution(const Table& table, const std::vector<ChunkID>& chunk_ids, const ColumnID column_id, std::vector<std::pair<T, HistogramCountType>>& value_distribution,
-                                       const HistogramDomain<T>& domain) {
+                                       const HistogramDomain<T>& domain, uint32_t count) {
   auto value_distribution_map = ValueDistributionMap<T>{};
 
   for (auto chunk_id : chunk_ids) {
@@ -102,6 +102,7 @@ void add_chunks_to_value_distribution(const Table& table, const std::vector<Chun
     if (!chunk) {
       continue;
     }
+    // std::cout << "Thread" << count << "processed" << chunk_id << std::endl;
 
     add_segment_to_value_distribution<T>(*chunk->get_segment(column_id), value_distribution_map, domain);
   }
@@ -121,6 +122,7 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column_mul
   const auto chunk_count = table.chunk_count();
 
   std::cout << "########## Chunk Count: " << chunk_count << " ##########" << std::endl;
+  std::cout << "########## Concurrency: " << std::thread::hardware_concurrency() << " ##########" << std::endl;
 
   if (chunk_count < thread_count) {
     thread_count = chunk_count;
@@ -137,18 +139,17 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column_mul
   for (auto chunk_index = uint32_t{0}; chunk_index < chunks_to_process.size(); ++chunk_index) {
     chunks_to_process_batches[chunk_index % thread_count].emplace_back(chunks_to_process[chunk_index]); 
   }
-
+  
   for (auto index = uint32_t{0}; index < thread_count; ++index) {
-    threads[index] = std::thread(add_chunks_to_value_distribution<T>, std::ref(table), std::ref(chunks_to_process_batches[index]), column_id, std::ref(value_distribution_vectors[index]), std::ref(domain));
-    std::cout << "Spawned Thread: " << index << "+";
+    threads[index] = std::thread(add_chunks_to_value_distribution<T>, std::ref(table), std::ref(chunks_to_process_batches[index]), column_id, std::ref(value_distribution_vectors[index]), std::ref(domain), index);
+    std::cout << "Spawned Thread: " << index << "+" << std::endl;
   }
-  std::cout << std::endl;
 
   auto value_distribution_with_duplicates = std::vector<std::pair<T, HistogramCountType>>{};
 
   for (auto index = uint32_t{0}; index < thread_count; ++index) {
     threads[index].join();
-    std::cout << "Joined Thread: " << index << "+";
+    std::cout << "Joined Thread: " << index << "+" << std::endl;
 
     const auto old_value_distribution_size = value_distribution_with_duplicates.size();
     value_distribution_with_duplicates.insert(value_distribution_with_duplicates.end(), value_distribution_vectors[index].begin(), value_distribution_vectors[index].end());
@@ -156,7 +157,6 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column_mul
 
     std::inplace_merge(value_distribution_with_duplicates.begin(), value_distribution_with_duplicates.begin() + old_value_distribution_size, value_distribution_with_duplicates.end(), [&](const auto& lhs, const auto& rhs) { return lhs.first < rhs.first; });
   }
-  std::cout << std::endl;
 
 
   auto value_distribution = std::vector<std::pair<T, HistogramCountType>>{};
