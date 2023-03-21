@@ -154,10 +154,7 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column_mul
     value_distribution_with_duplicates.insert(value_distribution_with_duplicates.end(), value_distribution_vectors[index].begin(), value_distribution_vectors[index].end());
     value_distribution_vectors[index].clear();
 
-    std::inplace_merge();
-
-    std::merge(value_distribution_copy.begin(), value_distribution_copy.end(), value_distribution_vectors[index].begin(), value_distribution_vectors[index].end(), std::back_inserter(value_distribution_with_duplicates), [&](const auto& lhs, const auto& rhs) { return lhs.first < rhs.first; });
-    value_distribution_vectors[index].clear();
+    std::inplace_merge(value_distribution_with_duplicates.begin(), value_distribution_with_duplicates.begin() + old_value_distribution_size, value_distribution_with_duplicates.end(), [&](const auto& lhs, const auto& rhs) { return lhs.first < rhs.first; });
   }
   std::cout << std::endl;
 
