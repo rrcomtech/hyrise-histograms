@@ -140,23 +140,29 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column_mul
 
   for (auto index = uint32_t{0}; index < thread_count; ++index) {
     threads[index] = std::thread(add_chunks_to_value_distribution<T>, std::ref(table), std::ref(chunks_to_process_batches[index]), column_id, std::ref(value_distribution_vectors[index]), std::ref(domain));
+    std::cout << "Spawned Thread: " << index << "+";
   }
+  std::cout << std::endl;
 
   auto value_distribution_with_duplicates = std::vector<std::pair<T, HistogramCountType>>{};
-  auto value_distribution = std::vector<std::pair<T, HistogramCountType>>{};
 
   for (auto index = uint32_t{0}; index < thread_count; ++index) {
     threads[index].join();
+    std::cout << "Joined Thread: " << index << "+";
 
-    const auto value_distribution_copy = value_distribution_with_duplicates;
-    value_distribution_with_duplicates.clear();
-    value_distribution_with_duplicates.reserve(value_distribution_copy.size() + value_distribution_vectors[index].size());
+    const auto old_value_distribution_size = value_distribution_with_duplicates.size();
+    value_distribution_with_duplicates.insert(value_distribution_with_duplicates.end(), value_distribution_vectors[index].begin(), value_distribution_vectors[index].end());
+    value_distribution_vectors[index].clear();
 
-    std::merge(value_distribution_copy.begin(), value_distribution_copy.end(), value_distribution_vectors[index].begin(), value_distribution_vectors[index].end(), std::back_inserter(value_distribution_with_duplicates));
+    std::inplace_merge();
+
+    std::merge(value_distribution_copy.begin(), value_distribution_copy.end(), value_distribution_vectors[index].begin(), value_distribution_vectors[index].end(), std::back_inserter(value_distribution_with_duplicates), [&](const auto& lhs, const auto& rhs) { return lhs.first < rhs.first; });
     value_distribution_vectors[index].clear();
   }
+  std::cout << std::endl;
 
 
+  auto value_distribution = std::vector<std::pair<T, HistogramCountType>>{};
   if (value_distribution_with_duplicates.size() > 0) {
     value_distribution.emplace_back(value_distribution_with_duplicates[0]);
 
