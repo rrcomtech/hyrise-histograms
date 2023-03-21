@@ -97,6 +97,17 @@ void add_chunks_to_value_distribution(const Table& table, const std::vector<std:
                                        const HistogramDomain<T>& domain, uint32_t count) {
   auto value_distribution_map = ValueDistributionMap<T>{};
 
+
+  // Infinite Loop For Debug Purposes
+  // uint64_t running_total = 23;
+  // for (uint64_t i=0; i < UINT64_MAX; i++) {
+  //   running_total = 37 * running_total + i;
+  //   if (i == UINT64_MAX - 1) {
+  //     i = 0;
+  //   }
+  // }
+  // std::cout << running_total;
+
   for (const auto segment : segments) {
     add_segment_to_value_distribution<T>(*segment, value_distribution_map, domain);
   }
@@ -148,14 +159,12 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column_mul
   
   for (auto index = uint32_t{0}; index < thread_count; ++index) {
     threads[index] = std::thread(add_chunks_to_value_distribution<T>, std::ref(table), std::ref(segments_to_process_batches[index]), column_id, std::ref(value_distribution_vectors[index]), std::ref(domain), index);
-    std::cout << "Spawned Thread: " << index << "+" << std::endl;
   }
 
   auto value_distribution_with_duplicates = std::vector<std::pair<T, HistogramCountType>>{};
 
   for (auto index = uint32_t{0}; index < thread_count; ++index) {
     threads[index].join();
-    std::cout << "Joined Thread: " << index << "+" << std::endl;
 
     const auto old_value_distribution_size = value_distribution_with_duplicates.size();
     value_distribution_with_duplicates.insert(value_distribution_with_duplicates.end(), value_distribution_vectors[index].begin(), value_distribution_vectors[index].end());

@@ -39,7 +39,7 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
   jobs.reserve(table.column_count());
 
   for (auto column_id = ColumnID{0}; column_id < table.column_count(); ++column_id) {
-    const auto generate_column_statistics = [&, column_id]() {
+    // const auto generate_column_statistics = [&, column_id]() {
       const auto column_data_type = table.column_data_type(column_id);
       resolve_data_type(column_data_type, [&](auto type) {
         using ColumnDataType = typename decltype(type)::type;
@@ -143,10 +143,10 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
 
         column_statistics[column_id] = output_column_statistics;
       });
-    };
-    jobs.emplace_back(std::make_shared<JobTask>(generate_column_statistics));
+    // };
+    // jobs.emplace_back(std::make_shared<JobTask>(generate_column_statistics));
   }
-  Hyrise::get().scheduler()->schedule_and_wait_for_tasks(jobs);
+  // Hyrise::get().scheduler()->schedule_and_wait_for_tasks(jobs);
 
   return std::make_shared<TableStatistics>(std::move(column_statistics), table.row_count());
 }

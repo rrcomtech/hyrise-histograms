@@ -281,7 +281,7 @@ void AbstractTableGenerator::generate_and_store() {
       const auto& table_name = table_info_by_name_pair.first;
       auto& table_info = table_info_by_name_pair.second;
 
-      const auto add_table = [&]() {
+      // const auto add_table = [&]() {
         Timer per_table_timer;
         if (storage_manager.has_table(table_name)) {
           storage_manager.drop_table(table_name);
@@ -290,10 +290,10 @@ void AbstractTableGenerator::generate_and_store() {
         const auto output =
             std::string{"-  Added '"} + table_name + "' " + "(" + per_table_timer.lap_formatted() + ")\n";
         std::cout << output << std::flush;
-      };
-      jobs.emplace_back(std::make_shared<JobTask>(add_table));
+      // };
+      // jobs.emplace_back(std::make_shared<JobTask>(add_table));
     }
-    Hyrise::get().scheduler()->schedule_and_wait_for_tasks(jobs);
+    // Hyrise::get().scheduler()->schedule_and_wait_for_tasks(jobs);
 
     metrics.store_duration = timer.lap();
 
