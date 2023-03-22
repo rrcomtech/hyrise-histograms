@@ -129,7 +129,7 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column_mul
   // std::cout << "########## Chunk Count: " << chunk_count << " ##########" << std::endl;
   // std::cout << "########## Concurrency: " << std::thread::hardware_concurrency() << " ##########" << std::endl;
 
-  if (static_cast<float>(chunk_count) / 50.0 < static_cast<float>(thread_count)) {
+  if (static_cast<float>(chunk_count) / static_cast<float>(thread_count) < 50) {
     thread_count = ceil(static_cast<float>(chunk_count) / 50.0);
   }
 
