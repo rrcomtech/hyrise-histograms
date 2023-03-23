@@ -239,20 +239,7 @@ std::shared_ptr<MaxDiffAreaHistogram<T>> MaxDiffAreaHistogram<T>::from_column(co
   Assert(max_bin_count > 0, "max_bin_count must be greater than zero ");
 
   auto value_distribution = std::vector<std::pair<T, HistogramCountType>>{};
-
-  const auto thread_count = std::getenv("THREADCOUNT");
-  const auto sampling_rate = std::getenv("SAMPLINGRATE");
-  if (thread_count) {
-    const auto threads = std::atoi(thread_count);
-    Assert(threads > 0, "Invalid Thread Count.");
-    value_distribution = value_distribution_from_column_multithreaded(table, column_id, domain, threads);
-  } else if (sampling_rate) {
-    const auto rate = std::atoi(sampling_rate);
-    Assert(rate > 0, "Invalid Sampling Rate.");
-    Hyrise::get().sampling_rate = std::to_string(rate);
-    value_distribution = value_distribution_from_column_sampled(table, column_id, domain, rate);
-  } else {
-    value_distribution = value_distribution_from_column(table, column_id, domain);
+  value_distribution = value_distribution_from_column(table, column_id, domain);
   }
 
   if (value_distribution.empty()) {

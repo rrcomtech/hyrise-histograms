@@ -213,7 +213,7 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
 
   // Compute the value distribution. Basically, counting how many times each value appears in
   // the column.
-  const auto value_distribution = value_distribution_from_column_multithreaded(table, column_id, domain, 5);
+  const auto value_distribution = value_distribution_from_column(table, column_id, domain);
 
   if (value_distribution.empty()) {
     return nullptr;
