@@ -26,12 +26,12 @@ get_tpcds_data() {
   benchmark_name="tpcds"
   setup_env $1 $benchmark_name $2
 
-  ./cmake-build-release/hyriseBenchmarkTPCDS -r 1 -s 100 --data_preparation_cores $thread_count
+  ./cmake-build-release/hyriseBenchmarkTPCDS -r 1 -s 100
 }
 
 thread_count=1
-while [ $thread_count -lt 65 ]
+while [ $thread_count -lt 101 ]
 do
   get_tpcds_data $histogram $thread_count
-  let thread_count=thread_count+1
+  let thread_count=thread_count+5
 done

@@ -193,6 +193,57 @@ std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column_mul
   return value_distribution;
 }
 
+template <typename T>
+std::vector<std::pair<T, HistogramCountType>> value_distribution_from_column_sampled(const Table& table,
+                                                                             const ColumnID column_id,
+                                                                             const HistogramDomain<T>& domain, const uint32_t sampling_rate) {
+  auto value_distribution_map = ValueDistributionMap<T>{};
+  const auto chunk_count = table.chunk_count();
+
+  std::cout << "########## Chunk Count: " << chunk_count << " ##########" << std::endl;
+
+  auto chunks_to_process = std::vector<ChunkID>{};
+  if (chunk_count <= 100) {
+    std::cout << "########## Chunks Processed: " << chunk_count << " ##########" << std::endl;
+    chunks_to_process = std::vector<ChunkID>(chunk_count);
+    std::iota(std::begin(chunks_to_process), std::end(chunks_to_process), ChunkID{0});
+  } else {
+    // Always include the first and last two chunks.
+    const auto chunks_to_process_count = std::max(100u, static_cast<uint32_t>(static_cast<float>(chunk_count) * (static_cast<float>(sampling_rate) / 100)));
+    std::cout << "########## Sampling Rate: " << sampling_rate << " ##########" << std::endl;
+    std::cout << "########## Chunks Processed: " << chunks_to_process_count << " ##########" << std::endl;
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(2, chunk_count - 3);
+
+    auto chunk_set = std::unordered_set<ChunkID>{ChunkID{0}, ChunkID{1}, ChunkID{chunk_count - 2}, ChunkID{chunk_count - 1}};
+
+    while (chunk_set.size() < chunks_to_process_count) {
+      chunk_set.emplace(dis(gen));
+    }
+
+    chunks_to_process = std::vector<ChunkID>(chunk_set.begin(), chunk_set.end());
+  }
+
+  for (auto chunk_id : chunks_to_process) {
+    const auto chunk = table.get_chunk(chunk_id);
+    if (!chunk) {
+      continue;
+    }
+
+    add_segment_to_value_distribution<T>(*chunk->get_segment(column_id), value_distribution_map, domain);
+  }
+
+  auto value_distribution =
+      std::vector<std::pair<T, HistogramCountType>>{value_distribution_map.begin(), value_distribution_map.end()};
+  value_distribution_map.clear();  // Maps can be large and sorting slow. Free space early.
+  boost::sort::pdqsort(value_distribution.begin(), value_distribution.end(),
+                       [&](const auto& lhs, const auto& rhs) { return lhs.first < rhs.first; });
+
+  return value_distribution;
+}
+
 }  // namespace
 
 namespace hyrise {
@@ -227,7 +278,7 @@ std::shared_ptr<MaxDiffFrHistogram<T>> MaxDiffFrHistogram<T>::from_column(const 
   if (thread_count) {
     const auto threads = std::atoi(thread_count);
     Assert(threads > 0, "Invalid Thread Count.");
-    value_distribution = value_distribution_from_column_multithreaded(table, column_id, domain, threads);
+    value_distribution = value_distribution_from_column_sampled(table, column_id, domain, threads);
   } else {
     value_distribution = value_distribution_from_column(table, column_id, domain);
   }
