@@ -1,0 +1,329 @@
+{
+  "benchmarks": [
+    {
+      "duration": 852991372,
+      "items_per_second": 1.172344800692779,
+      "name": "TPC-H 01",
+      "successful_runs": [
+        {
+          "begin": 1108291,
+          "duration": 852947467,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 34941364,
+      "items_per_second": 28.619375019246526,
+      "name": "TPC-H 02",
+      "successful_runs": [
+        {
+          "begin": 854179884,
+          "duration": 34933249,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 185167289,
+      "items_per_second": 5.400521903196411,
+      "name": "TPC-H 03",
+      "successful_runs": [
+        {
+          "begin": 889135877,
+          "duration": 185154625,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 125512757,
+      "items_per_second": 7.967317616965421,
+      "name": "TPC-H 04",
+      "successful_runs": [
+        {
+          "begin": 1074372217,
+          "duration": 125497826,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 296854925,
+      "items_per_second": 3.368648844212371,
+      "name": "TPC-H 05",
+      "successful_runs": [
+        {
+          "begin": 1199929796,
+          "duration": 296838627,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 35861124,
+      "items_per_second": 27.885350163592193,
+      "name": "TPC-H 06",
+      "successful_runs": [
+        {
+          "begin": 1496827793,
+          "duration": 35847511,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 163640740,
+      "items_per_second": 6.110947677210455,
+      "name": "TPC-H 07",
+      "successful_runs": [
+        {
+          "begin": 1532771783,
+          "duration": 163627603,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 157095004,
+      "items_per_second": 6.3655748084770405,
+      "name": "TPC-H 08",
+      "successful_runs": [
+        {
+          "begin": 1696480144,
+          "duration": 157078513,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 787945661,
+      "items_per_second": 1.269123049336774,
+      "name": "TPC-H 09",
+      "successful_runs": [
+        {
+          "begin": 1853657193,
+          "duration": 787923740,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 254280608,
+      "items_per_second": 3.93266324107578,
+      "name": "TPC-H 10",
+      "successful_runs": [
+        {
+          "begin": 2641665693,
+          "duration": 254261003,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 19544045,
+      "items_per_second": 51.16648063387083,
+      "name": "TPC-H 11",
+      "successful_runs": [
+        {
+          "begin": 2896012368,
+          "duration": 19534477,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 137977240,
+      "items_per_second": 7.247572135810225,
+      "name": "TPC-H 12",
+      "successful_runs": [
+        {
+          "begin": 2915571285,
+          "duration": 137966112,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 440928299,
+      "items_per_second": 2.2679424347857515,
+      "name": "TPC-H 13",
+      "successful_runs": [
+        {
+          "begin": 3053618417,
+          "duration": 440912646,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 75776428,
+      "items_per_second": 13.196716002501462,
+      "name": "TPC-H 14",
+      "successful_runs": [
+        {
+          "begin": 3494616584,
+          "duration": 75765605,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 47111689,
+      "items_per_second": 21.22615472351246,
+      "name": "TPC-H 15",
+      "successful_runs": [
+        {
+          "begin": 3570435268,
+          "duration": 47095203,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 101721026,
+      "items_per_second": 9.830809217358857,
+      "name": "TPC-H 16",
+      "successful_runs": [
+        {
+          "begin": 3617585805,
+          "duration": 101710564,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 58040896,
+      "items_per_second": 17.229230920211844,
+      "name": "TPC-H 17",
+      "successful_runs": [
+        {
+          "begin": 3719345251,
+          "duration": 58029049,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 315518594,
+      "items_per_second": 3.1693853199662776,
+      "name": "TPC-H 18",
+      "successful_runs": [
+        {
+          "begin": 3777432275,
+          "duration": 315503126,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 74147501,
+      "items_per_second": 13.486631194758674,
+      "name": "TPC-H 19",
+      "successful_runs": [
+        {
+          "begin": 4093019941,
+          "duration": 74137037,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 88668496,
+      "items_per_second": 11.277962806541796,
+      "name": "TPC-H 20",
+      "successful_runs": [
+        {
+          "begin": 4167198439,
+          "duration": 88654690,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 946096073,
+      "items_per_second": 1.0569751091229822,
+      "name": "TPC-H 21",
+      "successful_runs": [
+        {
+          "begin": 4255922851,
+          "duration": 946081805,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 69132046,
+      "items_per_second": 14.46507166878874,
+      "name": "TPC-H 22",
+      "successful_runs": [
+        {
+          "begin": 5202125904,
+          "duration": 69092022,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    }
+  ],
+  "context": {
+    "GIT-HASH": "5f6bf1e80aae41b5819b12c6add080b4026a1fff-dirty",
+    "benchmark_mode": "Ordered",
+    "build_type": "release",
+    "chunk_size": 65535,
+    "clients": 1,
+    "clustering": "None",
+    "compiler": "gcc 10.3",
+    "cores": 0,
+    "data_preparation_cores": 0,
+    "date": "2023-03-23 20:11:45",
+    "encoding": {
+      "default": {
+        "encoding": "Dictionary"
+      }
+    },
+    "indexes": false,
+    "max_duration": 60000000000,
+    "max_runs": 1,
+    "scale_factor": 1.0,
+    "time_unit": "ns",
+    "use_prepared_statements": false,
+    "using_scheduler": false,
+    "verify": false,
+    "warmup_duration": 0
+  },
+  "log": [],
+  "summary": {
+    "table_size_in_bytes": 1106311936,
+    "total_duration": 5271291545
+  },
+  "table_generation": {
+    "binary_caching_duration": 50100,
+    "encoding_duration": 667035570,
+    "generation_duration": 2115072985,
+    "index_duration": 0,
+    "sort_duration": 0,
+    "store_duration": 10558421369
+  }
+}

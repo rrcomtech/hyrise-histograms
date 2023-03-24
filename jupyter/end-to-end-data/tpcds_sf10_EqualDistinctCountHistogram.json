@@ -1,0 +1,664 @@
+{
+  "benchmarks": [
+    {
+      "duration": 83179025,
+      "items_per_second": 12.02226162184517,
+      "name": "01",
+      "successful_runs": [
+        {
+          "begin": 1520111,
+          "duration": 83146593,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 26885201,
+      "items_per_second": 37.19518407171291,
+      "name": "03",
+      "successful_runs": [
+        {
+          "begin": 84712349,
+          "duration": 26878414,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 58587446,
+      "items_per_second": 17.068503037323048,
+      "name": "06",
+      "successful_runs": [
+        {
+          "begin": 111641941,
+          "duration": 58575016,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 91508413,
+      "items_per_second": 10.927956973748413,
+      "name": "07",
+      "successful_runs": [
+        {
+          "begin": 170288136,
+          "duration": 91494027,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 163845545,
+      "items_per_second": 6.103309064643778,
+      "name": "09",
+      "successful_runs": [
+        {
+          "begin": 261860144,
+          "duration": 163832582,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 70610820,
+      "items_per_second": 14.162135491416187,
+      "name": "10",
+      "successful_runs": [
+        {
+          "begin": 425747627,
+          "duration": 70596407,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 789888602,
+      "items_per_second": 1.2660013038142308,
+      "name": "13",
+      "successful_runs": [
+        {
+          "begin": 496420419,
+          "duration": 789873864,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 37891723,
+      "items_per_second": 26.39098781546566,
+      "name": "15",
+      "successful_runs": [
+        {
+          "begin": 1286397297,
+          "duration": 37886551,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 36330465,
+      "items_per_second": 27.525108748264028,
+      "name": "16",
+      "successful_runs": [
+        {
+          "begin": 1324308222,
+          "duration": 36325751,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 422114348,
+      "items_per_second": 2.3690263189063643,
+      "name": "17",
+      "successful_runs": [
+        {
+          "begin": 1360663493,
+          "duration": 422100918,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 77494273,
+      "items_per_second": 12.904179383681681,
+      "name": "19",
+      "successful_runs": [
+        {
+          "begin": 1782824732,
+          "duration": 77485000,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 401215303,
+      "items_per_second": 2.4924273638685213,
+      "name": "25",
+      "successful_runs": [
+        {
+          "begin": 1860384793,
+          "duration": 401202135,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 53057995,
+      "items_per_second": 18.847300958130816,
+      "name": "26",
+      "successful_runs": [
+        {
+          "begin": 2261661350,
+          "duration": 53047553,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 91933196,
+      "items_per_second": 10.877463674818832,
+      "name": "28",
+      "successful_runs": [
+        {
+          "begin": 2314761731,
+          "duration": 91925737,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 415952050,
+      "items_per_second": 2.4041232637271532,
+      "name": "29",
+      "successful_runs": [
+        {
+          "begin": 2406728467,
+          "duration": 415915244,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 286613752,
+      "items_per_second": 3.4890161167144553,
+      "name": "31",
+      "successful_runs": [
+        {
+          "begin": 2822748639,
+          "duration": 286600146,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 18688584,
+      "items_per_second": 53.508601828795584,
+      "name": "32",
+      "successful_runs": [
+        {
+          "begin": 3109423703,
+          "duration": 18682868,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 42773322,
+      "items_per_second": 23.379058563653295,
+      "name": "34",
+      "successful_runs": [
+        {
+          "begin": 3128127508,
+          "duration": 42765843,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 118835120,
+      "items_per_second": 8.415020744709139,
+      "name": "35",
+      "successful_runs": [
+        {
+          "begin": 3170957205,
+          "duration": 118800647,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 62232710,
+      "items_per_second": 16.06872013126216,
+      "name": "37",
+      "successful_runs": [
+        {
+          "begin": 3289832151,
+          "duration": 62220291,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 209247273,
+      "items_per_second": 4.77903480252285,
+      "name": "39a",
+      "successful_runs": [
+        {
+          "begin": 3352124462,
+          "duration": 209232732,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 199004536,
+      "items_per_second": 5.0250110881894665,
+      "name": "39b",
+      "successful_runs": [
+        {
+          "begin": 3561435961,
+          "duration": 198989414,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 56074352,
+      "items_per_second": 17.833465110751526,
+      "name": "41",
+      "successful_runs": [
+        {
+          "begin": 3760532498,
+          "duration": 56069132,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 17497171,
+      "items_per_second": 57.152096187435106,
+      "name": "42",
+      "successful_runs": [
+        {
+          "begin": 3816637941,
+          "duration": 17481300,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 343858529,
+      "items_per_second": 2.9081727386788185,
+      "name": "43",
+      "successful_runs": [
+        {
+          "begin": 3834141035,
+          "duration": 343845608,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 52493530,
+      "items_per_second": 19.04996672923311,
+      "name": "45",
+      "successful_runs": [
+        {
+          "begin": 4178063083,
+          "duration": 52484862,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 171685209,
+      "items_per_second": 5.824613581010348,
+      "name": "48",
+      "successful_runs": [
+        {
+          "begin": 4230581504,
+          "duration": 171673278,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 58278125,
+      "items_per_second": 17.15909700252024,
+      "name": "50",
+      "successful_runs": [
+        {
+          "begin": 4402327128,
+          "duration": 58269769,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 16636557,
+      "items_per_second": 60.10859097828956,
+      "name": "52",
+      "successful_runs": [
+        {
+          "begin": 4460671376,
+          "duration": 16630732,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 15494933,
+      "items_per_second": 64.53722645977236,
+      "name": "55",
+      "successful_runs": [
+        {
+          "begin": 4477326879,
+          "duration": 15491066,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 93030464,
+      "items_per_second": 10.749167068542194,
+      "name": "62",
+      "successful_runs": [
+        {
+          "begin": 4492838907,
+          "duration": 93022243,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 95247758,
+      "items_per_second": 10.498934788575285,
+      "name": "65",
+      "successful_runs": [
+        {
+          "begin": 4585909232,
+          "duration": 95233761,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 45078584,
+      "items_per_second": 22.183482959446998,
+      "name": "69",
+      "successful_runs": [
+        {
+          "begin": 4681244782,
+          "duration": 45069935,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 30176376,
+      "items_per_second": 33.13850543219636,
+      "name": "73",
+      "successful_runs": [
+        {
+          "begin": 4726394037,
+          "duration": 30171221,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 75023170,
+      "items_per_second": 13.329215494359943,
+      "name": "79",
+      "successful_runs": [
+        {
+          "begin": 4756588664,
+          "duration": 75015804,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 43822835,
+      "items_per_second": 22.819153530345538,
+      "name": "81",
+      "successful_runs": [
+        {
+          "begin": 4831693400,
+          "duration": 43818221,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 62566197,
+      "items_per_second": 15.983071497856901,
+      "name": "82",
+      "successful_runs": [
+        {
+          "begin": 4875536998,
+          "duration": 62553708,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 32751918,
+      "items_per_second": 30.532563008981644,
+      "name": "83",
+      "successful_runs": [
+        {
+          "begin": 4938162857,
+          "duration": 32745333,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 1052743739,
+      "items_per_second": 0.9498987863370232,
+      "name": "85",
+      "successful_runs": [
+        {
+          "begin": 4970933204,
+          "duration": 1052703720,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 185668387,
+      "items_per_second": 5.3859465047218835,
+      "name": "88",
+      "successful_runs": [
+        {
+          "begin": 6023739117,
+          "duration": 185657520,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 69800091,
+      "items_per_second": 14.326628886486697,
+      "name": "91",
+      "successful_runs": [
+        {
+          "begin": 6209459181,
+          "duration": 69793875,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 18176577,
+      "items_per_second": 55.015859146636906,
+      "name": "92",
+      "successful_runs": [
+        {
+          "begin": 6279288316,
+          "duration": 18171408,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 377920417,
+      "items_per_second": 2.6460597390799343,
+      "name": "93",
+      "successful_runs": [
+        {
+          "begin": 6297482591,
+          "duration": 377907717,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 28242068,
+      "items_per_second": 35.40817195114749,
+      "name": "94",
+      "successful_runs": [
+        {
+          "begin": 6675505752,
+          "duration": 28234958,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 1341626675,
+      "items_per_second": 0.7453638323045417,
+      "name": "95",
+      "successful_runs": [
+        {
+          "begin": 6703763243,
+          "duration": 1341611025,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 18799778,
+      "items_per_second": 53.19211748138728,
+      "name": "96",
+      "successful_runs": [
+        {
+          "begin": 8045451726,
+          "duration": 18794270,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 460255623,
+      "items_per_second": 2.172705666216271,
+      "name": "97",
+      "successful_runs": [
+        {
+          "begin": 8064268221,
+          "duration": 460239858,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    },
+    {
+      "duration": 166364564,
+      "items_per_second": 6.010895445258403,
+      "name": "99",
+      "successful_runs": [
+        {
+          "begin": 8524588946,
+          "duration": 166347252,
+          "metrics": []
+        }
+      ],
+      "unsuccessful_runs": []
+    }
+  ],
+  "context": {
+    "GIT-HASH": "5f6bf1e80aae41b5819b12c6add080b4026a1fff-dirty",
+    "benchmark_mode": "Ordered",
+    "build_type": "release",
+    "chunk_size": 65535,
+    "clients": 1,
+    "compiler": "gcc 10.3",
+    "cores": 0,
+    "data_preparation_cores": 0,
+    "date": "2023-03-23 22:06:35",
+    "encoding": {
+      "default": {
+        "encoding": "Dictionary"
+      }
+    },
+    "indexes": false,
+    "max_duration": 60000000000,
+    "max_runs": 1,
+    "time_unit": "ns",
+    "using_scheduler": false,
+    "verify": false,
+    "warmup_duration": 0
+  },
+  "log": [],
+  "summary": {
+    "table_size_in_bytes": 861422091,
+    "total_duration": 8691002379
+  },
+  "table_generation": {
+    "binary_caching_duration": 91714,
+    "encoding_duration": 1172244333,
+    "generation_duration": 1394098332,
+    "index_duration": 0,
+    "sort_duration": 0,
+    "store_duration": 716292050
+  }
+}
