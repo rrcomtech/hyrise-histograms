@@ -78,5 +78,5 @@ int main(int argc, char* argv[]) {
   }
   std::cout << "done." << std::endl;
 
-  benchmark_runner.run();
+  // benchmark_runner.run();
 }

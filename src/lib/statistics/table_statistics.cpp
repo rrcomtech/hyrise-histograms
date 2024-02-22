@@ -39,7 +39,7 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
   jobs.reserve(table.column_count());
 
   for (auto column_id = ColumnID{0}; column_id < table.column_count(); ++column_id) {
-    const auto generate_column_statistics = [&, column_id]() {
+    // const auto generate_column_statistics = [&, column_id]() {
       const auto column_data_type = table.column_data_type(column_id);
       resolve_data_type(column_data_type, [&](auto type) {
         using ColumnDataType = typename decltype(type)::type;
@@ -50,6 +50,14 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
         // The type of Histogram, that should be used. Set it in the Environment Variable by:
         // export HISTOGRAM=<type>
         const auto HISTOGRAM_TYPE = std::getenv("HISTOGRAM");
+
+        int threads = 1;
+        auto thread_count = std::getenv("THREADCOUNT");
+        if (thread_count) {
+          threads = std::atoi(thread_count);
+          Assert(threads > 0, "Invalid Thread Count.");
+        } 
+
 
         auto histogram_name = "";
 
@@ -100,15 +108,20 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
         const std::string help_text(" construction took ");
         PerformanceWarning(buf + help_text + std::to_string(elapsed.count()) + " s");
 
-        // Header: "HISTOGRAM_NAME,COLUMN_DATA_TYPE,COLUMN_ID,TOTAL_COUNT,BIN_COUNT,BUILD_TIME\n";
+        // Header: "HISTOGRAM_NAME,COLUMN_DATA_TYPE,COLUMN_ID,TOTAL_COUNT,BIN_COUNT,BUILD_TIME,THREAD_COUNT\n";
         // (see benchmark_runner constructor)
         const auto build_time_file = std::getenv("BUILD_TIME");
+        const auto sampling_rate = std::getenv("SAMPLINGRATE");
+        if (!sampling_rate) {
+          setenv("SAMPLINGRATE", std::string{"100"}.c_str(), 1);
+        }
+
         if (build_time_file && histogram) {
           std::ofstream out;
           out.open(build_time_file, std::ios_base::app);
           out << histogram_name << "," << column_data_type << "," << column_id << ","
               << histogram->total_count() << "," << histogram->bin_count() << ","
-              << elapsed.count() << "\n";
+              << elapsed.count() << "," << threads << "," << std::getenv("SAMPLINGRATE") << "\n";
           out.close();
         }
 
@@ -130,10 +143,10 @@ std::shared_ptr<TableStatistics> TableStatistics::from_table(const Table& table)
 
         column_statistics[column_id] = output_column_statistics;
       });
-    };
-    jobs.emplace_back(std::make_shared<JobTask>(generate_column_statistics));
+    // };
+    // jobs.emplace_back(std::make_shared<JobTask>(generate_column_statistics));
   }
-  Hyrise::get().scheduler()->schedule_and_wait_for_tasks(jobs);
+  // Hyrise::get().scheduler()->schedule_and_wait_for_tasks(jobs);
 
   return std::make_shared<TableStatistics>(std::move(column_statistics), table.row_count());
 }
